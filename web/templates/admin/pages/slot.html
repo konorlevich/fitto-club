@@ -1,0 +1,44 @@
+{{define "content"}}
+{{$d := .Data}}{{$sl := $d.Slot}}
+<form method="post" action="{{if $d.Classes}}/admin/schedule/new{{else if $d.New}}/admin/classes/{{$d.ClassID}}/slots/new{{else}}/admin/classes/{{$d.ClassID}}/slots/{{$d.N}}{{end}}" novalidate>
+  <input type="hidden" name="_csrf" value="{{.CSRF}}"><input type="hidden" name="back" value="{{$d.Back}}">
+  {{if $d.Classes}}
+  <div class="field">
+    <label class="label" for="f-class">{{.T "slot.class"}}</label>
+    <select class="sel{{if .HasError "class"}} sel--err{{end}}" id="f-class" name="class" required>
+      <option value="">—</option>
+      {{range $d.Classes}}<option value="{{.ID}}"{{if .Selected}} selected{{end}}>{{.Name}}</option>{{end}}
+    </select>
+    {{if .HasError "class"}}<p class="hint hint--err">{{.ErrorFor "class"}}</p>{{end}}
+  </div>
+  {{else}}
+  <p class="lede">{{$d.ClassName}}</p>
+  {{end}}
+  <fieldset class="field">
+    <legend class="label">{{.T "slot.day"}}</legend>
+    <span class="seg seg--days">
+      {{range $i := seq 7}}{{$n := add $i 1}}<label><input type="radio" name="day" value="{{$n}}"{{if eq $sl.Day $n}} checked{{end}}><span>{{$.DayShort $n}}</span></label>{{end}}
+    </span>
+    {{if .HasError "day"}}<p class="hint hint--err">{{.ErrorFor "day"}}</p>{{end}}
+  </fieldset>
+  <div class="field">
+    <label class="label" for="f-start">{{.T "slot.start"}}</label>
+    <input class="in in--time{{if .HasError "start"}} in--err{{end}}" id="f-start" type="time" step="900" name="start" value="{{$sl.Start}}" required style="max-width:9rem">
+    {{if .HasError "start"}}<p class="hint hint--err">{{.ErrorFor "start"}}</p>{{end}}
+  </div>
+  <fieldset class="field">
+    <legend class="label">{{.T "slot.minutes"}}</legend>
+    <span class="seg">
+      {{range $d.Durations}}<label><input type="radio" name="minutes" value="{{.}}"{{if eq $sl.Minutes .}} checked{{end}}><span>{{.}}</span></label>{{end}}
+    </span>
+    <div class="money" style="margin-top:var(--space-4)"><label class="meta" for="f-minutes_custom">{{.T "slot.minutes_custom"}}</label><input class="in in--num" id="f-minutes_custom" name="minutes_custom" inputmode="numeric" pattern="[0-9]*" style="max-width:6rem"><span class="money__unit">{{.T "slot.min"}}</span></div>
+    {{if .HasError "minutes"}}<p class="hint hint--err">{{.ErrorFor "minutes"}}</p>{{end}}
+  </fieldset>
+  {{template "savebar" (dict "P" . "Cancel" $d.Back)}}
+</form>
+{{if not $d.New}}
+<div class="danger">
+  <form method="post" action="/admin/classes/{{$d.ClassID}}/slots/{{$d.N}}/delete"><input type="hidden" name="_csrf" value="{{.CSRF}}"><input type="hidden" name="back" value="{{$d.Back}}"><button class="btn btn--danger" type="submit">{{.T "action.delete"}}</button></form>
+</div>
+{{end}}
+{{end}}

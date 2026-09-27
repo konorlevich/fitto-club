@@ -4,8 +4,8 @@
 {{$p := .P}}
 <ul class="zone-list{{if .Compact}} zone-list--compact{{end}}">
   {{range $i, $z := .Zones}}<li class="zone zone--{{$z.Key}}{{if and (eq $i 0) (not $.Compact)}} zone--lead{{end}}">
-    <figure class="zone__photo{{if eq $i 1}} cut-quarter{{end}}">
-      <img src="{{$p.PlaceSrc $z.Photo 480}}" srcset="{{$p.PlaceSrcset $z.Photo 480 720 960}}" sizes="(min-width:1024px) 30vw, (min-width:768px) 45vw, 92vw" alt="{{$p.T $z.Alt}}" width="480" height="{{if eq $z.H 16}}853{{else}}640{{end}}" loading="lazy" decoding="async">
+    <figure class="zone__photo">
+      <img src="{{$p.PlaceSrc $z.Photo 480}}" srcset="{{$p.PlaceSrcset $z.Photo 480 720 960}}" sizes="{{if $.Compact}}(min-width:768px) 30vw, 92vw{{else}}(min-width:1024px) 30vw, (min-width:768px) 45vw, 92vw{{end}}" alt="{{$p.T $z.Alt}}" width="480" height="360" loading="lazy" decoding="async">
     </figure>
     <div class="zone__text">
       <h3 class="zone__name">{{$p.T $z.Name}}</h3>

@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FITTO admin — превью токенов</title>
+<!-- Только для превью: Google Fonts. В админке шрифты те же self-hosted, что на сайте. FiraGO → Fira Sans. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Fira+Sans:wght@400;600&family=Jost:wght@400;500;600&family=Noto+Sans+Georgian:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../fitto-site/DESIGN_TOKENS.css">
+<link rel="stylesheet" href="DESIGN_TOKENS.css">
+<style>
+  :root { --pattern-rings: url("../../materials/brand/vector/pattern/pattern-tile-transparent.svg"); }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { background: var(--color-bg-primary); }
+  body { margin: 0; background: var(--color-bg-primary); color: var(--color-text-primary);
+         font: var(--font-size-base)/var(--line-height-normal) var(--type-body-family); }
+  .wrap { max-width: var(--max-width-list); margin: 0 auto; padding: var(--space-8) var(--space-6) calc(var(--nav-bar-height) + var(--space-9)); }
+  h1, h2, h3 { font-family: var(--type-display-family); font-weight: var(--type-display-weight);
+               letter-spacing: var(--type-display-tracking); line-height: var(--type-display-leading); margin: 0; }
+  h1 { font-size: var(--font-size-xl); }
+  h2 { font-size: var(--font-size-lg); margin-top: var(--space-9); margin-bottom: var(--space-6); padding-top: var(--space-6); border-top: var(--elevation-border); }
+  .label { font: var(--label-weight) var(--label-size)/1.3 var(--type-body-family); letter-spacing: var(--type-label-tracking); color: var(--label-color); display:block; margin-bottom: var(--space-3); }
+  .meta { font-size: var(--font-size-sm); color: var(--color-text-secondary); }
+  .tertiary { color: var(--color-text-tertiary); }
+  a { color: var(--color-text-link); }
+  code { font-family: var(--type-mono-family); font-size: var(--font-size-sm); }
+
+  /* topbar */
+  .topbar { position: sticky; top: 0; z-index: var(--z-topbar); display:flex; align-items:center; justify-content:space-between;
+            height: var(--topbar-height); padding: 0 var(--space-6); background: var(--topbar-bg); border-bottom: var(--border-width) solid var(--topbar-border); }
+  .topbar .act { color: var(--color-text-link); text-decoration: none; font-weight: var(--font-weight-semibold); }
+
+  /* swatches */
+  .sw { display:grid; grid-template-columns: repeat(auto-fill, minmax(120px,1fr)); gap: var(--space-4); }
+  .sw div { height: 72px; border: var(--elevation-border); padding: var(--space-3); font-size: var(--font-size-xs); display:flex; flex-direction:column; justify-content:flex-end; }
+
+  /* status */
+  .status { display:flex; align-items:center; gap: var(--space-4); font-size: var(--font-size-xl); font-family: var(--type-display-family); font-weight: var(--type-display-weight); }
+  .dot { width: .75rem; height: .75rem; border-radius: var(--border-radius-dot); background: var(--color-status-open); }
+
+  /* list rows */
+  .list { border-top: var(--border-width) solid var(--row-border); background: var(--row-bg); }
+  .row { display:flex; align-items:center; gap: var(--space-5); min-height: var(--row-min-height); padding: var(--row-padding-y) var(--row-padding-x);
+         border-bottom: var(--border-width) solid var(--row-border); text-decoration:none; color: inherit; }
+  .row:hover { background: var(--row-bg-hover); }
+  .row .t { flex:1; } .row .t small { display:block; font-size: var(--row-meta-size); color: var(--color-text-secondary); }
+  .row .v { color: var(--row-value-color); font-family: var(--type-numeric-family); font-size: var(--font-size-base); }
+  .row .chev { color: var(--row-chevron-color); }
+  .tag { font-size: var(--font-size-xs); color: var(--color-text-tertiary); border: var(--border-width) solid var(--color-border-primary); padding: 2px 6px; margin-left: var(--space-3); }
+
+  /* buttons */
+  .btn { display:inline-flex; align-items:center; justify-content:center; min-height: var(--button-height); padding: 0 var(--button-padding-x);
+         font: var(--font-weight-semibold) var(--button-font-size)/var(--line-height-control) var(--type-body-family); letter-spacing: var(--button-tracking);
+         background: var(--button-bg); color: var(--button-text); border: var(--border-width-thick) solid transparent; border-radius: var(--button-radius); cursor:pointer; }
+  .btn:hover { background: var(--button-bg-hover); }
+  .btn.ghost { background: transparent; color: var(--button-ghost-text); border-color: var(--button-ghost-border); }
+  .btn.danger { background: transparent; color: var(--button-danger-text); border-color: var(--button-danger-border); }
+  .btn:focus-visible, .in:focus-visible, .chip input:focus-visible + span, .row:focus-visible { outline: none; box-shadow: var(--shadow-focus); }
+  .btns { display:flex; gap: var(--space-4); flex-wrap: wrap; }
+
+  /* inputs */
+  .field { margin-bottom: var(--space-7); }
+  .in { width:100%; height: var(--input-height); padding: 0 var(--input-padding-x); font: var(--input-font-size)/var(--line-height-control) var(--type-body-family);
+        color: var(--input-text); background: var(--input-bg); border: var(--border-width) solid var(--input-border); border-radius: var(--input-radius); }
+  .in::placeholder { color: var(--input-placeholder); }
+  .in:hover { border-color: var(--input-border-hover); }
+  .in.warn { border-color: var(--input-warning-border); border-width: var(--border-width-thick); }
+  .in.err  { border-color: var(--input-error-border); border-width: var(--border-width-thick); }
+  .hint { font-size: var(--font-size-sm); margin-top: var(--space-3); }
+  .hint.warn { color: var(--color-status-warning); } .hint.err { color: var(--color-status-error); }
+  .locales { display:grid; gap: var(--space-4); }
+  @media (min-width: 768px) { .locales { grid-template-columns: repeat(3, 1fr); } }
+  .script { font-size: var(--script-tag-size); color: var(--script-tag-color); font-family: var(--type-mono-family); display:block; margin-bottom: var(--space-2); }
+
+  /* toggle */
+  .toggle { display:flex; align-items:center; justify-content:space-between; gap: var(--space-5); min-height: var(--control-height); }
+  .track { width: var(--toggle-width); height: var(--toggle-height); border-radius: var(--border-radius-toggle); background: var(--toggle-track-off); position:relative; }
+  .track::after { content:""; position:absolute; top: 4px; left: 4px; width: var(--toggle-knob); height: var(--toggle-knob); border-radius: var(--border-radius-toggle); background: var(--toggle-knob-color); }
+  .track.on { background: var(--toggle-track-on); } .track.on::after { left: calc(100% - var(--toggle-knob) - 4px); }
+
+  /* chips */
+  .chips { display:flex; flex-wrap:wrap; gap: var(--space-4); }
+  .chip span { display:inline-flex; align-items:center; min-height: var(--chip-height); padding: 0 var(--space-6); border: var(--border-width) solid var(--chip-border); color: var(--chip-text); }
+  .chip input { position:absolute; opacity:0; } .chip { position:relative; }
+  .chip input:checked + span { background: var(--chip-active-bg); color: var(--chip-active-text); border-color: var(--chip-active-bg); }
+  .chip input:checked + span::before { content: var(--chip-active-marker); }
+
+  /* flash */
+  .flash { padding: var(--space-5) var(--space-6); margin-bottom: var(--space-5); border-left: 4px solid currentColor; }
+  .flash.ok { background: var(--flash-success-bg); color: var(--flash-success-text); }
+  .flash.er { background: var(--flash-error-bg); color: var(--flash-error-text); }
+  .flash.in { background: var(--flash-info-bg); color: var(--flash-info-text); }
+  .flash a { color: inherit; }
+
+  /* grid */
+  .grid { display:grid; grid-template-columns: var(--grid-time-col) repeat(3, 1fr); background: var(--grid-bg); border: var(--border-width) solid var(--grid-line); font-size: var(--font-size-sm); }
+  .grid .h { background: var(--grid-header-bg); padding: var(--space-3) var(--space-4); border-bottom: var(--border-width) solid var(--grid-line); font-weight: var(--font-weight-semibold); }
+  .grid .tm { color: var(--grid-time-color); padding: var(--space-2) var(--space-3); height: calc(var(--grid-hour-height)/2); border-right: var(--border-width) solid var(--grid-line); font-size: var(--font-size-xs); }
+  .grid .c { height: calc(var(--grid-hour-height)/2); border-bottom: var(--border-width) solid var(--grid-line); border-right: var(--border-width) solid var(--grid-line); position:relative; }
+  .slot { position:absolute; inset: 2px; background: var(--slot-bg); border: var(--slot-border); padding: var(--space-2) var(--space-3); font-size: var(--slot-title-size); line-height: 1.2; overflow:hidden; }
+  .slot.h2x { height: calc(var(--grid-hour-height) - 4px); }
+  .slot.conflict { border: var(--slot-conflict-border); }
+  .slot.new { background: var(--slot-highlight-bg); }
+
+  /* attention */
+  .att { border-left: 4px solid var(--attention-marker); background: var(--attention-bg); padding: var(--space-5) var(--space-6); }
+  .att li { margin: var(--space-2) 0; }
+
+  /* nav bar */
+  .nav { position: fixed; left:0; right:0; bottom:0; z-index: var(--z-nav-bar); display:grid; grid-template-columns: repeat(5,1fr);
+         height: calc(var(--nav-bar-height) + var(--nav-bar-safe)); padding-bottom: var(--nav-bar-safe);
+         background: var(--nav-bg); border-top: var(--border-width) solid var(--nav-border); }
+  .nav a { display:flex; flex-direction:column; align-items:center; justify-content:center; gap: 2px; text-decoration:none; color: var(--nav-text); font-size: var(--nav-label-size); position:relative; }
+  .nav a[aria-current] { color: var(--nav-text-active); font-weight: var(--font-weight-semibold); }
+  .nav a[aria-current]::before { content:""; position:absolute; top:-1px; left: 20%; right: 20%; height: 2px; background: var(--nav-indicator); }
+  .nav a .g { font-family: var(--type-display-family); font-size: var(--font-size-lg); line-height:1; }
+
+  /* login */
+  .login { padding: var(--space-9) var(--space-6); background: var(--color-bg-primary); background-image: var(--pattern-rings); background-size: var(--pattern-size) var(--pattern-size); }
+  .login-card { max-width: 22rem; margin: 0 auto; padding: var(--space-7); background: var(--color-bg-primary); color: var(--color-text-primary); }
+  .login-card h1 { color: var(--color-text-primary); font-size: var(--font-size-lg); margin-bottom: var(--space-6); }
+  .login-card .in { background: var(--color-bg-secondary); color: var(--color-text-primary); border-color: var(--color-border-primary); margin-bottom: var(--space-5); }
+  .login-card .btn { width:100%; background: var(--color-accent-primary); color: var(--color-on-accent); }
+
+  .theme { position: fixed; right: var(--space-4); bottom: calc(var(--nav-bar-height) + var(--space-6)); z-index: var(--z-flash); background: var(--color-bg-secondary); }
+</style>
+</head>
+<body>
+<script>if(location.search.indexOf("dark")>-1)document.documentElement.dataset.theme="dark";if(location.search.indexOf("ka")>-1)document.documentElement.lang="ka";</script>
+<button class="btn ghost theme" onclick="var r=document.documentElement;r.dataset.theme=r.dataset.theme==='dark'?'light':'dark'">Тема</button>
+
+<header class="topbar"><span class="meta">← Назад</span><h1>Тренер</h1><a class="act" href="#">Сохранить</a></header>
+
+<div class="wrap">
+  <h2 style="border:0;margin-top:0;padding-top:0">Палитра</h2>
+  <div class="sw">
+    <div style="background:var(--color-bg-primary)">bg-primary</div>
+    <div style="background:var(--color-bg-secondary)">bg-secondary</div>
+    <div style="background:var(--color-bg-tertiary)">bg-tertiary</div>
+    <div style="background:var(--color-bg-inverse);color:var(--color-text-inverse)">bg-inverse</div>
+    <div style="background:var(--color-accent-primary);color:var(--color-on-accent)">accent</div>
+    <div style="background:var(--color-text-link);color:var(--color-bg-primary)">link</div>
+    <div style="background:var(--color-status-success-bg);color:var(--color-status-success)">success</div>
+    <div style="background:var(--color-status-warning-bg);color:var(--color-status-warning)">warning</div>
+    <div style="background:var(--color-status-error-bg);color:var(--color-status-error)">error</div>
+  </div>
+
+  <h2>Сегодня</h2>
+  <p class="status"><span class="dot"></span>Открыто до 22:00</p>
+  <p class="meta">Суббота · 08:00–22:00 · <a href="#">Часы</a></p>
+  <div class="att"><strong>Требует внимания · 3</strong>
+    <ul style="margin:var(--space-3) 0 0;padding-left:var(--space-6)">
+      <li><a href="#">Абонемент «Семейный»</a>: нет описания на грузинском</li>
+      <li><a href="#">Kettlebell</a>: тренер снят с публикации</li>
+      <li><a href="#">Lizi Gagnidze</a>: черновик</li>
+    </ul></div>
+
+  <h2>Список</h2>
+  <div class="list">
+    <a class="row" href="#"><span class="t">Стандартный<small>месяц · 3 · 6 · год · +1 PT</small></span><span class="v">180</span><span class="chev">›</span></a>
+    <a class="row" href="#"><span class="t">Семейный<span class="tag">черновик</span><small>месяц · 3 · 6 · год</small></span><span class="v">150</span><span class="chev">›</span></a>
+    <a class="row" href="#"><span class="t">Разовое посещение<small>без абонемента</small></span><span class="v">20</span><span class="chev">›</span></a>
+  </div>
+  <p class="meta tertiary" style="margin-top:var(--space-4)">Показать удалённые (1)</p>
+
+  <h2>Форма</h2>
+  <div class="flash ok" role="status">Сохранено · <a href="#">Открыть на сайте →</a></div>
+  <div class="flash er" role="alert">Чтобы опубликовать, заполните описание на грузинском.</div>
+  <div class="field"><span class="label">Название</span>
+    <div class="locales">
+      <div><span class="script">EN</span><input class="in" lang="en" value="Standard"></div>
+      <div><span class="script">RU</span><input class="in" lang="ru" value="Стандартный"></div>
+      <div><span class="script">KA</span><input class="in warn" lang="ka" placeholder="სტანდარტული"><div class="hint warn">Не заполнено</div></div>
+    </div></div>
+  <div class="field"><span class="label">Цена за месяц</span><input class="in err" inputmode="decimal" value="18O"><div class="hint err">Только цифры. Введите цену в GEL, например 180.</div></div>
+  <div class="field"><span class="label">Говорит на</span>
+    <div class="chips">
+      <label class="chip"><input type="checkbox" checked><span>Грузинский</span></label>
+      <label class="chip"><input type="checkbox" checked><span>Английский</span></label>
+      <label class="chip"><input type="checkbox"><span>Русский</span></label>
+    </div></div>
+  <div class="field toggle"><span><span class="label" style="margin:0">Опубликован</span><span class="meta">Страница на сайте открыта</span></span><span class="track on"></span></div>
+  <div class="field toggle"><span><span class="label" style="margin:0">PT в подарок</span></span><span class="track"></span></div>
+  <div class="btns"><button class="btn">Сохранить</button><button class="btn ghost">Отмена</button><button class="btn danger">Удалить</button></div>
+
+  <h2>Расписание</h2>
+  <div class="grid">
+    <div class="h"></div><div class="h">Пн</div><div class="h">Ср</div><div class="h">Пт</div>
+    <div class="tm">18:00</div><div class="c"></div><div class="c"></div><div class="c"></div>
+    <div class="tm"></div><div class="c"></div><div class="c"></div><div class="c"></div>
+    <div class="tm">19:00</div><div class="c"><div class="slot h2x">Full Body<br><span class="meta">Отар</span></div></div><div class="c"><div class="slot h2x new">Full Body<br><span class="meta">Отар</span></div></div><div class="c"><div class="slot h2x conflict">Full Body<br><span class="meta">пересекается</span></div></div>
+    <div class="tm"></div><div class="c"></div><div class="c"></div><div class="c"><div class="slot" style="top:2px">Kettlebell</div></div>
+    <div class="tm">20:00</div><div class="c"></div><div class="c"></div><div class="c"></div>
+  </div>
+
+  <h2>Вход</h2>
+  <div class="login" data-surface="orange"><form class="login-card" onsubmit="return false">
+    <h1>Fitto · админка</h1>
+    <input class="in" placeholder="Логин"><input class="in" type="password" placeholder="Пароль">
+    <button class="btn">Войти</button>
+  </form></div>
+
+  <h2>Грузинский</h2>
+  <p lang="ka"><strong style="font-family:var(--type-display-family);font-weight:var(--type-display-weight)">დღეს</strong> · ღიაა 22:00-მდე · <a href="#">საათები</a></p>
+</div>
+
+<nav class="nav" aria-label="Разделы">
+  <a href="#" aria-current="page"><span class="g">◐</span>Сегодня</a>
+  <a href="#"><span class="g">▦</span>Расписание</a>
+  <a href="#"><span class="g">❝</span>Отзывы</a>
+  <a href="#"><span class="g">◯</span>Тренеры</a>
+  <a href="#"><span class="g">⋯</span>Ещё</a>
+</nav>
+</body>
+</html>

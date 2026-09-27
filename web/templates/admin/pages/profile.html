@@ -1,0 +1,47 @@
+{{define "content"}}
+{{$u := .Data.U}}
+<form method="post" action="/admin/profile" novalidate>
+  <input type="hidden" name="_csrf" value="{{.CSRF}}">
+  <div class="field">
+    <label class="label" for="f-name">{{.T "setup.name"}}</label>
+    <input class="in{{if .HasError "name"}} in--err{{end}}" id="f-name" name="name" value="{{$u.Name}}" autocomplete="name" autocapitalize="words" required>
+    {{if .HasError "name"}}<p class="hint hint--err">{{.ErrorFor "name"}}</p>{{else}}<p class="hint">{{.F "setup.name_hint" (or $u.Name (.T "setup.name"))}}</p>{{end}}
+  </div>
+  <p class="meta" style="margin-bottom:var(--space-7)">{{.T "login.login"}}: <code>{{$u.Login}}</code> · {{.T (printf "role.%s" $u.Role)}}</p>
+  <fieldset class="field">
+    <legend class="label">{{.T "lang_ui.label"}}</legend>
+    <span class="seg">
+      <label lang="ru"><input type="radio" name="lang" value="ru"{{if eq $u.Lang "ru"}} checked{{end}}><span>Русский</span></label>
+      <label lang="ka"><input type="radio" name="lang" value="ka"{{if eq $u.Lang "ka"}} checked{{end}}><span>ქართული</span></label>
+    </span>
+  </fieldset>
+  <fieldset class="field">
+    <legend class="label">{{.T "theme.label"}}</legend>
+    <span class="seg">
+      <label><input type="radio" name="theme" value="light"{{if eq $u.Theme "light"}} checked{{end}}><span>{{.T "theme.light"}}</span></label>
+      <label><input type="radio" name="theme" value="dark"{{if eq $u.Theme "dark"}} checked{{end}}><span>{{.T "theme.dark"}}</span></label>
+      <label><input type="radio" name="theme" value="auto"{{if or (eq $u.Theme "auto") (eq $u.Theme "")}} checked{{end}}><span>{{.T "theme.auto"}}</span></label>
+    </span>
+  </fieldset>
+  <div class="group">
+    <h2 class="group__title">{{.T "profile.password"}}</h2>
+    <p class="hint" style="margin:0 0 var(--space-5)">{{.T "profile.password_hint"}}</p>
+    <div class="field">
+      <label class="label" for="f-old_password">{{.T "profile.old_password"}}</label>
+      <input class="in{{if .HasError "old_password"}} in--err{{end}}" id="f-old_password" type="password" name="old_password" autocomplete="current-password">
+      {{if .HasError "old_password"}}<p class="hint hint--err">{{.ErrorFor "old_password"}}</p>{{end}}
+    </div>
+    <div class="field">
+      <label class="label" for="f-password">{{.T "setup.password"}}</label>
+      <input class="in{{if .HasError "password"}} in--err{{end}}" id="f-password" type="password" name="password" autocomplete="new-password" minlength="10">
+      {{if .HasError "password"}}<p class="hint hint--err">{{.ErrorFor "password"}}</p>{{else}}<p class="hint">{{.T "setup.short"}}</p>{{end}}
+    </div>
+    <div class="field">
+      <label class="label" for="f-password2">{{.T "setup.password2"}}</label>
+      <input class="in{{if .HasError "password2"}} in--err{{end}}" id="f-password2" type="password" name="password2" autocomplete="new-password">
+      {{if .HasError "password2"}}<p class="hint hint--err">{{.ErrorFor "password2"}}</p>{{end}}
+    </div>
+  </div>
+  {{template "savebar" (dict "P" . "Cancel" "/admin")}}
+</form>
+{{end}}

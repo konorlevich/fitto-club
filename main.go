@@ -7,6 +7,7 @@ import (
 	"context"
 	"embed"
 	"errors"
+	"flag"
 	"io/fs"
 	"net/http"
 	"os"
@@ -14,6 +15,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/konorlevich/fitto-club/internal/admin"
 	"github.com/konorlevich/fitto-club/internal/content"
 	"github.com/konorlevich/fitto-club/internal/handler"
 	"github.com/konorlevich/fitto-club/internal/render"
@@ -35,6 +37,9 @@ func main() {
 	log := logrus.New()
 	log.SetFormatter(&logrus.JSONFormatter{TimestampFormat: time.RFC3339})
 	log.SetOutput(os.Stdout)
+
+	resetOwner := flag.Bool("reset-owner", false, "clear the owner's admin password so the ENV bootstrap works again, then exit")
+	flag.Parse()
 
 	if err := site.LoadDotEnv(".env"); err != nil {
 		log.WithError(err).Fatal("reading .env")
@@ -89,6 +94,14 @@ func main() {
 	}
 	defer st.Close()
 
+	if *resetOwner {
+		if err := st.ResetOwner(); err != nil {
+			log.WithError(err).Fatal("resetting the owner password")
+		}
+		log.Info("owner password cleared; log in with ADMIN_OWNER_LOGIN / ADMIN_OWNER_PASSWORD and set a new one")
+		return
+	}
+
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGTERM, syscall.SIGINT)
 	defer stop()
 	// Daily consistent snapshot of the content database onto the volume,
@@ -97,6 +110,31 @@ func main() {
 
 	srv := &handler.Server{Cfg: cfg, Copy: copies, Tmpl: tmpl, Static: static, Assets: assets,
 		Store: st, Log: log, Inline: inline}
+	// The admin mounts only when an owner login is configured. Its UI
+	// speaks ru and ka; en is the reference bundle the others are checked
+	// against, the same gate as the site copy.
+	if cfg.AdminEnabled() {
+		adminCopy := map[string]content.AdminCopy{}
+		ref, err := content.LoadAdminCopy(contentFS, "en", nil)
+		if err != nil {
+			log.WithError(err).Fatal("admin locale bundle failed the completeness gate")
+		}
+		adminCopy["en"] = ref
+		for _, l := range admin.UILangs {
+			c, err := content.LoadAdminCopy(contentFS, l, ref)
+			if err != nil {
+				log.WithError(err).Fatal("admin locale bundle failed the completeness gate")
+			}
+			adminCopy[l] = c
+		}
+		adm, err := admin.New(cfg, st, adminCopy, templatesFS, static, assets, inline.Fonts, log)
+		if err != nil {
+			log.WithError(err).Fatal("admin setup failed")
+		}
+		srv.Admin = adm.Mount
+	} else {
+		log.Warn("ADMIN_OWNER_LOGIN is empty: the admin is not mounted")
+	}
 	h := srv.Handler()
 	// Pre-render every indexable page once, so the first visitor after a
 	// deploy is served from memory too (checklist §2).

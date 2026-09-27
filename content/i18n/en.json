@@ -31,7 +31,7 @@
     "privacy_link": "Privacy",
     "cookie_settings": "Cookie settings",
     "legal_entity": "[Legal entity TBD]",
-    "footer_note": "A small fitness club in Vake with a big neon sign.",
+    "footer_note": "The club in Vake under the big neon sign.",
     "hours_heading": "Hours",
     "contact_heading": "Contact",
     "pages_heading": "Pages"
@@ -79,7 +79,7 @@
     "first_heading": "HOW YOUR FIRST VISIT GOES",
     "first_lede": "Nobody will make you do burpees at the door. Here is exactly what happens.",
     "first_steps": [
-      {"title": "Come when we are open", "text": "No booking and no form. Any day, any time within opening hours."},
+      {"title": "Just come", "text": "No booking and no form. Any day, any time within opening hours."},
       {"title": "Find the glass door", "text": "9 Ilo Mosashvili Street, under the orange neon sign. There is a 20-second video of the walk below."},
       {"title": "Say hi at the desk", "text": "The admin speaks Georgian, English and Russian, shows you round and tells you which coach is on the floor."},
       {"title": "Bring a towel", "text": "Sports clothes, clean shoes and your own towel. Water is on us."}

@@ -82,6 +82,7 @@ func AssetURL(assets map[string]string, path string) string {
 func (p *Page) T(l content.L) string                { return l.Get(p.Lang) }
 func (p *Page) F(format string, args ...any) string { return fmt.Sprintf(format, args...) }
 func (p *Page) Href(path string) string             { return "/" + p.Lang + path }
+
 // VisitHref is where every "First visit" CTA points: the "Getting here"
 // block on this page, or on the home page when this page has none (404,
 // privacy) - an in-page #visit there would point at nothing.
@@ -92,18 +93,18 @@ func (p *Page) VisitHref() string {
 	return "#visit"
 }
 
-func (p *Page) Tel() string                         { return "tel:" + content.Phone }
-func (p *Page) PhoneDisplay() string                { return content.PhoneDisplay }
-func (p *Page) DM() string                          { return content.InstagramDM }
-func (p *Page) IG() string                          { return "https://www.instagram.com/" + content.Instagram + "/" }
-func (p *Page) GoogleDir() string                   { return content.GoogleDirURL }
-func (p *Page) AppleDir() string                    { return content.AppleDirURL }
-func (p *Page) GoogleCard() string                  { return content.GoogleMapsURL }
-func (p *Page) Year() int                           { return p.Now.Year() }
-func (p *Page) Address() string                     { return content.Address.Street.Get(p.Lang) }
-func (p *Page) Area() string                        { return content.Address.Area.Get(p.Lang) }
-func (p *Page) Is(route string) bool                { return p.Route == route }
-func (p *Page) Money(n int) string                  { return thousands(n) }
+func (p *Page) Tel() string          { return "tel:" + content.Phone }
+func (p *Page) PhoneDisplay() string { return content.PhoneDisplay }
+func (p *Page) DM() string           { return content.InstagramDM }
+func (p *Page) IG() string           { return "https://www.instagram.com/" + content.Instagram + "/" }
+func (p *Page) GoogleDir() string    { return content.GoogleDirURL }
+func (p *Page) AppleDir() string     { return content.AppleDirURL }
+func (p *Page) GoogleCard() string   { return content.GoogleMapsURL }
+func (p *Page) Year() int            { return p.Now.Year() }
+func (p *Page) Address() string      { return content.Address.Street.Get(p.Lang) }
+func (p *Page) Area() string         { return content.Address.Area.Get(p.Lang) }
+func (p *Page) Is(route string) bool { return p.Route == route }
+func (p *Page) Money(n int) string   { return thousands(n) }
 
 // Script is a string with the language it is written in.
 type Script struct{ Text, Lang string }
@@ -281,6 +282,9 @@ func (p *Page) NextClass() string {
 func (p *Page) CoachHref(slug string) string { return p.Href("/coaches/" + slug) }
 
 func (p *Page) CoachPhoto(slug string, w int) string {
+	if c, ok := p.Snap.Coach(slug); ok && c.PhotoBase != "" {
+		return fmt.Sprintf("%s-%d.webp", c.PhotoBase, w)
+	}
 	return p.Asset(fmt.Sprintf("img/coaches/%s-%d.webp", slug, w))
 }
 
@@ -461,9 +465,21 @@ type CardCtx struct {
 	P         *Page
 	C         content.Coach
 	ShowPrice bool
+	// Sizes is the <img sizes> hint: the column the card gets in its grid.
+	Sizes string
 }
 
-func (p *Page) Card(c content.Coach, price bool) CardCtx { return CardCtx{p, c, price} }
+// Card is a card in the coach grid: one column on phones, two from 600,
+// three from 1024, four (290px) from 1280.
+func (p *Page) Card(c content.Coach, price bool) CardCtx {
+	return CardCtx{p, c, price, "(min-width:1280px) 290px, (min-width:1024px) 30vw, (min-width:600px) 45vw, 92vw"}
+}
+
+// TeaserCard is a card in the home teaser: two columns on phones, four
+// from 1024, and no price line.
+func (p *Page) TeaserCard(c content.Coach) CardCtx {
+	return CardCtx{p, c, false, "(min-width:1280px) 290px, (min-width:1024px) 23vw, 46vw"}
+}
 
 // ------------------------------------------------------------------ reviews
 

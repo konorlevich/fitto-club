@@ -1,0 +1,37 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "design-preview",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8765",
+        "--bind",
+        "127.0.0.1"
+      ],
+      "port": 8765
+    },
+    {
+      "name": "admin-dev",
+      "runtimeExecutable": "sh",
+      "runtimeArgs": [
+        "-c",
+        "DATA_DIR=/private/tmp/claude-501/-Users-petrtravkin-go-src-github-com-konorlevich-fitto-club/db530f81-1414-4df7-8987-38b452c20cda/scratchpad/data ADMIN_OWNER_LOGIN=otar ADMIN_OWNER_PASSWORD=start-password-1 go run ."
+      ],
+      "port": 8093,
+      "autoPort": true
+    },
+    {
+      "name": "site",
+      "runtimeExecutable": "sh",
+      "runtimeArgs": [
+        "-c",
+        "DATA_DIR=/private/tmp/claude-501/-Users-petrtravkin-go-src-github-com-konorlevich-fitto-club/1be22667-713d-41f1-a984-58bc07ea2083/scratchpad/data go run ."
+      ],
+      "port": 8092,
+      "autoPort": true
+    }
+  ]
+}

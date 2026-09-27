@@ -1,0 +1,36 @@
+{{define "layout"}}<!doctype html>
+<html lang="{{.Lang}}"{{if .Theme}} data-theme="{{.Theme}}"{{end}}>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{{if .Title}}{{.Title}} · {{end}}{{.T "app.name"}}</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="{{.Asset "img/brand/icon.svg"}}" type="image/svg+xml">
+<style>{{.Fonts}}{{.CSS}}</style>
+</head>
+<body class="{{if .Bare}}bare{{else}}shell{{end}}">
+<a class="skip" href="#main">{{.T "app.skip"}}</a>
+{{if .Bare}}
+<main id="main" class="bare__main" tabindex="-1">
+{{template "content" .}}
+</main>
+{{else}}
+{{template "sidebar" .}}
+<div class="page">
+  <header class="topbar">
+    {{if .Back}}<a class="topbar__back" href="{{.Back}}"><span aria-hidden="true">←</span> {{.T "nav.back"}}</a>{{else}}<span class="topbar__spacer"></span>{{end}}
+    <h1 class="topbar__title">{{.Title}}</h1>
+    {{if .Action}}{{if .Action.Post}}<form method="post" action="{{.Action.Href}}" class="topbar__form"><input type="hidden" name="_csrf" value="{{.CSRF}}"><button class="topbar__action" type="submit">{{.Action.Label}}</button></form>{{else}}<a class="topbar__action" href="{{.Action.Href}}">{{.Action.Label}}</a>{{end}}{{else}}<span class="topbar__spacer"></span>{{end}}
+  </header>
+  <main id="main" class="main{{if .Wide}} main--wide{{end}}" tabindex="-1">
+    {{if .Flash}}{{template "flash" .}}{{end}}
+    {{if .Errors}}{{template "error-summary" .}}{{end}}
+    {{template "content" .}}
+  </main>
+</div>
+{{template "navbar" .}}
+{{end}}
+<script nonce="{{.Nonce}}">{{.JS}}</script>
+</body>
+</html>{{end}}

@@ -33,7 +33,7 @@ var Address = struct {
 
 var Zones = []Zone{
 	{
-		Key: "hall", Photo: "hall", W: 3, H: 4,
+		Key: "hall", Photo: "hall", W: 4, H: 3,
 		Name: L{"en": "Gym floor", "ru": "Тренажёрный зал", "ka": "დარბაზი"},
 		Text: L{
 			"en": "New machines and free weights under the club's pink and blue light columns.",
@@ -47,21 +47,21 @@ var Zones = []Zone{
 		},
 	},
 	{
-		Key: "crossfit", Photo: "crossfit", W: 3, H: 4,
+		Key: "crossfit", Photo: "crossfit", W: 4, H: 3,
 		Name: L{"en": "CrossFit zone", "ru": "CrossFit-зона", "ka": "CrossFit-ზონა"},
 		Text: L{
-			"en": "A separate room with a sled track, rings and kettlebells, so functional training never queues behind the bench.",
-			"ru": "Отдельный зал с дорожкой для саней, кольцами и гирями: функциональным тренировкам не приходится ждать, пока освободится скамья для жима.",
-			"ka": "ცალკე ოთახი სლედის ბილიკით, რგოლებითა და გირებით, ასე რომ ფუნქციური ვარჯიშისთვის სკამთან რიგში დგომა არ მოგიწევთ.",
+			"en": "A separate room with a red turf track, rings and kettlebells, so functional training never queues behind the bench.",
+			"ru": "Отдельный зал с красной дорожкой, кольцами и гирями: функциональным тренировкам не приходится ждать, пока освободится скамья для жима.",
+			"ka": "ცალკე ოთახი წითელი ბილიკით, რგოლებითა და გირებით, ასე რომ ფუნქციური ვარჯიშისთვის სკამთან რიგში დგომა არ მოგიწევთ.",
 		},
 		Alt: L{
-			"en": "CrossFit room with a red sled track and gymnastic rings",
-			"ru": "CrossFit-зона с красной дорожкой для саней и гимнастическими кольцами",
+			"en": "CrossFit room with a red turf track and gymnastic rings",
+			"ru": "CrossFit-зона с красной дорожкой и гимнастическими кольцами",
 			"ka": "CrossFit-ზონა წითელი ბილიკითა და ტანვარჯიშის რგოლებით",
 		},
 	},
 	{
-		Key: "cardio", Photo: "cardio", W: 3, H: 4,
+		Key: "cardio", Photo: "cardio", W: 4, H: 3,
 		Name: L{"en": "Cardio", "ru": "Кардио", "ka": "კარდიო"},
 		Text: L{
 			"en": "Treadmills and bikes in their own zone, away from the weights.",
@@ -75,7 +75,7 @@ var Zones = []Zone{
 		},
 	},
 	{
-		Key: "massage", Photo: "massage-room", W: 9, H: 16,
+		Key: "massage", Photo: "massage-wide", W: 4, H: 3,
 		Name: L{"en": "Massage room", "ru": "Массажный кабинет", "ka": "მასაჟის ოთახი"},
 		Text: L{
 			"en": "A quiet room for recovery after training, or instead of it.",
@@ -89,7 +89,7 @@ var Zones = []Zone{
 		},
 	},
 	{
-		Key: "lounge", Photo: "lounge", W: 9, H: 16,
+		Key: "lounge", Photo: "lounge-wide", W: 4, H: 3,
 		Name: L{"en": "Lounge", "ru": "Лаунж", "ka": "ლაუნჯი"},
 		Text: L{
 			"en": "Sofas by the living plant wall, water and coffee at the desk.",
@@ -103,7 +103,7 @@ var Zones = []Zone{
 		},
 	},
 	{
-		Key: "lockers", Photo: "lockers", W: 3, H: 4,
+		Key: "lockers", Photo: "lockers", W: 4, H: 3,
 		Name: L{"en": "Changing rooms", "ru": "Раздевалки", "ka": "გასახდელები"},
 		Text: L{
 			"en": "Lockers with code locks and showers. The lockers are small, so bring a compact bag.",

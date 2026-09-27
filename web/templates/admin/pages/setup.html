@@ -1,0 +1,26 @@
+{{define "content"}}
+<div class="bare__wrap">
+  <form class="card" method="post" action="/admin/setup" novalidate>
+    <input type="hidden" name="_csrf" value="{{.CSRF}}">
+    <h1 class="h1">{{if .Data.Change}}{{.T "setup.change_title"}}{{else}}{{.T "setup.title"}}{{end}}</h1>
+    <p class="lede">{{if .Data.Change}}{{.T "setup.change_intro"}}{{else}}{{.T "setup.intro"}}{{end}}</p>
+    {{if .Errors}}{{template "error-summary" .}}{{end}}
+    <div class="field">
+      <label class="label" for="f-name">{{.T "setup.name"}}</label>
+      <input class="in{{if .HasError "name"}} in--err{{end}}" id="f-name" name="name" value="{{.Data.Name}}" autocomplete="name" enterkeyhint="next" required{{if .HasError "name"}} aria-describedby="e-name" aria-invalid="true"{{end}}>
+      {{if .HasError "name"}}<p class="hint hint--err" id="e-name">{{.ErrorFor "name"}}</p>{{else}}<p class="hint">{{.F "setup.name_hint" (or .Data.Name (.T "setup.name"))}}</p>{{end}}
+    </div>
+    <div class="field">
+      <label class="label" for="f-password">{{.T "setup.password"}}</label>
+      <input class="in{{if .HasError "password"}} in--err{{end}}" id="f-password" type="password" name="password" autocomplete="new-password" minlength="10" enterkeyhint="next" required{{if .HasError "password"}} aria-describedby="e-password" aria-invalid="true"{{end}}>
+      {{if .HasError "password"}}<p class="hint hint--err" id="e-password">{{.ErrorFor "password"}}</p>{{else}}<p class="hint">{{.T "setup.short"}}</p>{{end}}
+    </div>
+    <div class="field">
+      <label class="label" for="f-password2">{{.T "setup.password2"}}</label>
+      <input class="in{{if .HasError "password2"}} in--err{{end}}" id="f-password2" type="password" name="password2" autocomplete="new-password" enterkeyhint="done" required{{if .HasError "password2"}} aria-describedby="e-password2" aria-invalid="true"{{end}}>
+      {{if .HasError "password2"}}<p class="hint hint--err" id="e-password2">{{.ErrorFor "password2"}}</p>{{end}}
+    </div>
+    <button class="btn btn--block" type="submit">{{.T "action.continue"}}</button>
+  </form>
+</div>
+{{end}}

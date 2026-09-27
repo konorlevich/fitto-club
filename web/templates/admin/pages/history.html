@@ -1,0 +1,19 @@
+{{define "content"}}
+{{$d := .Data}}
+<nav class="chips chips--filter" aria-label="{{.T "history.filter"}}">
+  <a class="fchip" href="/admin/history"{{if not $d.Entity}} aria-current="page"{{end}}>{{.T "history.all"}}</a>
+  {{range $d.Entities}}<a class="fchip" href="/admin/history?entity={{.}}"{{if eq . $d.Entity}} aria-current="page"{{end}}>{{$.T (printf "entity_pl.%s" .)}}</a>{{end}}
+</nav>
+{{if $d.Items}}
+<ul class="feed feed--full">
+  {{range $d.Items}}
+  <li>
+    <span class="feed__when">{{.When}}</span>
+    <span class="feed__text">{{if .Href}}<a href="{{.Href}}">{{.Text}}</a>{{else}}{{.Text}}{{end}}</span>
+    {{if .RestoreURL}}<form method="post" action="{{.RestoreURL}}" class="feed__restore"><input type="hidden" name="_csrf" value="{{$.CSRF}}"><button class="btn btn--ghost btn--sm" type="submit">{{$.T "action.restore"}}</button></form>{{end}}
+  </li>
+  {{end}}
+</ul>
+{{if $d.HasMore}}<div class="list-actions"><a class="btn btn--ghost btn--sm" href="/admin/history?page={{add $d.Page 1}}{{if $d.Entity}}&entity={{$d.Entity}}{{end}}">{{.T "review.older"}}</a></div>{{end}}
+{{else}}<p class="empty">{{.T "today.no_recent"}}</p>{{end}}
+{{end}}

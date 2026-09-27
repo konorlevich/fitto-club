@@ -1,0 +1,41 @@
+{{define "content"}}
+{{$d := .Data}}{{$in := $d.In}}
+{{if $d.Deleted}}<div class="flash flash--info" role="status"><span>{{.T "meta.deleted"}}</span> · <form method="post" action="/admin/memberships/{{$in.ID}}/restore" style="display:inline"><input type="hidden" name="_csrf" value="{{.CSRF}}"><button class="linkbtn" type="submit" style="min-height:0">{{.T "action.restore"}}</button></form></div>{{end}}
+<form method="post" action="{{if $d.New}}/admin/memberships/new{{else}}/admin/memberships/{{$in.ID}}{{end}}" novalidate>
+  <input type="hidden" name="_csrf" value="{{.CSRF}}"><input type="hidden" name="slug" value="{{$in.Slug}}">
+  {{template "locales" (dict "P" . "Name" "name" "Label" (.T "membership.field_name") "Values" $in.Name "Kind" "input" "Required" $in.Visible "Hint" "")}}
+  {{template "locales" (dict "P" . "Name" "desc" "Label" (.T "membership.field_desc") "Values" $in.Desc "Kind" "textarea" "Required" false "Hint" "")}}
+  <div class="group">
+    <h2 class="group__title">{{.T "membership.terms"}}</h2>
+    <p class="hint" style="margin:0 0 var(--space-5)">{{.T "membership.terms_hint"}}</p>
+    {{if .HasError "price_1"}}<p class="hint hint--err" id="e-price_1">{{.ErrorFor "price_1"}}</p>{{end}}
+    <table class="terms">
+      <thead><tr><th scope="col">{{.T "membership.term"}}</th><th scope="col">{{.T "membership.price"}}</th><th scope="col">{{.T "membership.freeze"}}</th></tr></thead>
+      <tbody>
+      {{range $d.Terms}}
+      <tr>
+        <th scope="row"><label for="f-price_{{.Months}}">{{.Label}}</label></th>
+        <td><div class="money"><input class="in in--num" id="f-price_{{.Months}}" name="price_{{.Months}}" inputmode="numeric" pattern="[0-9]*" value="{{if .Price}}{{.Price}}{{end}}" placeholder="—"><span class="money__unit">GEL</span></div></td>
+        <td><div class="money"><label class="vh" for="f-freeze_{{.Months}}">{{$.T "membership.freeze"}}</label><input class="in in--num" id="f-freeze_{{.Months}}" name="freeze_{{.Months}}" inputmode="numeric" pattern="[0-9]*" value="{{if .FreezeWeeks}}{{.FreezeWeeks}}{{end}}" placeholder="0"><span class="money__unit">{{$.T "membership.weeks"}}</span></div></td>
+      </tr>
+      {{end}}
+      </tbody>
+    </table>
+  </div>
+  <div class="group">
+    {{template "toggle" (dict "P" . "Name" "gift_pt" "Label" (.T "membership.gift_pt") "Sub" (.T "membership.gift_pt_sub") "Checked" $in.GiftPT)}}
+    {{template "toggle" (dict "P" . "Name" "visible" "Label" (.T "class.visible") "Sub" (.T "membership.visible_sub") "Checked" $in.Visible)}}
+  </div>
+  {{template "savebar" (dict "P" . "Cancel" "/admin/memberships")}}
+</form>
+{{if and (not $d.New) (not $d.Deleted)}}
+<div class="group">
+  <h2 class="group__title">{{.T "coach.order"}}</h2>
+  {{template "order" (dict "P" . "Action" (printf "/admin/memberships/%s/move" $in.ID) "Back" (printf "/admin/memberships/%s" $in.ID) "Name" (.L $in.Name) "First" false "Last" false)}}
+</div>
+<div class="danger">
+  <form method="post" action="/admin/memberships/{{$in.ID}}/delete"><input type="hidden" name="_csrf" value="{{.CSRF}}"><button class="btn btn--danger" type="submit">{{.T "action.delete"}}</button></form>
+  <p class="hint">{{.T "coach.delete_hint"}}</p>
+</div>
+{{end}}
+{{end}}

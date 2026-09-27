@@ -1,0 +1,36 @@
+{{define "content"}}
+{{$d := .Data}}
+<nav class="daytabs" aria-label="{{.T "slot.day"}}">
+  {{range $d.Days}}<a href="/admin/schedule?day={{.}}"{{if eq . $d.Day}} aria-current="page"{{end}}{{if eq . $d.Today}} class="daytabs__today"{{end}}>{{$.DayShort .}}</a>{{end}}
+</nav>
+<div class="gridwrap">
+<table class="grid grid--day-{{$d.Day}}">
+  <thead><tr><th scope="col" class="grid__corner"><span class="vh">{{.T "slot.start"}}</span></th>{{range $d.Days}}<th scope="col" class="grid__day{{if eq . $d.Today}} grid__day--today{{end}}">{{$.DayShort .}}</th>{{end}}</tr></thead>
+  <tbody>
+  {{range $d.Rows}}
+  <tr class="{{if .Time}}grid__hour{{else}}grid__half{{end}}">
+    <th scope="row" class="grid__time">{{if .Time}}{{.Time}}{{else}}<span class="vh">{{(index .Cells 0).Time}}</span>{{end}}</th>
+    {{range .Cells}}
+    <td class="grid__cell{{if .Now}} grid__cell--now{{end}}">
+      {{if .Now}}<span class="grid__now" style="top:{{.NowPct}}%" aria-hidden="true"></span>{{end}}
+      {{if not .Covered}}<a class="grid__add" href="{{.Href}}" aria-label="{{.Aria}}"><span aria-hidden="true">+</span></a>{{end}}
+      {{range .Events}}
+      <a class="slot{{if .Conflict}} slot--conflict{{end}}{{if .Saved}} is-new{{end}}" href="{{.Href}}" style="{{.Style}}">
+        <span class="slot__name">{{.Name}}</span>
+        <span class="slot__meta">{{.Start}}–{{.End}}{{if .Coach}} · {{.Coach}}{{end}}</span>
+        {{if .Conflict}}<span class="slot__conflict">{{.Conflict}}</span>{{end}}
+      </a>
+      {{end}}
+    </td>
+    {{end}}
+  </tr>
+  {{end}}
+  </tbody>
+</table>
+</div>
+{{if not $d.HasSlots}}<p class="empty">{{.T "schedule.empty"}}</p>{{end}}
+<div class="list-actions">
+  <a class="btn btn--ghost btn--sm" href="/admin/classes">{{.T "schedule.list_link"}} <span aria-hidden="true">→</span></a>
+  <a class="linkbtn" href="{{.SiteURL}}classes" target="_blank" rel="noopener noreferrer">{{.T "schedule.site_link"}} <span aria-hidden="true">↗</span><span class="vh"> ({{.T "action.new_tab"}})</span></a>
+</div>
+{{end}}

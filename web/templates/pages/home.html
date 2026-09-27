@@ -37,8 +37,8 @@
     <div class="first__head">
       <h2 id="first-h" class="display h2">{{$h.FirstHeading}}</h2>
       <p class="lede">{{$h.FirstLede}}</p>
-      <figure class="first__facade cut-quarter">
-        <img src="{{.PlaceSrc "facade" 480}}" srcset="{{.PlaceSrcset "facade" 480 960}}" sizes="(min-width:1024px) 30vw, 80vw" alt="{{$h.FacadeAlt}}" width="480" height="360" loading="lazy" decoding="async">
+      <figure class="first__facade">
+        <img src="{{.PlaceSrc "facade" 480}}" srcset="{{.PlaceSrcset "facade" 480 640}}" sizes="(min-width:360px) 288px, 80vw" alt="{{$h.FacadeAlt}}" width="480" height="360" loading="lazy" decoding="async">
       </figure>
     </div>
     <ol class="steps">
@@ -78,7 +78,7 @@
       <p class="lede">{{$h.CoachesLede}}</p>
     </div>
     <ul class="coach-grid coach-grid--teaser">
-      {{range .Coaches}}{{template "coach-card" ($.Card . false)}}{{end}}
+      {{range .Coaches}}{{template "coach-card" ($.TeaserCard .)}}{{end}}
     </ul>
     <p class="section__more"><a class="btn btn--ghost" href="{{.Href "/coaches"}}">{{.F $h.CoachesAll .TotalCoaches}} →</a></p>
   </div>

@@ -1,0 +1,22 @@
+{{define "content"}}
+{{$d := .Data}}
+{{if $d.Deleted}}<p class="meta" style="margin-bottom:var(--space-5)"><a href="/admin/classes">← {{.T "nav.classes"}}</a> · {{.T "meta.deleted"}}</p>{{end}}
+{{if $d.Items}}
+<ul class="list list--order">
+  {{range $d.Items}}
+  <li class="row-wrap{{if eq $d.Moved .ID}} is-new{{end}}">
+    <a class="row{{if .Deleted}} row--deleted{{end}}" href="/admin/classes/{{.ID}}">
+      <span class="row__t">{{.Name}}{{if .Meta}}<span class="tag">{{.Meta}}</span>{{end}}<small>{{if .CoachName}}{{.CoachName}} · {{end}}{{if .SlotsText}}{{.SlotsText}}{{else}}{{$.T "class.no_slots"}}{{end}}</small></span>
+      {{if .Price}}<span class="row__v">{{.Price}}</span>{{end}}
+      <span class="row__chev" aria-hidden="true">›</span>
+    </a>
+    {{if not .Deleted}}{{template "order" (dict "P" $ "Action" (printf "/admin/classes/%s/move" .ID) "Back" "/admin/classes" "Name" .Name "First" .First "Last" .Last)}}{{end}}
+  </li>
+  {{end}}
+</ul>
+{{else}}<div class="empty"><p>{{.T "class.empty"}}</p></div>{{end}}
+<div class="list-actions">
+  <a class="btn btn--ghost btn--sm" href="/admin/schedule">{{.T "nav.schedule"}} <span aria-hidden="true">→</span></a>
+  {{if and (not $d.Deleted) $d.DelCount}}<a class="linkbtn" href="/admin/classes?deleted=1">{{.F "action.show_deleted" $d.DelCount}}</a>{{end}}
+</div>
+{{end}}

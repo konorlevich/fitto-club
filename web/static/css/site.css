@@ -282,9 +282,6 @@ table { border-collapse: collapse; width: 100%; }
 @keyframes hop-again { from { translate: 0 0.25em; } to { translate: 0 0; } }
 
 /* Photo windows in the pattern's own shapes. */
-.cut-quarter img { aspect-ratio: 1; object-fit: cover;
-  -webkit-mask: url("/static/img/mask-quarter-cut.svg") center / 100% 100% no-repeat;
-          mask: url("/static/img/mask-quarter-cut.svg") center / 100% 100% no-repeat; }
 .cut-half img { object-fit: cover; }
 
 /* ------------------------------------------------------------ first visit */
@@ -392,7 +389,6 @@ table { border-collapse: collapse; width: 100%; }
 .zone-list { display: grid; gap: var(--space-9); }
 .zone { display: grid; gap: var(--space-6); }
 .zone__photo img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
-.zone__photo.cut-quarter img { aspect-ratio: 1; }
 .zone__name { font-family: var(--type-display-family); font-weight: 600; font-size: var(--font-size-lg); margin-bottom: var(--space-3); }
 .zone__text p { color: var(--color-text-secondary); max-width: 34rem; }
 @media (min-width: 768px) {
@@ -406,7 +402,7 @@ table { border-collapse: collapse; width: 100%; }
   .zone:nth-child(2) { align-self: end; }
 }
 
-/* Home: three zones in equal columns; the quarter-cut photo sits square. */
+/* Home: three zones in equal columns. */
 @media (min-width: 768px) {
   .zone-list--compact { grid-template-columns: repeat(3, 1fr); align-items: start; }
   .zone-list--compact .zone:nth-child(2) { align-self: auto; }
@@ -466,6 +462,7 @@ table { border-collapse: collapse; width: 100%; }
 .page-head__meta { margin-top: var(--space-5); color: var(--fitto-black); font-weight: 600; }
 .page-head__meta a { color: var(--fitto-black); }
 .page-head__photo { max-width: 22rem; justify-self: end; width: 70%; }
+.page-head__photo img { width: 100%; aspect-ratio: var(--aspect-portrait); object-fit: cover; }
 .page-head__photo.cut-half { width: 42%; }
 .page-head__photo.cut-half img { aspect-ratio: 1 / 2; -webkit-mask: url("/static/img/mask-half-ring.svg") center / 100% 100% no-repeat; mask: url("/static/img/mask-half-ring.svg") center / 100% 100% no-repeat; }
 .story { color: var(--fitto-black); max-width: 38rem; margin-top: var(--space-6); font-size: var(--font-size-md); }

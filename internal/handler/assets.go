@@ -7,6 +7,8 @@ import (
 	"html/template"
 	"io/fs"
 	"net/http"
+	"os"
+	"path/filepath"
 	"regexp"
 	"strings"
 
@@ -64,6 +66,35 @@ func (s *Server) staticHandler() http.Handler {
 		fsrv.ServeHTTP(w, r)
 	})
 }
+
+// upload serves a coach photo derivative from the volume. Only the WebP
+// derivatives are public; originals stay private. Names carry a content
+// hash and the focus point, so they are immutable.
+func (s *Server) upload(w http.ResponseWriter, r *http.Request) {
+	name := r.PathValue("file")
+	dir := s.Store.UploadDir()
+	if dir == "" || !uploadName.MatchString(name) {
+		http.NotFound(w, r)
+		return
+	}
+	f, err := os.Open(filepath.Join(dir, name))
+	if err != nil {
+		http.NotFound(w, r)
+		return
+	}
+	defer f.Close()
+	st, err := f.Stat()
+	if err != nil || st.IsDir() {
+		http.NotFound(w, r)
+		return
+	}
+	w.Header().Set("Content-Type", "image/webp")
+	w.Header().Set("Cache-Control", "public, max-age=31536000, immutable")
+	w.Header().Set("X-Content-Type-Options", "nosniff")
+	http.ServeContent(w, r, name, st.ModTime(), f)
+}
+
+var uploadName = regexp.MustCompile(`^[a-z0-9-]+-(400|800)\.webp$`)
 
 func (s *Server) favicon(w http.ResponseWriter, r *http.Request) {
 	b, err := fs.ReadFile(s.Static, "img/brand/favicon.ico")

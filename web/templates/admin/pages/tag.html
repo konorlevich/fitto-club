@@ -1,0 +1,15 @@
+{{define "content"}}
+{{$d := .Data}}{{$in := $d.In}}
+<form method="post" action="{{if $d.New}}/admin/tags/new{{else}}/admin/tags/{{$in.Slug}}{{end}}" novalidate>
+  <input type="hidden" name="_csrf" value="{{.CSRF}}">
+  {{template "locales" (dict "P" . "Name" "name" "Label" (.T "tag.name") "Values" $in.Name "Kind" "input" "Required" true "Hint" "")}}
+  {{if not $d.New}}<p class="meta">{{.F "tag.used" $d.Used}} · <code>{{$in.Slug}}</code></p>{{end}}
+  {{template "savebar" (dict "P" . "Cancel" "/admin/tags")}}
+</form>
+{{if not $d.New}}
+<div class="danger">
+  <form method="post" action="/admin/tags/{{$in.Slug}}/delete"><input type="hidden" name="_csrf" value="{{.CSRF}}"><button class="btn btn--danger" type="submit">{{.T "action.delete"}}</button></form>
+  <p class="hint">{{.T "tag.delete_hint"}}</p>
+</div>
+{{end}}
+{{end}}

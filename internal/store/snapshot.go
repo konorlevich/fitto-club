@@ -16,6 +16,8 @@ import (
 type Store interface {
 	Current() *Snapshot
 	Close() error
+	// UploadDir is where coach photos live; "" when uploads are not served.
+	UploadDir() string
 }
 
 // Snapshot is the whole editable content set, already shaped for templates.
@@ -261,4 +263,33 @@ func (s *Snapshot) Date(path string) string {
 		return d
 	}
 	return content.BaselineContentDate
+}
+
+// PriceRange is the cheapest and the dearest thing sold: the drop-in
+// visit and the longest membership, for JSON-LD priceRange. Both come from
+// the editable data, so a CMS edit moves them (checklist §13).
+func (s *Snapshot) PriceRange() (lo, hi int) {
+	lo = s.SingleVisit
+	for _, m := range s.Memberships {
+		for _, t := range m.Terms {
+			if t.Price <= 0 {
+				continue
+			}
+			if lo == 0 || t.Price < lo {
+				lo = t.Price
+			}
+			if t.Price > hi {
+				hi = t.Price
+			}
+		}
+	}
+	for _, m := range s.Massage {
+		if m.Price > hi {
+			hi = m.Price
+		}
+	}
+	if hi == 0 {
+		hi = lo
+	}
+	return lo, hi
 }

@@ -1,0 +1,26 @@
+{{define "content"}}
+<div class="login" data-surface="orange">
+  <form class="login-card" method="post" action="/admin/login" novalidate>
+    <input type="hidden" name="_csrf" value="">
+    <p class="login-card__brand"><img src="{{.Asset "img/brand/fitto-logo-dark-bg.svg"}}" alt="Fitto Club" width="96" height="48"></p>
+    <h1 class="login-card__title">{{.T "login.title"}}</h1>
+    {{if .Data.Error}}<p class="login-card__error" role="alert">{{.Data.Error}}</p>{{end}}
+    <div class="field">
+      <label class="label" for="f-login">{{.T "login.login"}}</label>
+      <input class="in" id="f-login" name="login" value="{{.Data.Login}}" autocomplete="username" autocapitalize="off" spellcheck="false" enterkeyhint="next" required{{if .Data.Locked}} disabled{{end}}>
+    </div>
+    <div class="field">
+      <label class="label" for="f-password">{{.T "login.password"}}</label>
+      <input class="in" id="f-password" type="password" name="password" autocomplete="current-password" enterkeyhint="go" required{{if .Data.Locked}} disabled{{end}}>
+    </div>
+    <fieldset class="field login-card__lang">
+      <legend class="label">{{.T "login.lang"}}</legend>
+      <span class="seg">
+        <label lang="ru"><input type="radio" name="lang" value="ru"{{if eq .Lang "ru"}} checked{{end}}><span>Русский</span></label>
+        <label lang="ka"><input type="radio" name="lang" value="ka"{{if eq .Lang "ka"}} checked{{end}}><span>ქართული</span></label>
+      </span>
+    </fieldset>
+    <button class="btn btn--block" type="submit"{{if .Data.Locked}} disabled{{end}}>{{.T "action.login"}}</button>
+  </form>
+</div>
+{{end}}

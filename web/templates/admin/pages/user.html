@@ -1,0 +1,50 @@
+{{define "content"}}
+{{$d := .Data}}{{$u := $d.U}}
+{{if $d.TempPassword}}
+<div class="temp" role="status">
+  <p class="label">{{.T "user.temp_title"}}</p>
+  <p class="temp__value"><code>{{$d.TempPassword}}</code></p>
+  <p class="hint">{{.T "user.temp_hint"}}</p>
+</div>
+{{end}}
+{{if $d.New}}
+<form method="post" action="/admin/users/new" novalidate>
+  <input type="hidden" name="_csrf" value="{{.CSRF}}">
+  <div class="field">
+    <label class="label" for="f-name">{{.T "setup.name"}}</label>
+    <input class="in{{if .HasError "name"}} in--err{{end}}" id="f-name" name="name" value="{{$u.Name}}" autocapitalize="words" required>
+    {{if .HasError "name"}}<p class="hint hint--err">{{.ErrorFor "name"}}</p>{{end}}
+  </div>
+  <div class="field">
+    <label class="label" for="f-login">{{.T "login.login"}}</label>
+    <input class="in{{if .HasError "login"}} in--err{{end}}" id="f-login" name="login" value="{{$u.Login}}" autocapitalize="off" autocomplete="off" spellcheck="false" required>
+    {{if .HasError "login"}}<p class="hint hint--err">{{.ErrorFor "login"}}</p>{{else}}<p class="hint">{{.T "user.login_hint"}}</p>{{end}}
+  </div>
+  <fieldset class="field">
+    <legend class="label">{{.T "user.role"}}</legend>
+    <span class="seg">
+      <label><input type="radio" name="role" value="editor"{{if ne $u.Role "owner"}} checked{{end}}><span>{{.T "role.editor"}}</span></label>
+      <label><input type="radio" name="role" value="owner"{{if eq $u.Role "owner"}} checked{{end}}><span>{{.T "role.owner"}}</span></label>
+    </span>
+    <p class="hint">{{.T "user.role_hint"}}</p>
+  </fieldset>
+  {{template "savebar" (dict "P" . "Cancel" "/admin/users")}}
+</form>
+{{else}}
+<dl class="facts">
+  <div><dt>{{.T "login.login"}}</dt><dd><code>{{$u.Login}}</code></dd></div>
+  <div><dt>{{.T "user.role"}}</dt><dd>{{.T (printf "role.%s" $u.Role)}}</dd></div>
+  <div><dt>{{.T "user.status"}}</dt><dd>{{if $u.Blocked}}{{.T "user.blocked_short"}}{{else if $u.MustChange}}{{.T "user.temp_short"}}{{else}}{{.T "user.active"}}{{end}}</dd></div>
+</dl>
+{{if $d.Me}}
+<p class="hint" style="margin-top:var(--space-6)"><a href="/admin/profile">{{.T "user.me_hint"}}</a></p>
+{{else}}
+<div class="btns" style="margin-top:var(--space-8)">
+  <form method="post" action="/admin/users/{{$u.ID}}/reset"><input type="hidden" name="_csrf" value="{{.CSRF}}"><button class="btn btn--ghost" type="submit">{{.T "user.reset"}}</button></form>
+  {{if $u.Blocked}}<form method="post" action="/admin/users/{{$u.ID}}/unblock"><input type="hidden" name="_csrf" value="{{.CSRF}}"><button class="btn btn--ghost" type="submit">{{.T "user.unblock"}}</button></form>
+  {{else}}<form method="post" action="/admin/users/{{$u.ID}}/block"><input type="hidden" name="_csrf" value="{{.CSRF}}"><button class="btn btn--danger" type="submit">{{.T "user.block"}}</button></form>{{end}}
+</div>
+<p class="hint">{{.T "user.block_hint"}}</p>
+{{end}}
+{{end}}
+{{end}}

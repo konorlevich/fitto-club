@@ -1,0 +1,11 @@
+{{define "content"}}
+{{$d := .Data}}
+<ul class="list">
+  {{range $d.Users}}
+  <li><a class="row" href="/admin/users/{{.ID}}">
+    <span class="row__t">{{if .Name}}{{.Name}}{{else}}{{.Login}}{{end}}{{if eq .ID $d.Me}}<span class="tag">{{$.T "user.you"}}</span>{{end}}{{if .Blocked}}<span class="tag">{{$.T "user.blocked_short"}}</span>{{end}}{{if .MustChange}}<span class="tag">{{$.T "user.temp_short"}}</span>{{end}}<small>{{.Login}} · {{$.T (printf "role.%s" .Role)}}</small></span>
+    <span class="row__chev" aria-hidden="true">›</span></a></li>
+  {{end}}
+</ul>
+<p class="hint" style="margin-top:var(--space-6)">{{.T "user.list_hint"}}</p>
+{{end}}

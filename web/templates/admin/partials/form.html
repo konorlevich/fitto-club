@@ -1,0 +1,38 @@
+{{/* One field in every locale, all visible at once (brief, principle 2).
+     Args: P, Name, Label, Values (content.L), Kind ("input"|"textarea"),
+     Required (bool: warn when empty), Hint. */}}
+{{define "locales"}}
+{{$a := .}}{{$p := .P}}
+<fieldset class="field">
+  <legend class="label">{{.Label}}</legend>
+  {{if .Hint}}<p class="hint" style="margin:0 0 var(--space-3)">{{.Hint}}</p>{{end}}
+  <div class="locales">
+    {{range $lang := $p.Cfg.Locales}}
+    {{$id := printf "f-%s_%s" $a.Name $lang}}{{$v := index $a.Values $lang}}{{$err := $p.HasError (printf "%s_%s" $a.Name $lang)}}
+    <div class="locales__one">
+      <label class="script" for="{{$id}}">{{$lang}}</label>
+      {{if eq $a.Kind "textarea"}}<textarea class="ta{{if $err}} ta--err{{else if and $a.Required (not $v)}} ta--warn{{end}}" id="{{$id}}" name="{{$a.Name}}_{{$lang}}" lang="{{$lang}}" rows="4"{{if $err}} aria-invalid="true" aria-describedby="e-{{$a.Name}}_{{$lang}}"{{end}}>{{$v}}</textarea>
+      {{else}}<input class="in{{if $err}} in--err{{else if and $a.Required (not $v)}} in--warn{{end}}" id="{{$id}}" name="{{$a.Name}}_{{$lang}}" lang="{{$lang}}" value="{{$v}}" autocapitalize="sentences"{{if $err}} aria-invalid="true" aria-describedby="e-{{$a.Name}}_{{$lang}}"{{end}}>{{end}}
+      {{if $err}}<p class="hint hint--err" id="e-{{$a.Name}}_{{$lang}}">{{$p.ErrorFor (printf "%s_%s" $a.Name $lang)}}</p>{{else if and $a.Required (not $v)}}<p class="hint hint--warn">{{$p.T "field.empty"}}</p>{{end}}
+    </div>
+    {{end}}
+  </div>
+</fieldset>
+{{end}}
+
+{{/* Sticky save bar. Args: P, Cancel (href), Delete (post href, optional). */}}
+{{define "savebar"}}
+<div class="savebar">
+  <button class="btn" type="submit">{{.P.T "action.save"}}</button>
+  <a class="btn btn--ghost" href="{{.Cancel}}">{{.P.T "action.cancel"}}</a>
+</div>
+{{end}}
+
+{{/* Toggle (checkbox styled as a switch). Args: P, Name, Label, Sub, Checked. */}}
+{{define "toggle"}}
+<label class="toggle">
+  <span class="toggle__text"><span class="label">{{.Label}}</span>{{if .Sub}}<small>{{.Sub}}</small>{{end}}</span>
+  <input type="checkbox" name="{{.Name}}" value="1"{{if .Checked}} checked{{end}}{{if .Attrs}} {{.Attrs}}{{end}}>
+  <span class="toggle__track" aria-hidden="true"></span>
+</label>
+{{end}}

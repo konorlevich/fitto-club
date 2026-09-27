@@ -78,6 +78,7 @@ func (s *Server) Handler() http.Handler {
 	mux.HandleFunc("GET /site.webmanifest", s.manifest)
 	mux.HandleFunc("GET /favicon.ico", s.favicon)
 	mux.Handle("GET /static/", http.StripPrefix("/static/", s.staticHandler()))
+	mux.HandleFunc("GET /uploads/{file}", s.upload)
 
 	// Root and any unmatched path: redirect "/" to a locale, 404 the rest.
 	mux.HandleFunc("/", s.fallback)

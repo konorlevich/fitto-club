@@ -4,7 +4,7 @@
 <li class="coach-card">
   <a href="{{$p.CoachHref $c.Slug}}" class="coach-card__link">
     <figure class="coach-card__photo">
-      {{if $c.Photo}}<img src="{{$p.CoachPhoto $c.Slug 400}}" srcset="{{$p.CoachSrcset $c.Slug}}" sizes="(min-width:1280px) 290px, (min-width:1024px) 30vw, (min-width:600px) 45vw, 92vw" alt="{{$p.CoachAlt $c}}" width="400" height="500" loading="lazy" decoding="async">
+      {{if $c.Photo}}<img src="{{$p.CoachPhoto $c.Slug 400}}" srcset="{{$p.CoachSrcset $c.Slug}}" sizes="{{.Sizes}}" alt="{{$p.CoachAlt $c}}" width="400" height="500" loading="lazy" decoding="async">
       {{else}}<span class="coach-card__initials" aria-hidden="true">{{$c.Initials}}</span>{{end}}
       <i class="coach-card__ring" aria-hidden="true"></i>
       <figcaption class="coach-card__name">{{$p.T $c.Name}}</figcaption>

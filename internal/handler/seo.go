@@ -150,7 +150,7 @@ func (s *Server) clubLD(p *render.Page, id string) obj {
 		"@type": "HealthClub", "@id": id, "name": p.Copy.Common.SiteName, "url": s.Cfg.BaseURL + "/" + p.Lang + "/",
 		"description": p.Copy.Common.Tagline, "telephone": content.Phone,
 		"image": s.Cfg.BaseURL + p.PlaceSrc("hall-neon", 960), "logo": s.Cfg.BaseURL + p.Asset("img/brand/icon-512.png"),
-		"priceRange": "20–1550 GEL", "currenciesAccepted": "GEL",
+		"priceRange": priceRange(p.Snap), "currenciesAccepted": "GEL",
 		"address": obj{"@type": "PostalAddress", "streetAddress": content.Address.Street.Get(p.Lang),
 			"addressLocality": "Tbilisi", "addressRegion": "Vake", "addressCountry": "GE"},
 		"geo":                       obj{"@type": "GeoCoordinates", "latitude": content.Lat, "longitude": content.Lon},
@@ -289,4 +289,13 @@ func (s *Server) manifest(w http.ResponseWriter, r *http.Request) {
 		},
 	})
 	_, _ = w.Write(b)
+}
+
+// priceRange renders the club's price span from the editable data.
+func priceRange(snap *store.Snapshot) string {
+	lo, hi := snap.PriceRange()
+	if lo == hi {
+		return fmt.Sprintf("%d GEL", lo)
+	}
+	return fmt.Sprintf("%d–%d GEL", lo, hi)
 }

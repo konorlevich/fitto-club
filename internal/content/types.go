@@ -71,6 +71,7 @@ type Coach struct {
 	Slug       string
 	Name       L // Latin / Cyrillic / Mkhedruli
 	Photo      bool
+	PhotoBase  string // uploaded photo: URL prefix of "-400.webp"/"-800.webp"; empty = shipped file by slug
 	Instagram  string // handle without @
 	Bio        L
 	Tags       []string // tag slugs
@@ -175,6 +176,8 @@ type SpecialDay struct {
 	Open, Close string // empty Open = closed
 	Note        L
 }
+
+func (d SpecialDay) Closed() bool { return d.Open == "" }
 
 type Hours struct {
 	Week    [7]DayHours // index 0 = Monday

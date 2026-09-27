@@ -1,0 +1,57 @@
+{{define "content"}}
+{{$d := .Data}}{{$in := $d.In}}
+{{if $d.Deleted}}<div class="flash flash--info" role="status"><span>{{.T "meta.deleted"}}</span> · <form method="post" action="/admin/reviews/{{$in.ID}}/restore" style="display:inline"><input type="hidden" name="_csrf" value="{{.CSRF}}"><button class="linkbtn" type="submit" style="min-height:0">{{.T "action.restore"}}</button></form></div>{{end}}
+<form method="post" action="{{if $d.New}}/admin/reviews/new{{else}}/admin/reviews/{{$in.ID}}{{end}}" novalidate>
+  <input type="hidden" name="_csrf" value="{{.CSRF}}"><input type="hidden" name="back" value="{{$d.Back}}"><input type="hidden" name="sort" value="{{$in.Sort}}">
+  <div class="field">
+    <label class="label" for="f-text">{{.T "review.text"}}</label>
+    <textarea class="ta ta--tall{{if .HasError "text"}} ta--err{{end}}" id="f-text" name="text" rows="7" data-detect-script placeholder="{{.T "review.text_hint"}}"{{if .HasError "text"}} aria-invalid="true" aria-describedby="e-text"{{end}}>{{$in.Text}}</textarea>
+    {{if .HasError "text"}}<p class="hint hint--err" id="e-text">{{.ErrorFor "text"}}</p>{{end}}
+  </div>
+  <fieldset class="field">
+    <legend class="label">{{.T "review.lang"}}</legend>
+    <span class="seg">
+      {{range $l := .Cfg.Locales}}<label lang="{{$l}}"><input type="radio" name="lang" value="{{$l}}"{{if eq $in.Lang $l}} checked{{end}}><span>{{$.T (printf "review.lang_%s" $l)}}</span></label>{{end}}
+    </span>
+    {{if .HasError "lang"}}<p class="hint hint--err">{{.ErrorFor "lang"}}</p>{{else}}<p class="hint">{{.T "review.lang_hint"}}</p>{{end}}
+  </fieldset>
+  <div class="field">
+    <label class="label" for="f-author">{{.T "review.author"}}</label>
+    <input class="in{{if .HasError "author"}} in--err{{end}}" id="f-author" name="author" value="{{$in.Author}}" autocomplete="off" autocapitalize="words" enterkeyhint="next" required{{if .HasError "author"}} aria-invalid="true" aria-describedby="e-author"{{end}}>
+    {{if .HasError "author"}}<p class="hint hint--err" id="e-author">{{.ErrorFor "author"}}</p>{{end}}
+  </div>
+  <fieldset class="field">
+    <legend class="label">{{.T "review.rating"}}</legend>
+    <span class="seg seg--stars">
+      {{range $i := seq 5}}{{$n := add $i 1}}<label><input type="radio" name="rating" value="{{$n}}"{{if eq $in.Rating $n}} checked{{end}}><span>{{$n}}<span aria-hidden="true">★</span></span></label>{{end}}
+    </span>
+    {{if .HasError "rating"}}<p class="hint hint--err">{{.ErrorFor "rating"}}</p>{{end}}
+  </fieldset>
+  <div class="field">
+    <label class="label" for="f-date">{{.T "review.date"}}</label>
+    <input class="in in--time{{if .HasError "date"}} in--err{{end}}" id="f-date" type="month" name="date" value="{{$in.Date}}" style="max-width:12rem">
+    {{if .HasError "date"}}<p class="hint hint--err">{{.ErrorFor "date"}}</p>{{else}}<p class="hint">{{.T "review.date_hint"}}</p>{{end}}
+  </div>
+  <div class="field">
+    <label class="label" for="f-url">{{.T "review.url"}}</label>
+    <input class="in{{if .HasError "url"}} in--err{{end}}" id="f-url" type="url" name="url" value="{{$in.URL}}" inputmode="url" autocapitalize="off" placeholder="https://maps.app.goo.gl/…">
+    {{if .HasError "url"}}<p class="hint hint--err">{{.ErrorFor "url"}}</p>{{end}}
+  </div>
+  <fieldset class="field">
+    <legend class="label">{{.T "review.coaches"}}</legend>
+    <div class="chips">
+      {{range $d.Coaches}}<label class="chip chip--sm"><input type="checkbox" name="coach" value="{{.ID}}"{{if .Selected}} checked{{end}}><span>{{.Name}}</span></label>{{end}}
+    </div>
+    <p class="hint">{{.T "review.coaches_hint"}}</p>
+  </fieldset>
+  <div class="group">
+    {{template "toggle" (dict "P" . "Name" "home" "Label" (.T "review.home") "Sub" (.T "review.home_sub") "Checked" $in.Home)}}
+  </div>
+  {{template "savebar" (dict "P" . "Cancel" $d.Back)}}
+</form>
+{{if and (not $d.New) (not $d.Deleted)}}
+<div class="danger">
+  <form method="post" action="/admin/reviews/{{$in.ID}}/delete"><input type="hidden" name="_csrf" value="{{.CSRF}}"><button class="btn btn--danger" type="submit">{{.T "action.delete"}}</button></form>
+</div>
+{{end}}
+{{end}}

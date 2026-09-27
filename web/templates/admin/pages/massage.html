@@ -1,0 +1,21 @@
+{{define "content"}}
+{{$d := .Data}}
+{{if $d.Deleted}}<p class="meta" style="margin-bottom:var(--space-5)"><a href="/admin/massage">← {{.T "nav.massage"}}</a> · {{.T "meta.deleted"}}</p>{{end}}
+{{if $d.Items}}
+<ul class="list list--order">
+  {{range $d.Items}}
+  <li class="row-wrap{{if eq $d.Moved .ID}} is-new{{end}}">
+    <a class="row{{if .Deleted}} row--deleted{{end}}" href="/admin/massage/{{.ID}}">
+      <span class="row__t">{{.Name}}{{if .Meta}}<span class="tag">{{.Meta}}</span>{{end}}<small>{{.Minutes}} {{$.T "slot.min"}}{{if .PackCount}} · {{$.F "massage.pack_short" .PackCount .PackPrice}}{{end}}</small></span>
+      <span class="row__v">{{.Price}}<small class="row__unit">GEL</small></span>
+      <span class="row__chev" aria-hidden="true">›</span>
+    </a>
+    {{if not .Deleted}}{{template "order" (dict "P" $ "Action" (printf "/admin/massage/%s/move" .ID) "Back" "/admin/massage" "Name" .Name "First" .First "Last" .Last)}}{{end}}
+  </li>
+  {{end}}
+</ul>
+{{else}}<div class="empty"><p>{{.T "empty.generic"}}</p></div>{{end}}
+<div class="list-actions">
+  {{if and (not $d.Deleted) $d.DelCount}}<a class="linkbtn" href="/admin/massage?deleted=1">{{.F "action.show_deleted" $d.DelCount}}</a>{{end}}
+</div>
+{{end}}

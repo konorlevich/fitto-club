@@ -1,0 +1,44 @@
+{{define "content"}}
+{{$d := .Data}}{{$in := $d.In}}
+{{if $d.Deleted}}<div class="flash flash--info" role="status"><span>{{.T "meta.deleted"}}</span> · <form method="post" action="/admin/massage/{{$in.ID}}/restore" style="display:inline"><input type="hidden" name="_csrf" value="{{.CSRF}}"><button class="linkbtn" type="submit" style="min-height:0">{{.T "action.restore"}}</button></form></div>{{end}}
+<form method="post" action="{{if $d.New}}/admin/massage/new{{else}}/admin/massage/{{$in.ID}}{{end}}" novalidate>
+  <input type="hidden" name="_csrf" value="{{.CSRF}}">
+  {{template "locales" (dict "P" . "Name" "name" "Label" (.T "massage.field_name") "Values" $in.Name "Kind" "input" "Required" $in.Visible "Hint" "")}}
+  <div class="field">
+    <label class="label" for="f-minutes">{{.T "massage.minutes"}}</label>
+    <div class="money"><input class="in in--num{{if .HasError "minutes"}} in--err{{end}}" id="f-minutes" name="minutes" inputmode="numeric" pattern="[0-9]*" value="{{if $in.Minutes}}{{$in.Minutes}}{{end}}"><span class="money__unit">{{.T "slot.min"}}</span></div>
+    {{if .HasError "minutes"}}<p class="hint hint--err">{{.ErrorFor "minutes"}}</p>{{end}}
+  </div>
+  <div class="field">
+    <label class="label" for="f-price">{{.T "membership.price"}}</label>
+    <div class="money"><input class="in in--num{{if .HasError "price"}} in--err{{end}}" id="f-price" name="price" inputmode="numeric" pattern="[0-9]*" value="{{if $in.Price}}{{$in.Price}}{{end}}"><span class="money__unit">GEL</span></div>
+    {{if .HasError "price"}}<p class="hint hint--err">{{.ErrorFor "price"}}</p>{{end}}
+  </div>
+  <div class="group">
+    <h2 class="group__title">{{.T "massage.pack"}}</h2>
+    <p class="hint" style="margin:0 0 var(--space-5)">{{.T "massage.pack_hint"}}</p>
+    <div class="field">
+      <label class="label" for="f-pack_count">{{.T "massage.pack_count"}}</label>
+      <input class="in in--num{{if .HasError "pack_count"}} in--err{{end}}" id="f-pack_count" name="pack_count" inputmode="numeric" pattern="[0-9]*" value="{{if $in.PackCount}}{{$in.PackCount}}{{end}}" placeholder="—" style="max-width:8rem">
+      {{if .HasError "pack_count"}}<p class="hint hint--err">{{.ErrorFor "pack_count"}}</p>{{end}}
+    </div>
+    <div class="field">
+      <label class="label" for="f-pack_price">{{.T "massage.pack_price"}}</label>
+      <div class="money"><input class="in in--num" id="f-pack_price" name="pack_price" inputmode="numeric" pattern="[0-9]*" value="{{if $in.PackPrice}}{{$in.PackPrice}}{{end}}" placeholder="—"><span class="money__unit">GEL</span></div>
+    </div>
+  </div>
+  <div class="group">
+    {{template "toggle" (dict "P" . "Name" "visible" "Label" (.T "class.visible") "Sub" (.T "massage.visible_sub") "Checked" $in.Visible)}}
+  </div>
+  {{template "savebar" (dict "P" . "Cancel" "/admin/massage")}}
+</form>
+{{if and (not $d.New) (not $d.Deleted)}}
+<div class="group">
+  <h2 class="group__title">{{.T "coach.order"}}</h2>
+  {{template "order" (dict "P" . "Action" (printf "/admin/massage/%s/move" $in.ID) "Back" (printf "/admin/massage/%s" $in.ID) "Name" (.L $in.Name) "First" false "Last" false)}}
+</div>
+<div class="danger">
+  <form method="post" action="/admin/massage/{{$in.ID}}/delete"><input type="hidden" name="_csrf" value="{{.CSRF}}"><button class="btn btn--danger" type="submit">{{.T "action.delete"}}</button></form>
+</div>
+{{end}}
+{{end}}

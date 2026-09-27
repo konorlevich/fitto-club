@@ -269,17 +269,19 @@ func (s *SQLite) Reload() error {
 	// Soft-deleted coaches stay in the snapshot as unpublished: their URL must
 	// still 301 to the list rather than 404 (BRIEF.md §4).
 	if err := s.each(`SELECT id, slug, sort, published, photo, instagram, name_en, name_ru, name_ka, bio_en, bio_ru, bio_ka,
-		pt_price, pt_currency, pt_from, updated_at, deleted_at FROM coaches ORDER BY sort, slug`, func(r *sql.Rows) error {
+		pt_price, pt_currency, pt_from, updated_at, deleted_at, photo_file, focus_x, focus_y FROM coaches ORDER BY sort, slug`, func(r *sql.Rows) error {
 		var c content.Coach
-		var id, deleted string
+		var id, deleted, file string
 		var pub, photo, from int
+		var fx, fy float64
 		var n, b [3]string
 		if err := r.Scan(&id, &c.Slug, &c.Sort, &pub, &photo, &c.Instagram, &n[0], &n[1], &n[2], &b[0], &b[1], &b[2],
-			&c.PTPrice, &c.PTCurrency, &from, &c.Updated, &deleted); err != nil {
+			&c.PTPrice, &c.PTCurrency, &from, &c.Updated, &deleted, &file, &fx, &fy); err != nil {
 			return err
 		}
 		c.Published = pub == 1 && deleted == ""
 		c.Photo, c.PTFrom = photo == 1, from == 1
+		c.PhotoBase = PhotoBase(file, fx, fy)
 		c.Name, c.Bio = l3(n), l3(b)
 		c.Tags, c.Speaks = coachTags[id], coachLangs[id]
 		c.Updated = dateOnly(c.Updated)
@@ -439,3 +441,6 @@ func dateOnly(ts string) string {
 	}
 	return ts
 }
+
+// SetClock pins the store's clock; tests use it to move time.
+func (s *SQLite) SetClock(f func() time.Time) { s.now = f }

@@ -1,0 +1,31 @@
+{{define "content"}}
+{{$d := .Data}}
+<form method="post" action="{{if $d.New}}/admin/hours/special/new{{else}}/admin/hours/special/{{$d.Day.Date}}{{end}}" novalidate>
+  <input type="hidden" name="_csrf" value="{{.CSRF}}"><input type="hidden" name="back" value="{{$d.Back}}">
+  <div class="field">
+    <label class="label" for="f-date">{{.T "special.date"}}</label>
+    <input class="in{{if .HasError "date"}} in--err{{end}}" id="f-date" type="date" name="date" value="{{$d.Day.Date}}" required{{if not $d.New}} readonly{{end}}{{if .HasError "date"}} aria-invalid="true" aria-describedby="e-date"{{end}}>
+    {{if .HasError "date"}}<p class="hint hint--err" id="e-date">{{.ErrorFor "date"}}</p>{{end}}
+  </div>
+  {{template "toggle" (dict "P" . "Name" "closed" "Label" (.T "special.closed") "Sub" (.T "special.closed_sub") "Checked" $d.Closed "Attrs" "data-closes-hours")}}
+  <div class="field hours-pair" data-hours-pair{{if $d.Closed}} hidden{{end}}>
+    <span class="label">{{.T "special.hours"}}</span>
+    <span class="week__times">
+      <label class="vh" for="f-open">{{.T "hours.open"}}</label>
+      <input class="in in--time{{if .HasError "open"}} in--err{{end}}" id="f-open" type="time" step="900" name="open" value="{{$d.Day.Open}}">
+      <span aria-hidden="true">–</span>
+      <label class="vh" for="f-close">{{.T "hours.close"}}</label>
+      <input class="in in--time{{if .HasError "close"}} in--err{{end}}" id="f-close" type="time" step="900" name="close" value="{{$d.Day.Close}}">
+    </span>
+    {{if .HasError "open"}}<p class="hint hint--err">{{.ErrorFor "open"}}</p>{{end}}
+    {{if .HasError "close"}}<p class="hint hint--err">{{.ErrorFor "close"}}</p>{{end}}
+  </div>
+  {{template "locales" (dict "P" . "Name" "note" "Label" (.T "special.note") "Values" $d.Day.Note "Kind" "input" "Required" false "Hint" (.T "special.note_hint"))}}
+  {{template "savebar" (dict "P" . "Cancel" $d.Back)}}
+</form>
+{{if not $d.New}}
+<div class="danger">
+  <form method="post" action="/admin/hours/special/{{$d.Day.Date}}/delete"><input type="hidden" name="_csrf" value="{{.CSRF}}"><button class="btn btn--danger" type="submit">{{.T "action.delete"}}</button></form>
+</div>
+{{end}}
+{{end}}

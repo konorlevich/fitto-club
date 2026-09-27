@@ -1,0 +1,13 @@
+{{define "content"}}
+{{$d := .Data}}
+<form method="post" action="/admin/memberships/single" novalidate>
+  <input type="hidden" name="_csrf" value="{{.CSRF}}">
+  <p class="lede">{{.T "membership.single_intro"}}</p>
+  <div class="field">
+    <label class="label" for="f-price">{{.T "membership.price"}}</label>
+    <div class="money"><input class="in in--num{{if .HasError "price"}} in--err{{end}}" id="f-price" name="price" inputmode="numeric" pattern="[0-9]*" value="{{if $d.Price}}{{$d.Price}}{{end}}" required{{if .HasError "price"}} aria-invalid="true" aria-describedby="e-price"{{end}}><span class="money__unit">GEL</span></div>
+    {{if .HasError "price"}}<p class="hint hint--err" id="e-price">{{.ErrorFor "price"}}</p>{{end}}
+  </div>
+  {{template "savebar" (dict "P" . "Cancel" "/admin/memberships")}}
+</form>
+{{end}}

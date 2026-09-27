@@ -1,0 +1,46 @@
+{{define "content"}}
+{{$d := .Data}}
+<section class="status">
+  <p class="status__line"><span class="status__dot{{if $d.Open}} status__dot--open{{end}}" aria-hidden="true"></span>{{$d.StatusText}}</p>
+  <p class="meta">{{$d.HoursText}} · <a href="/admin/hours">{{.T "today.hours_link"}}</a></p>
+</section>
+
+<section class="block">
+  {{if or $d.Attention $d.Pending}}
+  <div class="att">
+    <h2 class="block__title">{{.T "today.attention"}} · {{add (len $d.Attention) (len $d.Pending)}}</h2>
+    <ul class="att__list">
+      {{range $d.Attention}}<li>{{if .Href}}<a href="{{.Href}}">{{.Text}}</a>{{else}}{{.Text}}{{end}}</li>{{end}}
+      {{if $d.Pending}}<li><details class="att__pending"><summary>{{.F "attention.pending" (len $d.Pending)}}</summary><p class="meta">{{.T "attention.pending_note"}}</p><ul>{{range $d.Pending}}<li lang="en">{{.}}</li>{{end}}</ul></details></li>{{end}}
+    </ul>
+  </div>
+  {{else}}<p class="allgood">{{.T "today.all_good"}}</p>{{end}}
+</section>
+
+<section class="block">
+  <h2 class="block__title">{{.T "today.classes"}}</h2>
+  {{if $d.Classes}}
+  <ul class="list">
+    {{range $d.Classes}}<li><a class="row" href="{{.Href}}"><span class="row__time">{{.Start}}–{{.End}}</span><span class="row__t">{{.Name}}{{if .Coach}}<small>{{.Coach}}</small>{{end}}</span><span class="row__chev" aria-hidden="true">›</span></a></li>{{end}}
+  </ul>
+  {{else}}<p class="empty">{{.T "today.no_classes"}}</p>{{end}}
+</section>
+
+<section class="block">
+  <h2 class="block__title">{{.T "today.quick"}}</h2>
+  <div class="btns">
+    <a class="btn" href="/admin/reviews/new">{{.T "today.add_review"}}</a>
+    <a class="btn btn--ghost" href="/admin/hours/special/new">{{.T "today.special_day"}}</a>
+  </div>
+</section>
+
+<section class="block">
+  <h2 class="block__title">{{.T "today.recent"}}</h2>
+  {{if $d.Recent}}
+  <ul class="feed">
+    {{range $d.Recent}}<li><span class="feed__when">{{.When}}</span>{{if .Href}}<a href="{{.Href}}">{{.Text}}</a>{{else}}{{.Text}}{{end}}</li>{{end}}
+  </ul>
+  <p><a class="link" href="/admin/history">{{.T "today.all_history"}} <span aria-hidden="true">→</span></a></p>
+  {{else}}<p class="empty">{{.T "today.no_recent"}}</p>{{end}}
+</section>
+{{end}}

@@ -1,0 +1,67 @@
+{{define "content"}}
+{{$d := .Data}}{{$in := $d.In}}
+{{if $d.Deleted}}<div class="flash flash--info" role="status"><span>{{.T "meta.deleted"}}</span> · <form method="post" action="/admin/classes/{{$in.ID}}/restore" style="display:inline"><input type="hidden" name="_csrf" value="{{.CSRF}}"><button class="linkbtn" type="submit" style="min-height:0">{{.T "action.restore"}}</button></form></div>{{end}}
+
+{{if not $d.New}}
+<section class="block" style="margin-top:0">
+  <h2 class="block__title">{{.T "class.slots"}}</h2>
+  {{if $d.Slots}}
+  <ul class="list">
+    {{range $d.Slots}}<li><a class="row" href="/admin/classes/{{$in.ID}}/slots/{{.N}}?back=/admin/classes/{{$in.ID}}"><span class="row__time">{{.Start}}–{{.End}}</span><span class="row__t">{{.DayName}}<small>{{.Minutes}} {{$.T "slot.min"}}</small></span><span class="row__chev" aria-hidden="true">›</span></a></li>{{end}}
+  </ul>
+  {{else}}<p class="empty">{{.T "class.no_slots"}}</p>{{end}}
+  <div class="list-actions"><a class="btn btn--ghost btn--sm" href="/admin/classes/{{$in.ID}}/slots/new?back=/admin/classes/{{$in.ID}}">{{.T "slot.add"}}</a></div>
+</section>
+{{end}}
+
+<form method="post" action="{{if $d.New}}/admin/classes/new{{else}}/admin/classes/{{$in.ID}}{{end}}" novalidate>
+  <input type="hidden" name="_csrf" value="{{.CSRF}}"><input type="hidden" name="back" value="{{$d.Back}}">
+  {{if not $d.New}}<div class="group" style="margin-top:var(--space-8)"><h2 class="group__title">{{.T "class.about"}}</h2>{{end}}
+  {{template "locales" (dict "P" . "Name" "name" "Label" (.T "class.field_name") "Values" $in.Name "Kind" "input" "Required" $in.Visible "Hint" "")}}
+  {{template "locales" (dict "P" . "Name" "desc" "Label" (.T "class.field_desc") "Values" $in.Desc "Kind" "textarea" "Required" false "Hint" "")}}
+  <div class="field">
+    <label class="label" for="f-coach">{{.T "class.coach"}}</label>
+    <select class="sel" id="f-coach" name="coach">
+      <option value=""{{if not $in.CoachID}} selected{{end}}>{{.T "class.no_coach"}}</option>
+      {{range $d.Coaches}}<option value="{{.ID}}"{{if .Selected}} selected{{end}}>{{.Name}}</option>{{end}}
+    </select>
+  </div>
+  <fieldset class="field">
+    <legend class="label">{{.T "class.langs"}}</legend>
+    <div class="chips">{{range $d.Langs}}<label class="chip chip--sm"><input type="checkbox" name="lang" value="{{.Code}}"{{if .Selected}} checked{{end}}><span>{{.Name}}</span></label>{{end}}</div>
+  </fieldset>
+  {{if not $d.New}}</div>{{end}}
+
+  <div class="group">
+    <h2 class="group__title">{{.T "class.price_group"}}</h2>
+    <div class="field">
+      <label class="label" for="f-price">{{.T "class.price"}}</label>
+      <div class="money"><input class="in in--num" id="f-price" name="price" inputmode="numeric" pattern="[0-9]*" value="{{if $in.Price}}{{$in.Price}}{{end}}" placeholder="—"><span class="money__unit">GEL</span></div>
+      <p class="hint">{{.T "class.price_hint"}}</p>
+    </div>
+    {{template "locales" (dict "P" . "Name" "price_note" "Label" (.T "class.price_note") "Values" $in.PriceNote "Kind" "input" "Required" false "Hint" (.T "class.price_note_hint"))}}
+  </div>
+
+  <div class="group">
+    <h2 class="group__title">{{.T "coach.publication"}}</h2>
+    {{template "toggle" (dict "P" . "Name" "visible" "Label" (.T "class.visible") "Sub" (.T "class.visible_sub") "Checked" $in.Visible)}}
+    <div class="field" style="margin-top:var(--space-6)">
+      <label class="label" for="f-slug">{{.T "coach.slug"}}</label>
+      <input class="in{{if .HasError "slug"}} in--err{{end}}" id="f-slug" name="slug" value="{{$in.Slug}}" autocapitalize="off" autocomplete="off" spellcheck="false" placeholder="{{.T "coach.slug_auto"}}">
+      {{if .HasError "slug"}}<p class="hint hint--err">{{.ErrorFor "slug"}}</p>{{end}}
+    </div>
+  </div>
+  {{template "savebar" (dict "P" . "Cancel" $d.Back)}}
+</form>
+
+{{if and (not $d.New) (not $d.Deleted)}}
+<div class="group">
+  <h2 class="group__title">{{.T "coach.order"}}</h2>
+  {{template "order" (dict "P" . "Action" (printf "/admin/classes/%s/move" $in.ID) "Back" (printf "/admin/classes/%s" $in.ID) "Name" (.L $in.Name) "First" false "Last" false)}}
+</div>
+<div class="danger">
+  <form method="post" action="/admin/classes/{{$in.ID}}/delete"><input type="hidden" name="_csrf" value="{{.CSRF}}"><button class="btn btn--danger" type="submit">{{.T "action.delete"}}</button></form>
+  <p class="hint">{{.T "coach.delete_hint"}}</p>
+</div>
+{{end}}
+{{end}}

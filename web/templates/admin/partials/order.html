@@ -1,0 +1,10 @@
+{{/* Up/down reorder buttons: each is a POST + 303 (IA: no drag). Args: P,
+     Action (post href), Back, Name (accessible context), First, Last. */}}
+{{define "order"}}
+<span class="order">
+  <form method="post" action="{{.Action}}"><input type="hidden" name="_csrf" value="{{.P.CSRF}}"><input type="hidden" name="back" value="{{.Back}}"><input type="hidden" name="dir" value="up">
+    <button class="order__btn" type="submit"{{if .First}} disabled{{end}} aria-label="{{.P.T "action.up"}}: {{.Name}}"><span aria-hidden="true">↑</span></button></form>
+  <form method="post" action="{{.Action}}"><input type="hidden" name="_csrf" value="{{.P.CSRF}}"><input type="hidden" name="back" value="{{.Back}}"><input type="hidden" name="dir" value="down">
+    <button class="order__btn" type="submit"{{if .Last}} disabled{{end}} aria-label="{{.P.T "action.down"}}: {{.Name}}"><span aria-hidden="true">↓</span></button></form>
+</span>
+{{end}}

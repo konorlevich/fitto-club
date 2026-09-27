@@ -48,6 +48,10 @@ type Config struct {
 	// response carries X-Robots-Tag. For the temporary *.up.railway.app
 	// domain until the site launches on fitto.club.
 	NoIndex bool
+	// Admin bootstrap: the owner logs in once with these, then sets a real
+	// password stored in the database; after that the ENV pair is ignored.
+	// Empty login disables the admin entirely.
+	AdminLogin, AdminPassword string
 }
 
 func env(k, def string) string {
@@ -107,17 +111,20 @@ func Load() (Config, error) {
 		// BASE_URL feeds canonical URLs, hreflang, the OG image and the
 		// sitemap. The fallback is the real domain, which is correct for
 		// production and harmless in development.
-		BaseURL:      strings.TrimRight(env("BASE_URL", "https://fitto.club"), "/"),
-		Locales:      locales,
-		Tag:          tag,
-		Env:          env("ENV", "development"),
-		DataDir:      env("DATA_DIR", "./data"),
-		Addr:         ":" + env("PORT", "8080"),
-		TZ:           tz,
-		AllowPending: env("ALLOW_PENDING", "") == "1",
-		NoIndex:      env("NOINDEX", "") == "1",
+		BaseURL:       strings.TrimRight(env("BASE_URL", "https://fitto.club"), "/"),
+		Locales:       locales,
+		Tag:           tag,
+		Env:           env("ENV", "development"),
+		DataDir:       env("DATA_DIR", "./data"),
+		Addr:          ":" + env("PORT", "8080"),
+		TZ:            tz,
+		AllowPending:  env("ALLOW_PENDING", "") == "1",
+		NoIndex:       env("NOINDEX", "") == "1",
+		AdminLogin:    env("ADMIN_OWNER_LOGIN", ""),
+		AdminPassword: os.Getenv("ADMIN_OWNER_PASSWORD"),
 	}, nil
 }
 
 func (c Config) HasLocale(l string) bool { return slices.Contains(c.Locales, l) }
+func (c Config) AdminEnabled() bool      { return c.AdminLogin != "" }
 func (c Config) IsProd() bool            { return c.Env == "production" }

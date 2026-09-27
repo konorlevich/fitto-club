@@ -43,17 +43,26 @@ COACHES = {
 }
 
 # Place photos. Widths are what the layout actually draws at 375 (x2) and
-# 1280, so a phone never downloads a desktop file.
+# 1280, so a phone never downloads a desktop file. The optional third item
+# is a crop (aspect_w, aspect_h, anchor_y): the zone list draws every photo
+# as a 4:3 landscape, so portrait sources are cropped at build time instead
+# of shipping pixels that object-fit would throw away. anchor_y is where the
+# crop window sits in the source, 0 = top, 1 = bottom.
 PLACES = {
     # hall-neon-960 is the HealthClub image in JSON-LD; the hero uses hero().
     "hall-neon": (MAT / "google-maps/photos/gmaps_09.jpg", (960,)),
-    "hall": (MAT / "google-maps/photos/gmaps_01.jpg", (480, 720, 960, 1400)),
-    "crossfit": (MAT / "google-maps/photos/gmaps_02.jpg", (480, 720, 960)),
-    "cardio": (MAT / "google-maps/photos/gmaps_04.jpg", (480, 720, 960)),
+    "hall": (MAT / "google-maps/photos/gmaps_01.jpg", (480, 720, 960), (4, 3, 0.5)),
+    "crossfit": (MAT / "google-maps/photos/gmaps_02.jpg", (480, 720, 960), (4, 3, 0.7)),
+    "cardio": (MAT / "google-maps/photos/gmaps_04.jpg", (480, 720, 960), (4, 3, 0.45)),
+    "lockers": (MAT / "google-maps/photos/gmaps_08.jpg", (480, 720, 960), (4, 3, 0.5)),
+    # Portrait for the About page head (1:2 half ring) and the massage page,
+    # plus a 4:3 crop of the same photo for the zone list.
     "lounge": (MAT / "google-maps/photos/gmaps_07.jpg", (480, 720, 960)),
-    "lockers": (MAT / "google-maps/photos/gmaps_08.jpg", (480, 720, 960)),
-    "facade": (MAT / "google-maps/photos/gmaps_06.jpg", (480, 960)),
+    "lounge-wide": (MAT / "google-maps/photos/gmaps_07.jpg", (480, 720, 960), (4, 3, 0.6)),
     "massage-room": (MAT / "instagram/highlights/gym/gym_15_2025-07-20.jpg", (480, 960)),
+    "massage-wide": (MAT / "instagram/highlights/gym/gym_15_2025-07-20.jpg", (480, 720, 960), (4, 3, 0.55)),
+    # Drawn at 18rem everywhere: 480 for 1x, 640 for 2x and up.
+    "facade": (MAT / "google-maps/photos/gmaps_06.jpg", (480, 640)),
     # Meme still for the About page: the "plank after the holidays" reel.
     "meme-1": (POSTS / "2026-01-21_DTxlgJzDMuJ_cover.jpg", (540,)),
 }
@@ -84,9 +93,29 @@ def coaches() -> None:
             save_webp(out, IMG / "coaches" / f"{slug}-{width}.webp", 76)
 
 
+def place_source(name: str, src: Path) -> Image.Image:
+    """The club's original, or, when it is no longer in materials/, the
+    largest webp already built for that photo (or for its base name, so
+    "lounge-wide" can be cut from "lounge-960")."""
+    if src.exists():
+        return open_rgb(src)
+    base = {"lounge-wide": "lounge", "massage-wide": "massage-room"}.get(name, name)
+    built = sorted((IMG / "place").glob(f"{base}-*.webp"), key=lambda f: Image.open(f).width)
+    if not built:
+        raise FileNotFoundError(src)
+    print(f"{name}: {src.relative_to(ROOT)} missing, cutting from {built[-1].relative_to(ROOT)}")
+    return open_rgb(built[-1])
+
+
 def places() -> None:
-    for name, (src, widths) in PLACES.items():
-        im = open_rgb(src)
+    for name, spec in PLACES.items():
+        src, widths = spec[0], spec[1]
+        im = place_source(name, spec[0])
+        if len(spec) > 2:
+            aw, ah, anchor = spec[2]
+            ch = min(im.height, round(im.width * ah / aw))
+            top = round((im.height - ch) * anchor)
+            im = im.crop((0, top, im.width, top + ch))
         for width in widths:
             if im.width < width:
                 continue
@@ -113,18 +142,13 @@ def hero() -> None:
 
 
 def masks() -> None:
-    # The pattern's silhouette: a disc with the upper-left quarter bitten out
-    # (12 o'clock clockwise round to 9 o'clock, then back to the centre).
-    quarter = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">'
-               '<path d="M50,0 A50,50 0 1 1 0,50 L50,50 Z"/></svg>')
     # Right half-disc: the "half ring" photo window.
     half = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 100">'
             '<path d="M0,0 A50,50 0 0 1 0,100 Z"/></svg>')
     # Bottom half-disc (flat edge on top): the hero window on phones.
     bottom = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50">'
               '<path d="M0,0 A50,50 0 0 0 100,0 Z"/></svg>')
-    for name, body in (("mask-quarter-cut.svg", quarter), ("mask-half-ring.svg", half),
-                       ("mask-half-bottom.svg", bottom)):
+    for name, body in (("mask-half-ring.svg", half), ("mask-half-bottom.svg", bottom)):
         (IMG / name).write_text(body)
         print(f"web/static/img/{name}")
 

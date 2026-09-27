@@ -1,0 +1,484 @@
+/* ==========================================================================
+   FITTO CLUB — админка: design tokens
+   Философия: Dieter Rams (Functionalist) — монохром с одним функциональным
+   акцентом, строгая сетка, границы вместо теней, движение только для смены
+   состояния. См. DESIGN_BRIEF.md.
+
+   Слой поверх web/static/css/tokens.css сайта. Подключается ПОСЛЕ него и
+   только на страницах /admin. Из tokens.css наследуются без изменений:
+   примитивы --fitto-*, шрифтовые семейства, веса, интерлиньяж, шкала
+   --space-*, --max-width-*, --border-width*, --focus-*, --tap-target, motion.
+   Здесь переопределяются: семантические цвета (две темы), размеры шрифта
+   (фиксированные вместо флюидных: инструмент, а не афиша), роли дисплея
+   (строчные без разрядки), компонентные токены админки.
+
+   Отступления от шаблона design-tokens и от tokens.css сайта:
+   - Две темы вместо трёх поверхностей. Светлая по умолчанию, тёмная через
+     [data-theme="dark"] или prefers-color-scheme. data-surface="orange"
+     разрешён только на /admin/login.
+   - Появляются статусные цвета (успех / ошибка / предупреждение): у сайта
+     нет форм, у админки они есть. Всегда вместе с текстом или формой.
+   - Оранжевый #FF4401 на светлом = 3.07:1 → как текст запрещён. Ссылка и
+     фокус в светлой теме — глубокий оранжевый #B82E00 (5.44:1). Кнопка —
+     #FF4401 с ЧЁРНЫМ текстом (6.08:1) в обеих темах.
+   - Скругления: 0, как у сайта. Исключение — переключатель (toggle) и
+     точка статуса: --border-radius-full.
+   - Тени: нет. Прилипшая панель и лист «Ещё» отделяются границей.
+
+   Контраст (WCAG 2.1, посчитано 27.09.2026, scratchpad/contrast.py):
+     LIGHT   page #F4F1EC   card #FFFFFF   well #E9E5DE
+       ink #141414        16.35   18.42   14.67
+       secondary #5C5852   6.27    7.06    5.63
+       tertiary #6F6A64    4.75    5.36    4.27*  (*не использовать на well)
+       border #7A756F      4.05    4.56    3.64   (UI ≥3:1 везде)
+       link #B82E00        5.44    6.12    4.88
+       orange #FF4401      3.07    3.45    2.75   (только UI ≥3:1 на page/card)
+       success #1B6E36     5.60    6.31    5.02
+       error #B3261E       5.80    6.54    5.21
+       warning #8A5A00     5.26    5.93    4.72
+     DARK    page #121212   card #1A1A1A   well #242424
+       paper #F2EFEA      16.33   15.18   13.53
+       muted #B8B2AA       8.91    8.28    7.38
+       subtle #8F8A84      5.47    5.09    4.54
+       border #7A756F      4.10    3.81    3.40
+       link #FF6A2B        6.56    6.09    5.43
+       orange #FF4401      5.42    5.04    4.49*  (*как текст не на well)
+       success #5DBE7A     8.13    7.55    6.74
+       error #F28B82       7.84    7.29    6.50
+       warning #F0B24A     9.97    9.26    8.26
+     Тинты: text-on-tint ≥ 4.67 в светлой, ≥ 6.90 в тёмной.
+     Кнопка: #000 на #FF4401 = 6.08.
+
+   Это рабочая копия .design/fitto-admin/DESIGN_TOKENS.css; правится здесь,
+   дизайн-файл синхронизируется руками.
+
+   Превью: tokens-preview.html (сервер .claude/launch.json «design-preview»,
+   http://localhost:8765/.design/fitto-admin/tokens-preview.html, ?theme=dark,
+   ?lang=ka). Снимки: tokens-preview-desktop-{light,dark}.png. Телефон
+   проверен во встроенном браузере на 375: scrollWidth === clientWidth.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. PRIMITIVES — только новые. Тёмный ряд берётся из tokens.css.
+   -------------------------------------------------------------------------- */
+:root {
+  /* Светлые нейтральные, тёплые под --fitto-paper */
+  --fitto-canvas:          #F4F1EC; /* страница */
+  --fitto-white:           #FFFFFF; /* карточки, инпуты (объявлен и в tokens.css) */
+  --fitto-well:            #E9E5DE; /* углубления: hover строки, disabled, полосы сетки */
+  --fitto-line-light:      #D9D4CC; /* декоративные разделители на светлом */
+  --fitto-ink:             #141414; /* основной текст на светлом */
+  --fitto-ink-secondary:   #5C5852;
+  --fitto-ink-tertiary:    #6F6A64;
+
+  /* Тёмная страница админки: не чистый чёрный сайта, а тёплый почти-чёрный */
+  --fitto-night:           #121212;
+
+  /* Оранжевый для текста на светлом */
+  --fitto-orange-deep:     #B82E00; /* ссылки, фокус, активный пункт нав. в светлой */
+  --fitto-orange-deep-hover: #9E2700;
+
+  /* Статусы — светлая тема (текст / подложка) */
+  --fitto-success:         #1B6E36;
+  --fitto-success-tint:    #E3F3E8;
+  --fitto-error:           #B3261E;
+  --fitto-error-tint:      #FBE7E5;
+  --fitto-warning:         #8A5A00;
+  --fitto-warning-tint:    #FBEFD6;
+
+  /* Статусы — тёмная тема */
+  --fitto-success-dark:      #5DBE7A;
+  --fitto-success-tint-dark: #10261A;
+  --fitto-error-dark:        #F28B82;
+  --fitto-error-tint-dark:   #3A1210;
+  --fitto-warning-dark:      #F0B24A;
+  --fitto-warning-tint-dark: #2E2208;
+}
+
+/* --------------------------------------------------------------------------
+   2. SEMANTIC COLOR — LIGHT (по умолчанию)
+   -------------------------------------------------------------------------- */
+:root {
+  color-scheme: light;
+
+  --color-bg-primary:            var(--fitto-canvas);
+  --color-bg-secondary:          var(--fitto-white);       /* карточка, инпут, строка списка */
+  --color-bg-tertiary:           var(--fitto-well);        /* hover строки, disabled, заголовки сетки */
+  --color-bg-inverse:            var(--fitto-ink);         /* toast-ошибка, активный слот */
+
+  --color-text-primary:          var(--fitto-ink);
+  --color-text-secondary:        var(--fitto-ink-secondary);
+  --color-text-tertiary:         var(--fitto-ink-tertiary); /* placeholder, мета; не на bg-tertiary */
+  --color-text-inverse:          var(--fitto-canvas);
+  --color-text-display:          var(--fitto-ink);         /* заголовки — тем же цветом, что текст */
+  --color-text-link:             var(--fitto-orange-deep);
+  --color-text-link-hover:       var(--fitto-orange-deep-hover);
+  --color-text-price:            var(--fitto-ink);
+
+  --color-border-primary:        var(--fitto-line-strong); /* #7A756F — контролы, ≥3:1 */
+  --color-border-secondary:      var(--fitto-line-light);  /* разделители строк */
+  --color-border-focus:          var(--fitto-orange-deep);
+
+  --color-accent-primary:        var(--fitto-orange);      /* «Сохранить», «Добавить» */
+  --color-accent-primary-hover:  var(--fitto-orange-hover);
+  --color-accent-primary-active: var(--fitto-orange-active);
+  --color-accent-secondary:      var(--fitto-ink);         /* вторичная кнопка: контур */
+  --color-on-accent:             var(--fitto-black);       /* чёрный на оранжевом, 6.08 */
+
+  --color-status-success:        var(--fitto-success);
+  --color-status-success-bg:     var(--fitto-success-tint);
+  --color-status-warning:        var(--fitto-warning);
+  --color-status-warning-bg:     var(--fitto-warning-tint);
+  --color-status-error:          var(--fitto-error);
+  --color-status-error-bg:       var(--fitto-error-tint);
+  --color-status-info:           var(--fitto-ink-secondary);
+  --color-status-info-bg:        var(--fitto-well);
+  --color-status-open:           var(--fitto-success);     /* «Открыто до 22:00» + ● */
+  --color-status-closed:         var(--fitto-ink-secondary);
+
+  --color-surface-overlay:       rgb(20 20 20 / 0.32);     /* за листом «Ещё» */
+  --color-nav-active:            var(--fitto-orange-deep); /* полоска и подпись активного раздела */
+  --color-slot-bg:               var(--fitto-white);       /* слот в сетке */
+  --color-slot-border:           var(--fitto-ink);
+  --color-slot-conflict:         var(--fitto-warning);     /* штриховая рамка пересечения */
+  --color-grid-line:             var(--fitto-line-light);
+  --color-grid-now:              var(--fitto-orange-deep); /* линия текущего времени */
+}
+
+/* --------------------------------------------------------------------------
+   3. SEMANTIC COLOR — DARK
+   -------------------------------------------------------------------------- */
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --color-bg-primary:            var(--fitto-night);
+  --color-bg-secondary:          var(--fitto-graphite);
+  --color-bg-tertiary:           var(--fitto-graphite-raised);
+  --color-bg-inverse:            var(--fitto-paper);
+
+  --color-text-primary:          var(--fitto-paper);
+  --color-text-secondary:        var(--fitto-muted);
+  --color-text-tertiary:         var(--fitto-subtle);
+  --color-text-inverse:          var(--fitto-night);
+  --color-text-display:          var(--fitto-paper);
+  --color-text-link:             var(--fitto-orange-hover); /* #FF6A2B: 5.43 даже на well */
+  --color-text-link-hover:       var(--fitto-orange);
+  --color-text-price:            var(--fitto-paper);
+
+  --color-border-primary:        var(--fitto-line-strong);
+  --color-border-secondary:      var(--fitto-line);
+  --color-border-focus:          var(--fitto-orange);
+
+  --color-accent-primary:        var(--fitto-orange);
+  --color-accent-primary-hover:  var(--fitto-orange-hover);
+  --color-accent-primary-active: var(--fitto-orange-active);
+  --color-accent-secondary:      var(--fitto-paper);
+  --color-on-accent:             var(--fitto-black);
+
+  --color-status-success:        var(--fitto-success-dark);
+  --color-status-success-bg:     var(--fitto-success-tint-dark);
+  --color-status-warning:        var(--fitto-warning-dark);
+  --color-status-warning-bg:     var(--fitto-warning-tint-dark);
+  --color-status-error:          var(--fitto-error-dark);
+  --color-status-error-bg:       var(--fitto-error-tint-dark);
+  --color-status-info:           var(--fitto-muted);
+  --color-status-info-bg:        var(--fitto-graphite-raised);
+  --color-status-open:           var(--fitto-success-dark);
+  --color-status-closed:         var(--fitto-muted);
+
+  --color-surface-overlay:       rgb(0 0 0 / 0.6);
+  --color-nav-active:            var(--fitto-orange);
+  --color-slot-bg:               var(--fitto-graphite);
+  --color-slot-border:           var(--fitto-paper);
+  --color-slot-conflict:         var(--fitto-warning-dark);
+  --color-grid-line:             var(--fitto-line);
+  --color-grid-now:              var(--fitto-orange);
+}
+
+/* Системная тёмная, если пользователь не выбрал светлую явно. Значения
+   дублируются: custom properties не умеют «включить блок выше». */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --color-bg-primary:            var(--fitto-night);
+    --color-bg-secondary:          var(--fitto-graphite);
+    --color-bg-tertiary:           var(--fitto-graphite-raised);
+    --color-bg-inverse:            var(--fitto-paper);
+    --color-text-primary:          var(--fitto-paper);
+    --color-text-secondary:        var(--fitto-muted);
+    --color-text-tertiary:         var(--fitto-subtle);
+    --color-text-inverse:          var(--fitto-night);
+    --color-text-display:          var(--fitto-paper);
+    --color-text-link:             var(--fitto-orange-hover);
+    --color-text-link-hover:       var(--fitto-orange);
+    --color-text-price:            var(--fitto-paper);
+    --color-border-primary:        var(--fitto-line-strong);
+    --color-border-secondary:      var(--fitto-line);
+    --color-border-focus:          var(--fitto-orange);
+    --color-accent-primary:        var(--fitto-orange);
+    --color-accent-primary-hover:  var(--fitto-orange-hover);
+    --color-accent-primary-active: var(--fitto-orange-active);
+    --color-accent-secondary:      var(--fitto-paper);
+    --color-on-accent:             var(--fitto-black);
+    --color-status-success:        var(--fitto-success-dark);
+    --color-status-success-bg:     var(--fitto-success-tint-dark);
+    --color-status-warning:        var(--fitto-warning-dark);
+    --color-status-warning-bg:     var(--fitto-warning-tint-dark);
+    --color-status-error:          var(--fitto-error-dark);
+    --color-status-error-bg:       var(--fitto-error-tint-dark);
+    --color-status-info:           var(--fitto-muted);
+    --color-status-info-bg:        var(--fitto-graphite-raised);
+    --color-status-open:           var(--fitto-success-dark);
+    --color-status-closed:         var(--fitto-muted);
+    --color-surface-overlay:       rgb(0 0 0 / 0.6);
+    --color-nav-active:            var(--fitto-orange);
+    --color-slot-bg:               var(--fitto-graphite);
+    --color-slot-border:           var(--fitto-paper);
+    --color-slot-conflict:         var(--fitto-warning-dark);
+    --color-grid-line:             var(--fitto-line);
+    --color-grid-now:              var(--fitto-orange);
+  }
+}
+
+/* Экран входа — единственная оранжевая поверхность админки. Семантика
+   поверхности целиком из tokens.css ([data-surface="orange"]); здесь только
+   поправки для формы на чёрной карточке внутри неё. */
+[data-surface="orange"] .login-card {
+  --color-bg-primary:      var(--fitto-black);
+  --color-bg-secondary:    var(--fitto-graphite);
+  --color-text-primary:    var(--fitto-paper);
+  --color-text-secondary:  var(--fitto-muted);
+  --color-border-primary:  var(--fitto-line-strong);
+  --color-border-focus:    var(--fitto-orange);
+  --color-accent-primary:  var(--fitto-orange);
+  --color-on-accent:       var(--fitto-black);
+  --color-status-error:    var(--fitto-error-dark);
+  --color-status-error-bg: var(--fitto-error-tint-dark);
+}
+
+/* --------------------------------------------------------------------------
+   4. TYPOGRAPHY — фиксированная шкала инструмента (не флюидная)
+   Минимум 16px в полях ввода: iOS иначе зумит страницу при фокусе.
+   -------------------------------------------------------------------------- */
+:root {
+  --font-size-xs:   0.75rem;   /* 12 — метка скрипта «EN/RU/KA», подпись нижней панели */
+  --font-size-sm:   0.875rem;  /* 14 — мета, вторичная строка списка, время в сетке */
+  --font-size-base: 1rem;      /* 16 — текст, поля ввода, строка списка */
+  --font-size-md:   1.0625rem; /* 17 — заголовок строки на планшете+ */
+  --font-size-lg:   1.25rem;   /* 20 — H2 группы, заголовок страницы на телефоне */
+  --font-size-xl:   1.5rem;    /* 24 — H1 страницы, статус «Открыто до 22:00» */
+  --font-size-2xl:  1.875rem;  /* 30 — H1 на десктопе */
+  --font-size-3xl:  2.25rem;   /* 36 — крупная цифра в «Сегодня» (Archivo Black), не больше */
+  --font-size-4xl:  2.25rem;   /* нет hero; приравнено к 3xl намеренно */
+
+  /* Дисплейные роли: Jost 500 строчными, разрядка почти нулевая.
+     Капс с разрядкой 0.2em — язык афиши, в плотной форме он съедает 375px. */
+  --type-display-family:   var(--font-family-display);
+  --type-display-weight:   var(--font-weight-medium);
+  --type-display-tracking: 0.01em;
+  --type-display-leading:  var(--line-height-snug);
+  --type-label-tracking:   0.04em;   /* метки групп полей строчными */
+  --type-body-family:      var(--font-family-body);
+
+  --type-mono-family:      var(--font-family-mono); /* ID записи, slug, временный пароль */
+  --type-numeric-family:   var(--font-family-numeric); /* цены в списке — только цифры */
+
+  --line-height-control:   1.25;     /* текст внутри инпутов и кнопок */
+}
+
+/* KA: те же правила, что на сайте (см. tokens.css [lang="ka"]), плюс
+   дисплейный вес чуть выше, потому что Noto Sans Georgian тоньше Jost. */
+:root[lang="ka"],
+[lang="ka"] {
+  --type-display-weight:   var(--font-weight-semibold);
+  --type-display-tracking: 0;
+  --type-label-tracking:   0;
+}
+
+/* --------------------------------------------------------------------------
+   5. LAYOUT — инструмент
+   -------------------------------------------------------------------------- */
+:root {
+  --max-width-form:     40rem;  /* 640 — форма одной колонкой */
+  --max-width-list:     48rem;  /* 768 — список строк */
+  --max-width-admin:    72rem;  /* 1152 — сетка расписания и двухколоночная форма */
+
+  --sidebar-width:      15rem;  /* 240 — боковая колонка от 1024 */
+  --nav-bar-height:     3.5rem; /* 56 + safe-area */
+  --nav-bar-safe:       env(safe-area-inset-bottom, 0px);
+  --topbar-height:      3.5rem; /* 56 — шапка страницы */
+  --save-bar-height:    4rem;   /* 64 — прилипшая панель сохранения */
+
+  --control-height:     3rem;   /* 48 — инпуты, кнопки, select: ≥ --tap-target */
+  --control-height-sm:  2.25rem;/* 36 — кнопки порядка на десктопе, чипы фильтра истории */
+  --control-padding-x:  var(--space-5);  /* 12 */
+  --row-min-height:     3.5rem; /* 56 — строка списка */
+  --row-padding-y:      var(--space-5);
+  --row-padding-x:      var(--space-6);  /* 16 = поле страницы на 375 */
+
+  --toggle-width:       3.25rem; /* 52 */
+  --toggle-height:      2rem;    /* 32 */
+  --toggle-knob:        1.5rem;  /* 24 */
+
+  --grid-hour-height:   3.5rem; /* 56 на час → получас 28, слот ≥ 30 мин читается */
+  --grid-time-col:      3.25rem;/* колонка времени */
+  --grid-start:         7;      /* 07:00 */
+  --grid-end:           23;     /* 23:00 */
+
+  --photo-preview-w:    15rem;  /* 240 — превью карточки тренера 4:5 */
+  --focus-dot:          1.25rem;/* маркер точки фокуса */
+
+  --z-topbar:   50;
+  --z-save-bar: 55;
+  --z-nav-bar:  60;
+  --z-sheet:    70;
+  --z-flash:    80;
+
+  /* Радиусы: как у сайта — 0. Исключения ниже. */
+  --border-radius-control: 0;
+  --border-radius-toggle:  var(--border-radius-full);
+  --border-radius-dot:     var(--border-radius-full);
+
+  /* Тени — нет. Отделение слоёв границей. */
+  --elevation-border:  var(--border-width) solid var(--color-border-secondary);
+  --elevation-border-strong: var(--border-width) solid var(--color-border-primary);
+}
+
+/* Брейкпоинты — справочно (в @media custom properties не работают):
+     sm  375  эталон: одна колонка, нижняя панель, локали стопкой
+     md  768  локали в ряд, сетка 3 дня, кнопки порядка в строке
+     lg 1024  боковая колонка, нет нижней панели, сетка на неделю, форма 2 колонки
+     xl 1280  контент до --max-width-admin */
+
+/* --------------------------------------------------------------------------
+   6. MOTION — только смена состояния
+   -------------------------------------------------------------------------- */
+:root {
+  --duration-highlight:  2000ms; /* подсветка изменённой строки/слота после POST */
+  --duration-sheet:      var(--duration-normal); /* лист «Ещё» */
+  --easing-sheet:        var(--easing-out);
+  /* --easing-bounce сайта в админке не используется */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-highlight: 0ms;
+    --duration-sheet:     0ms;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   7. COMPONENT TOKENS — пересчитываются в обеих темах через семантику
+   -------------------------------------------------------------------------- */
+:root,
+[data-theme] {
+  --shadow-focus: 0 0 0 var(--focus-offset) var(--color-bg-primary),
+                  0 0 0 calc(var(--focus-offset) + var(--focus-width)) var(--color-border-focus);
+
+  /* Кнопка первичная: оранжевая с чёрным текстом в обеих темах */
+  --button-bg:           var(--color-accent-primary);
+  --button-bg-hover:     var(--color-accent-primary-hover);
+  --button-bg-active:    var(--color-accent-primary-active);
+  --button-text:         var(--color-on-accent);
+  --button-height:       var(--control-height);
+  --button-padding-x:    var(--space-7);
+  --button-font-size:    var(--font-size-base);
+  --button-tracking:     0.01em;
+  --button-radius:       var(--border-radius-control);
+
+  /* Вторичная: контур цветом текста */
+  --button-ghost-border: var(--color-accent-secondary);
+  --button-ghost-text:   var(--color-text-primary);
+
+  /* Опасная (Удалить): контур статусом ошибки, без заливки */
+  --button-danger-border: var(--color-status-error);
+  --button-danger-text:   var(--color-status-error);
+
+  /* Поле ввода */
+  --input-bg:            var(--color-bg-secondary);
+  --input-border:        var(--color-border-primary);
+  --input-border-hover:  var(--color-text-primary);
+  --input-text:          var(--color-text-primary);
+  --input-placeholder:   var(--color-text-tertiary);
+  --input-height:        var(--control-height);
+  --input-padding-x:     var(--control-padding-x);
+  --input-font-size:     var(--font-size-base);
+  --input-radius:        var(--border-radius-control);
+  --input-error-border:  var(--color-status-error);
+  --input-warning-border: var(--color-status-warning); /* пустая локаль */
+  --input-disabled-bg:   var(--color-bg-tertiary);
+
+  /* Метка поля и метка скрипта */
+  --label-color:         var(--color-text-primary);
+  --label-size:          var(--font-size-sm);
+  --label-weight:        var(--font-weight-semibold);
+  --script-tag-color:    var(--color-text-tertiary);
+  --script-tag-size:     var(--font-size-xs);
+
+  /* Строка списка */
+  --row-bg:              var(--color-bg-secondary);
+  --row-bg-hover:        var(--color-bg-tertiary);
+  --row-border:          var(--color-border-secondary);
+  --row-title-size:      var(--font-size-base);
+  --row-meta-size:       var(--font-size-sm);
+  --row-value-color:     var(--color-text-secondary);
+  --row-chevron-color:   var(--color-text-tertiary);
+
+  /* Переключатель */
+  --toggle-track-off:    var(--color-border-primary);
+  --toggle-track-on:     var(--color-accent-primary);
+  --toggle-knob-color:   var(--color-bg-secondary);
+
+  /* Чип (чекбокс-группа): маркер ✓, не только цвет */
+  --chip-height:         var(--control-height);   /* 48: тап с телефона */
+  --chip-border:         var(--color-border-primary);
+  --chip-text:           var(--color-text-primary);
+  --chip-active-bg:      var(--color-text-primary);
+  --chip-active-text:    var(--color-bg-primary);
+  --chip-active-marker:  "✓ ";
+  --chip-tracking:       0;
+
+  /* Нижняя панель / боковая колонка */
+  --nav-bg:              var(--color-bg-secondary);
+  --nav-border:          var(--color-border-secondary);
+  --nav-text:            var(--color-text-secondary);
+  --nav-text-active:     var(--color-nav-active);
+  --nav-indicator:       var(--color-nav-active);  /* полоска 2px сверху пункта */
+  --nav-label-size:      var(--font-size-xs);
+
+  /* Шапка и панель сохранения */
+  --topbar-bg:           var(--color-bg-primary);
+  --topbar-border:       var(--color-border-secondary);
+  --save-bar-bg:         var(--color-bg-secondary);
+  --save-bar-border:     var(--color-border-primary);
+
+  /* Flash */
+  --flash-success-bg:    var(--color-status-success-bg);
+  --flash-success-text:  var(--color-status-success);
+  --flash-error-bg:      var(--color-status-error-bg);
+  --flash-error-text:    var(--color-status-error);
+  --flash-info-bg:       var(--color-status-info-bg);
+  --flash-info-text:     var(--color-text-primary);
+
+  /* Сетка расписания */
+  --grid-bg:             var(--color-bg-secondary);
+  --grid-line:           var(--color-grid-line);
+  --grid-header-bg:      var(--color-bg-tertiary);
+  --grid-time-color:     var(--color-text-tertiary);
+  --slot-bg:             var(--color-slot-bg);
+  --slot-border:         var(--slot-border-width) solid var(--color-slot-border);
+  --slot-border-width:   var(--border-width-thick);
+  --slot-conflict-border: var(--border-width-thick) dashed var(--color-slot-conflict);
+  --slot-title-size:     var(--font-size-sm);
+  --slot-highlight-bg:   var(--color-status-success-bg); /* 2 с после сохранения */
+
+  /* Пустое состояние, «Требует внимания» */
+  --empty-text:          var(--color-text-secondary);
+  --attention-marker:    var(--color-status-warning);
+  --attention-bg:        var(--color-status-warning-bg);
+
+  /* Лист «Ещё» */
+  --sheet-bg:            var(--color-bg-secondary);
+  --sheet-border:        var(--color-border-primary);
+  --sheet-overlay:       var(--color-surface-overlay);
+}

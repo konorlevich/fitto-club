@@ -1,0 +1,16 @@
+{{define "flash"}}
+<div class="flash flash--{{.Flash.Kind}}" role="status">
+  <span>{{.Flash.Text}}</span>
+  {{if .Flash.Link}} · <a href="{{.Flash.Link}}"{{if hasPrefix .Flash.Link "/admin"}}{{else}} target="_blank" rel="noopener noreferrer"{{end}}>{{.Flash.LinkText}} <span aria-hidden="true">→</span></a>{{end}}
+</div>
+{{end}}
+
+{{define "error-summary"}}
+<div class="errsum" role="alert" tabindex="-1" id="errsum">
+  <p class="errsum__title">{{.T "error.summary"}}</p>
+  <ul>{{range .Errors}}<li>{{if .Field}}<a href="#f-{{.Field}}">{{.Text}}</a>{{else}}{{.Text}}{{end}}</li>{{end}}</ul>
+</div>
+{{end}}
+
+{{/* Field wrapper: label, control (passed as .Body), hint and error. */}}
+{{define "field-error"}}{{if .P.HasError .Name}}<p class="hint hint--err" id="e-{{.Name}}">{{.P.ErrorFor .Name}}</p>{{end}}{{end}}

@@ -1,0 +1,8 @@
+{{define "content"}}
+<div class="{{if .Bare}}bare__wrap{{else}}errpage{{end}}">
+  <p class="errpage__code num">{{.Data}}</p>
+  <h1 class="h1">{{.Title}}</h1>
+  <p class="lede">{{.T (printf "error.%d.text" .Data)}}</p>
+  <p><a class="btn btn--ghost" href="{{if .Bare}}/admin/login{{else}}/admin{{end}}">{{if .Bare}}{{.T "login.title"}}{{else}}{{.T "error.home"}}{{end}}</a></p>
+</div>
+{{end}}

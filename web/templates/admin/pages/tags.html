@@ -1,0 +1,16 @@
+{{define "content"}}
+{{$d := .Data}}
+<form class="inline-add" method="post" action="/admin/tags/new" novalidate>
+  <input type="hidden" name="_csrf" value="{{.CSRF}}">
+  {{template "locales" (dict "P" . "Name" "name" "Label" (.T "tag.new_label") "Values" (dict) "Kind" "input" "Required" false "Hint" "")}}
+  <button class="btn btn--ghost btn--sm" type="submit">{{.T "action.add"}}</button>
+</form>
+<ul class="list list--order" style="margin-top:var(--space-7)">
+  {{range $d.Items}}
+  <li class="row-wrap{{if eq $d.Moved .Slug}} is-new{{end}}">
+    <a class="row" href="/admin/tags/{{.Slug}}"><span class="row__t">{{.Name}}<small>{{$.F "tag.used" .Used}}</small></span><span class="row__chev" aria-hidden="true">›</span></a>
+    {{template "order" (dict "P" $ "Action" (printf "/admin/tags/%s/move" .Slug) "Back" "/admin/tags" "Name" .Name "First" .First "Last" .Last)}}
+  </li>
+  {{end}}
+</ul>
+{{end}}

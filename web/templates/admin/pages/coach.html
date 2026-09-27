@@ -1,0 +1,115 @@
+{{define "content"}}
+{{$d := .Data}}{{$in := $d.In}}
+{{if $d.Deleted}}<div class="flash flash--info" role="status"><span>{{.T "meta.deleted"}}</span> · <form method="post" action="/admin/coaches/{{$in.ID}}/restore" style="display:inline"><input type="hidden" name="_csrf" value="{{.CSRF}}"><button class="linkbtn" type="submit" style="min-height:0">{{.T "action.restore"}}</button></form></div>{{end}}
+{{if and (not $d.New) $in.Published}}<p class="meta" style="margin-bottom:var(--space-6)"><a href="{{.SiteURL}}coaches/{{$in.Slug}}" target="_blank" rel="noopener noreferrer">{{.T "action.open_site"}} <span aria-hidden="true">↗</span><span class="vh"> ({{.T "action.new_tab"}})</span></a></p>{{end}}
+
+{{if not $d.New}}{{template "photo-block" .}}{{end}}
+<form method="post" action="{{if $d.New}}/admin/coaches/new{{else}}/admin/coaches/{{$in.ID}}{{end}}" novalidate id="coach-form">
+  <input type="hidden" name="_csrf" value="{{.CSRF}}"><input type="hidden" name="back" value="{{$d.Back}}">
+  {{template "locales" (dict "P" . "Name" "name" "Label" (.T "coach.field_name") "Values" $in.Name "Kind" "input" "Required" true "Hint" (.T "coach.name_hint"))}}
+  {{template "locales" (dict "P" . "Name" "bio" "Label" (.T "coach.field_bio") "Values" $in.Bio "Kind" "textarea" "Required" true "Hint" "")}}
+
+  <fieldset class="field">
+    <legend class="label">{{.T "coach.speaks"}}</legend>
+    <div class="chips">
+      {{range $d.Langs}}<label class="chip chip--sm"><input type="checkbox" name="speaks" value="{{.Code}}"{{if .Selected}} checked{{end}}><span>{{.Name}}</span></label>{{end}}
+    </div>
+  </fieldset>
+  <fieldset class="field">
+    <legend class="label">{{.T "coach.tags"}}</legend>
+    <div class="chips">
+      {{range $d.Tags}}<label class="chip chip--sm"><input type="checkbox" name="tag" value="{{.Slug}}"{{if .Selected}} checked{{end}}><span>{{.Name}}</span></label>{{end}}
+    </div>
+    <p class="hint"><a href="/admin/tags/new?back={{.Path}}">{{.T "coach.tags_add"}}</a></p>
+  </fieldset>
+
+  <div class="group">
+    <h2 class="group__title">{{.T "coach.pt"}}</h2>
+    <div class="field">
+      <label class="label" for="f-pt_price">{{.T "coach.pt_price"}}</label>
+      <div class="money">
+        <input class="in in--num" id="f-pt_price" name="pt_price" inputmode="numeric" pattern="[0-9]*" value="{{if $in.PTPrice}}{{$in.PTPrice}}{{end}}" placeholder="—">
+        <span class="seg" role="group" aria-label="{{.T "coach.pt_currency"}}">
+          <label><input type="radio" name="pt_currency" value="GEL"{{if ne $in.PTCurrency "USD"}} checked{{end}}><span>GEL</span></label>
+          <label><input type="radio" name="pt_currency" value="USD"{{if eq $in.PTCurrency "USD"}} checked{{end}}><span>USD</span></label>
+        </span>
+      </div>
+      <p class="hint">{{.T "coach.pt_hint"}}</p>
+    </div>
+    {{template "toggle" (dict "P" . "Name" "pt_from" "Label" (.T "coach.pt_from") "Sub" (.T "coach.pt_from_sub") "Checked" $in.PTFrom)}}
+  </div>
+
+  <div class="group">
+    <h2 class="group__title">{{.T "coach.links"}}</h2>
+    <div class="field">
+      <label class="label" for="f-instagram">Instagram</label>
+      <div class="money"><span class="money__unit">@</span><input class="in" id="f-instagram" name="instagram" value="{{$in.Instagram}}" autocapitalize="off" autocomplete="off" spellcheck="false" style="max-width:16rem"></div>
+    </div>
+    <div class="field">
+      <label class="label" for="f-slug">{{.T "coach.slug"}}</label>
+      <input class="in{{if .HasError "slug"}} in--err{{end}}" id="f-slug" name="slug" value="{{$in.Slug}}" autocapitalize="off" autocomplete="off" spellcheck="false" placeholder="{{.T "coach.slug_auto"}}"{{if .HasError "slug"}} aria-invalid="true" aria-describedby="e-slug"{{end}}>
+      {{if .HasError "slug"}}<p class="hint hint--err" id="e-slug">{{.ErrorFor "slug"}}</p>{{else}}<p class="hint">{{.T "coach.slug_hint"}}</p>{{end}}
+    </div>
+  </div>
+
+  <div class="group">
+    <h2 class="group__title">{{.T "coach.publication"}}</h2>
+    {{template "toggle" (dict "P" . "Name" "published" "Label" (.T "coach.published") "Sub" (.T "coach.published_sub") "Checked" $in.Published)}}
+    {{if .Errors}}{{if $d.Published}}<p class="hint" style="margin-top:var(--space-5)"><button class="btn btn--ghost btn--sm" type="submit" name="draft" value="1">{{.T "action.save_draft"}}</button></p>{{end}}{{end}}
+  </div>
+  {{template "savebar" (dict "P" . "Cancel" $d.Back)}}
+</form>
+
+{{if and (not $d.New) (not $d.Deleted)}}
+<div class="group">
+  <h2 class="group__title">{{.T "coach.order"}}</h2>
+  <p class="meta" style="margin-bottom:var(--space-4)">{{.T "coach.order_hint"}}</p>
+  {{template "order" (dict "P" . "Action" (printf "/admin/coaches/%s/move" $in.ID) "Back" (printf "/admin/coaches/%s" $in.ID) "Name" (.L $in.Name) "First" false "Last" false)}}
+</div>
+<div class="danger">
+  <form method="post" action="/admin/coaches/{{$in.ID}}/delete"><input type="hidden" name="_csrf" value="{{.CSRF}}"><button class="btn btn--danger" type="submit">{{.T "action.delete"}}</button></form>
+  <p class="hint">{{.T "coach.delete_hint"}}</p>
+</div>
+{{end}}
+{{end}}
+
+{{/* Photo: its own forms (multipart upload, focus, delete) outside the
+     coach form, since forms do not nest. */}}
+{{define "photo-block"}}
+{{$d := .Data}}{{$r := $d.Row}}
+<div class="group photo" id="photo" style="margin-top:0;padding-top:0;border-top:0">
+  <h2 class="group__title">{{.T "coach.photo"}}</h2>
+  <div class="photo__grid">
+    <form method="post" action="/admin/coaches/{{$r.ID}}/photo/focus" class="photo__focusform" novalidate>
+      <input type="hidden" name="_csrf" value="{{.CSRF}}">
+      <input type="hidden" name="focus_x" value="{{printf "%.3f" $r.FocusX}}"><input type="hidden" name="focus_y" value="{{printf "%.3f" $r.FocusY}}">
+      <div class="photo__preview" {{if $r.PhotoFile}}data-focus tabindex="0" role="img" aria-label="{{.T "coach.photo_focus_aria"}}"{{end}}>
+        {{if $d.PhotoURL}}<img src="{{$d.PhotoURL}}" alt="" width="240" height="300" id="photo-img">{{else}}<span class="photo__initials num">{{$r.Initials}}</span><img src="" alt="" hidden id="photo-img">{{end}}
+        <span class="focus__dot" hidden aria-hidden="true"></span>
+      </div>
+      {{if $r.PhotoFile}}
+      <fieldset class="field" style="margin:var(--space-4) 0 0">
+        <legend class="label">{{.T "coach.photo_focus"}}</legend>
+        <span class="seg">
+          <label><input type="radio" name="focus_preset" value="top"><span>{{.T "coach.focus_top"}}</span></label>
+          <label><input type="radio" name="focus_preset" value="center"><span>{{.T "coach.focus_center"}}</span></label>
+          <label><input type="radio" name="focus_preset" value="bottom"><span>{{.T "coach.focus_bottom"}}</span></label>
+        </span>
+        <p class="hint">{{.T "coach.photo_hint"}}</p>
+        <button class="btn btn--ghost btn--sm" type="submit" style="margin-top:var(--space-4)">{{.T "coach.focus_save"}}</button>
+      </fieldset>
+      {{end}}
+    </form>
+    <div class="photo__side">
+      <form method="post" action="/admin/coaches/{{$r.ID}}/photo" enctype="multipart/form-data" class="photo__upload">
+        <input type="hidden" name="_csrf" value="{{.CSRF}}">
+        <label class="label" for="f-photo">{{if $r.Photo}}{{.T "coach.photo_replace"}}{{else}}{{.T "coach.photo_upload"}}{{end}}</label>
+        <input class="in in--file" id="f-photo" type="file" name="photo" accept="image/jpeg,image/png,image/webp" data-preview="#photo-img" required>
+        <p class="hint">{{.T "coach.photo_types"}}</p>
+        <button class="btn btn--sm" type="submit">{{.T "coach.photo_send"}}</button>
+      </form>
+      {{if $r.Photo}}<form method="post" action="/admin/coaches/{{$r.ID}}/photo/delete"><input type="hidden" name="_csrf" value="{{.CSRF}}"><button class="linkbtn" type="submit">{{.T "coach.photo_delete"}}</button></form>{{end}}
+    </div>
+  </div>
+</div>
+{{end}}

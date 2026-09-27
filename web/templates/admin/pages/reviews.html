@@ -1,0 +1,29 @@
+{{define "content"}}
+{{$d := .Data}}
+{{if $d.Deleted}}<p class="meta" style="margin-bottom:var(--space-5)"><a href="/admin/reviews">← {{.T "nav.reviews"}}</a> · {{.T "meta.deleted"}}</p>{{end}}
+<form class="filter" method="get" action="/admin/reviews">
+  <label class="vh" for="f-coach">{{.T "review.filter_coach"}}</label>
+  <select class="sel" id="f-coach" name="coach" data-autosubmit>
+    <option value="">{{.T "review.filter_all"}}</option>
+    {{range $d.Coaches}}<option value="{{.ID}}"{{if .Selected}} selected{{end}}>{{.Name}}</option>{{end}}
+  </select>
+  {{if $d.Deleted}}<input type="hidden" name="deleted" value="1">{{end}}
+  <button class="btn btn--ghost btn--sm" type="submit" data-hide-js>{{.T "review.filter_apply"}}</button>
+</form>
+{{if $d.Items}}
+<ul class="list">
+  {{range $d.Items}}
+  <li><a class="row{{if .Deleted}} row--deleted{{end}}" href="/admin/reviews/{{.ID}}">
+    <span class="row__t">{{.Author}}{{if .Home}}<span class="tag">{{$.T "review.home_short"}}</span>{{end}}<small lang="{{.Lang}}">{{.Excerpt}}</small><small>{{.Date}}{{if .CoachNames}} · {{.CoachNames}}{{end}}</small></span>
+    <span class="row__v" aria-label="{{$.F "review.rating_of" .Rating}}">{{.Rating}}<span aria-hidden="true">★</span></span>
+    <span class="row__chev" aria-hidden="true">›</span></a></li>
+  {{end}}
+</ul>
+<div class="list-actions">
+  {{if $d.HasMore}}<a class="btn btn--ghost btn--sm" href="/admin/reviews?page={{add $d.Page 1}}{{if $d.Coach}}&coach={{$d.Coach}}{{end}}{{if $d.Deleted}}&deleted=1{{end}}">{{.T "review.older"}}</a>{{end}}
+  {{if and (not $d.Deleted) $d.DelCount}}<a class="linkbtn" href="/admin/reviews?deleted=1">{{.F "action.show_deleted" $d.DelCount}}</a>{{end}}
+</div>
+{{else}}
+<div class="empty"><p>{{if $d.Deleted}}{{.T "empty.generic"}}{{else}}{{.T "review.empty"}}{{end}}</p>{{if not $d.Deleted}}<p style="margin-top:var(--space-5)"><a class="btn" href="/admin/reviews/new">{{.T "today.add_review"}}</a></p>{{end}}</div>
+{{end}}
+{{end}}

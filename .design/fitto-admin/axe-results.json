@@ -1,0 +1,1751 @@
+[
+ {
+  "lang": "ru",
+  "viewport": "mobile-375",
+  "theme": "light",
+  "page": "today",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "mobile-375",
+  "theme": "light",
+  "page": "schedule",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "mobile-375",
+  "theme": "light",
+  "page": "reviews",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "mobile-375",
+  "theme": "light",
+  "page": "review-new",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "mobile-375",
+  "theme": "light",
+  "page": "coaches",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "mobile-375",
+  "theme": "light",
+  "page": "coach",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "mobile-375",
+  "theme": "light",
+  "page": "tags",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "mobile-375",
+  "theme": "light",
+  "page": "classes",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "mobile-375",
+  "theme": "light",
+  "page": "class",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "mobile-375",
+  "theme": "light",
+  "page": "slot",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "mobile-375",
+  "theme": "light",
+  "page": "memberships",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "mobile-375",
+  "theme": "light",
+  "page": "membership",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "mobile-375",
+  "theme": "light",
+  "page": "massage",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "mobile-375",
+  "theme": "light",
+  "page": "hours",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "mobile-375",
+  "theme": "light",
+  "page": "special-new",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "mobile-375",
+  "theme": "light",
+  "page": "history",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "mobile-375",
+  "theme": "light",
+  "page": "users",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "mobile-375",
+  "theme": "light",
+  "page": "profile",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "mobile-375",
+  "theme": "dark",
+  "page": "today",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "mobile-375",
+  "theme": "dark",
+  "page": "schedule",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "mobile-375",
+  "theme": "dark",
+  "page": "reviews",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "mobile-375",
+  "theme": "dark",
+  "page": "review-new",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "mobile-375",
+  "theme": "dark",
+  "page": "coaches",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "mobile-375",
+  "theme": "dark",
+  "page": "coach",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "mobile-375",
+  "theme": "dark",
+  "page": "tags",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "mobile-375",
+  "theme": "dark",
+  "page": "classes",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "mobile-375",
+  "theme": "dark",
+  "page": "class",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "mobile-375",
+  "theme": "dark",
+  "page": "slot",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "mobile-375",
+  "theme": "dark",
+  "page": "memberships",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "mobile-375",
+  "theme": "dark",
+  "page": "membership",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "mobile-375",
+  "theme": "dark",
+  "page": "massage",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "mobile-375",
+  "theme": "dark",
+  "page": "hours",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "mobile-375",
+  "theme": "dark",
+  "page": "special-new",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "mobile-375",
+  "theme": "dark",
+  "page": "history",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "mobile-375",
+  "theme": "dark",
+  "page": "users",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "mobile-375",
+  "theme": "dark",
+  "page": "profile",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "tablet-768",
+  "theme": "light",
+  "page": "today",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "tablet-768",
+  "theme": "light",
+  "page": "schedule",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "tablet-768",
+  "theme": "light",
+  "page": "reviews",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "tablet-768",
+  "theme": "light",
+  "page": "review-new",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "tablet-768",
+  "theme": "light",
+  "page": "coaches",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "tablet-768",
+  "theme": "light",
+  "page": "coach",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "tablet-768",
+  "theme": "light",
+  "page": "tags",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "tablet-768",
+  "theme": "light",
+  "page": "classes",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "tablet-768",
+  "theme": "light",
+  "page": "class",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "tablet-768",
+  "theme": "light",
+  "page": "slot",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "tablet-768",
+  "theme": "light",
+  "page": "memberships",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "tablet-768",
+  "theme": "light",
+  "page": "membership",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "tablet-768",
+  "theme": "light",
+  "page": "massage",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "tablet-768",
+  "theme": "light",
+  "page": "hours",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "tablet-768",
+  "theme": "light",
+  "page": "special-new",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "tablet-768",
+  "theme": "light",
+  "page": "history",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "tablet-768",
+  "theme": "light",
+  "page": "users",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "tablet-768",
+  "theme": "light",
+  "page": "profile",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "tablet-768",
+  "theme": "dark",
+  "page": "today",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "tablet-768",
+  "theme": "dark",
+  "page": "schedule",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "tablet-768",
+  "theme": "dark",
+  "page": "reviews",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "tablet-768",
+  "theme": "dark",
+  "page": "review-new",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "tablet-768",
+  "theme": "dark",
+  "page": "coaches",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "tablet-768",
+  "theme": "dark",
+  "page": "coach",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "tablet-768",
+  "theme": "dark",
+  "page": "tags",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "tablet-768",
+  "theme": "dark",
+  "page": "classes",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "tablet-768",
+  "theme": "dark",
+  "page": "class",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "tablet-768",
+  "theme": "dark",
+  "page": "slot",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "tablet-768",
+  "theme": "dark",
+  "page": "memberships",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "tablet-768",
+  "theme": "dark",
+  "page": "membership",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "tablet-768",
+  "theme": "dark",
+  "page": "massage",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "tablet-768",
+  "theme": "dark",
+  "page": "hours",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "tablet-768",
+  "theme": "dark",
+  "page": "special-new",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "tablet-768",
+  "theme": "dark",
+  "page": "history",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "tablet-768",
+  "theme": "dark",
+  "page": "users",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "tablet-768",
+  "theme": "dark",
+  "page": "profile",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "desktop-1280",
+  "theme": "light",
+  "page": "today",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "desktop-1280",
+  "theme": "light",
+  "page": "schedule",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "desktop-1280",
+  "theme": "light",
+  "page": "reviews",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "desktop-1280",
+  "theme": "light",
+  "page": "review-new",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "desktop-1280",
+  "theme": "light",
+  "page": "coaches",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "desktop-1280",
+  "theme": "light",
+  "page": "coach",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "desktop-1280",
+  "theme": "light",
+  "page": "tags",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "desktop-1280",
+  "theme": "light",
+  "page": "classes",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "desktop-1280",
+  "theme": "light",
+  "page": "class",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "desktop-1280",
+  "theme": "light",
+  "page": "slot",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "desktop-1280",
+  "theme": "light",
+  "page": "memberships",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "desktop-1280",
+  "theme": "light",
+  "page": "membership",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "desktop-1280",
+  "theme": "light",
+  "page": "massage",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "desktop-1280",
+  "theme": "light",
+  "page": "hours",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "desktop-1280",
+  "theme": "light",
+  "page": "special-new",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "desktop-1280",
+  "theme": "light",
+  "page": "history",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "desktop-1280",
+  "theme": "light",
+  "page": "users",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "desktop-1280",
+  "theme": "light",
+  "page": "profile",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "desktop-1280",
+  "theme": "dark",
+  "page": "today",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "desktop-1280",
+  "theme": "dark",
+  "page": "schedule",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "desktop-1280",
+  "theme": "dark",
+  "page": "reviews",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "desktop-1280",
+  "theme": "dark",
+  "page": "review-new",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "desktop-1280",
+  "theme": "dark",
+  "page": "coaches",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "desktop-1280",
+  "theme": "dark",
+  "page": "coach",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "desktop-1280",
+  "theme": "dark",
+  "page": "tags",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "desktop-1280",
+  "theme": "dark",
+  "page": "classes",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "desktop-1280",
+  "theme": "dark",
+  "page": "class",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "desktop-1280",
+  "theme": "dark",
+  "page": "slot",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "desktop-1280",
+  "theme": "dark",
+  "page": "memberships",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "desktop-1280",
+  "theme": "dark",
+  "page": "membership",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "desktop-1280",
+  "theme": "dark",
+  "page": "massage",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "desktop-1280",
+  "theme": "dark",
+  "page": "hours",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "desktop-1280",
+  "theme": "dark",
+  "page": "special-new",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "desktop-1280",
+  "theme": "dark",
+  "page": "history",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "desktop-1280",
+  "theme": "dark",
+  "page": "users",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "desktop-1280",
+  "theme": "dark",
+  "page": "profile",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "mobile-375",
+  "theme": "light",
+  "page": "today",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "mobile-375",
+  "theme": "light",
+  "page": "schedule",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "mobile-375",
+  "theme": "light",
+  "page": "reviews",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "mobile-375",
+  "theme": "light",
+  "page": "review-new",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "mobile-375",
+  "theme": "light",
+  "page": "coaches",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "mobile-375",
+  "theme": "light",
+  "page": "coach",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "mobile-375",
+  "theme": "light",
+  "page": "tags",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "mobile-375",
+  "theme": "light",
+  "page": "classes",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "mobile-375",
+  "theme": "light",
+  "page": "class",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "mobile-375",
+  "theme": "light",
+  "page": "slot",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "mobile-375",
+  "theme": "light",
+  "page": "memberships",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "mobile-375",
+  "theme": "light",
+  "page": "membership",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "mobile-375",
+  "theme": "light",
+  "page": "massage",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "mobile-375",
+  "theme": "light",
+  "page": "hours",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "mobile-375",
+  "theme": "light",
+  "page": "special-new",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "mobile-375",
+  "theme": "light",
+  "page": "history",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "mobile-375",
+  "theme": "light",
+  "page": "users",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "mobile-375",
+  "theme": "light",
+  "page": "profile",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "mobile-375",
+  "theme": "dark",
+  "page": "today",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "mobile-375",
+  "theme": "dark",
+  "page": "schedule",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "mobile-375",
+  "theme": "dark",
+  "page": "reviews",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "mobile-375",
+  "theme": "dark",
+  "page": "review-new",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "mobile-375",
+  "theme": "dark",
+  "page": "coaches",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "mobile-375",
+  "theme": "dark",
+  "page": "coach",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "mobile-375",
+  "theme": "dark",
+  "page": "tags",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "mobile-375",
+  "theme": "dark",
+  "page": "classes",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "mobile-375",
+  "theme": "dark",
+  "page": "class",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "mobile-375",
+  "theme": "dark",
+  "page": "slot",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "mobile-375",
+  "theme": "dark",
+  "page": "memberships",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "mobile-375",
+  "theme": "dark",
+  "page": "membership",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "mobile-375",
+  "theme": "dark",
+  "page": "massage",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "mobile-375",
+  "theme": "dark",
+  "page": "hours",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "mobile-375",
+  "theme": "dark",
+  "page": "special-new",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "mobile-375",
+  "theme": "dark",
+  "page": "history",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "mobile-375",
+  "theme": "dark",
+  "page": "users",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "mobile-375",
+  "theme": "dark",
+  "page": "profile",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "tablet-768",
+  "theme": "light",
+  "page": "today",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "tablet-768",
+  "theme": "light",
+  "page": "schedule",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "tablet-768",
+  "theme": "light",
+  "page": "reviews",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "tablet-768",
+  "theme": "light",
+  "page": "review-new",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "tablet-768",
+  "theme": "light",
+  "page": "coaches",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "tablet-768",
+  "theme": "light",
+  "page": "coach",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "tablet-768",
+  "theme": "light",
+  "page": "tags",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "tablet-768",
+  "theme": "light",
+  "page": "classes",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "tablet-768",
+  "theme": "light",
+  "page": "class",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "tablet-768",
+  "theme": "light",
+  "page": "slot",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "tablet-768",
+  "theme": "light",
+  "page": "memberships",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "tablet-768",
+  "theme": "light",
+  "page": "membership",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "tablet-768",
+  "theme": "light",
+  "page": "massage",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "tablet-768",
+  "theme": "light",
+  "page": "hours",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "tablet-768",
+  "theme": "light",
+  "page": "special-new",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "tablet-768",
+  "theme": "light",
+  "page": "history",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "tablet-768",
+  "theme": "light",
+  "page": "users",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "tablet-768",
+  "theme": "light",
+  "page": "profile",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "tablet-768",
+  "theme": "dark",
+  "page": "today",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "tablet-768",
+  "theme": "dark",
+  "page": "schedule",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "tablet-768",
+  "theme": "dark",
+  "page": "reviews",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "tablet-768",
+  "theme": "dark",
+  "page": "review-new",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "tablet-768",
+  "theme": "dark",
+  "page": "coaches",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "tablet-768",
+  "theme": "dark",
+  "page": "coach",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "tablet-768",
+  "theme": "dark",
+  "page": "tags",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "tablet-768",
+  "theme": "dark",
+  "page": "classes",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "tablet-768",
+  "theme": "dark",
+  "page": "class",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "tablet-768",
+  "theme": "dark",
+  "page": "slot",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "tablet-768",
+  "theme": "dark",
+  "page": "memberships",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "tablet-768",
+  "theme": "dark",
+  "page": "membership",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "tablet-768",
+  "theme": "dark",
+  "page": "massage",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "tablet-768",
+  "theme": "dark",
+  "page": "hours",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "tablet-768",
+  "theme": "dark",
+  "page": "special-new",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "tablet-768",
+  "theme": "dark",
+  "page": "history",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "tablet-768",
+  "theme": "dark",
+  "page": "users",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "tablet-768",
+  "theme": "dark",
+  "page": "profile",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "desktop-1280",
+  "theme": "light",
+  "page": "today",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "desktop-1280",
+  "theme": "light",
+  "page": "schedule",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "desktop-1280",
+  "theme": "light",
+  "page": "reviews",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "desktop-1280",
+  "theme": "light",
+  "page": "review-new",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "desktop-1280",
+  "theme": "light",
+  "page": "coaches",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "desktop-1280",
+  "theme": "light",
+  "page": "coach",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "desktop-1280",
+  "theme": "light",
+  "page": "tags",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "desktop-1280",
+  "theme": "light",
+  "page": "classes",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "desktop-1280",
+  "theme": "light",
+  "page": "class",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "desktop-1280",
+  "theme": "light",
+  "page": "slot",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "desktop-1280",
+  "theme": "light",
+  "page": "memberships",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "desktop-1280",
+  "theme": "light",
+  "page": "membership",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "desktop-1280",
+  "theme": "light",
+  "page": "massage",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "desktop-1280",
+  "theme": "light",
+  "page": "hours",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "desktop-1280",
+  "theme": "light",
+  "page": "special-new",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "desktop-1280",
+  "theme": "light",
+  "page": "history",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "desktop-1280",
+  "theme": "light",
+  "page": "users",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "desktop-1280",
+  "theme": "light",
+  "page": "profile",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "desktop-1280",
+  "theme": "dark",
+  "page": "today",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "desktop-1280",
+  "theme": "dark",
+  "page": "schedule",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "desktop-1280",
+  "theme": "dark",
+  "page": "reviews",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "desktop-1280",
+  "theme": "dark",
+  "page": "review-new",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "desktop-1280",
+  "theme": "dark",
+  "page": "coaches",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "desktop-1280",
+  "theme": "dark",
+  "page": "coach",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "desktop-1280",
+  "theme": "dark",
+  "page": "tags",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "desktop-1280",
+  "theme": "dark",
+  "page": "classes",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "desktop-1280",
+  "theme": "dark",
+  "page": "class",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "desktop-1280",
+  "theme": "dark",
+  "page": "slot",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "desktop-1280",
+  "theme": "dark",
+  "page": "memberships",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "desktop-1280",
+  "theme": "dark",
+  "page": "membership",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "desktop-1280",
+  "theme": "dark",
+  "page": "massage",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "desktop-1280",
+  "theme": "dark",
+  "page": "hours",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "desktop-1280",
+  "theme": "dark",
+  "page": "special-new",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "desktop-1280",
+  "theme": "dark",
+  "page": "history",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "desktop-1280",
+  "theme": "dark",
+  "page": "users",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ka",
+  "viewport": "desktop-1280",
+  "theme": "dark",
+  "page": "profile",
+  "overflow": null,
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "mobile-375",
+  "theme": "orange",
+  "page": "login",
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "tablet-768",
+  "theme": "orange",
+  "page": "login",
+  "violations": []
+ },
+ {
+  "lang": "ru",
+  "viewport": "desktop-1280",
+  "theme": "orange",
+  "page": "login",
+  "violations": []
+ }
+]

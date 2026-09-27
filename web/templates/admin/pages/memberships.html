@@ -1,0 +1,21 @@
+{{define "content"}}
+{{$d := .Data}}
+{{if $d.Deleted}}<p class="meta" style="margin-bottom:var(--space-5)"><a href="/admin/memberships">← {{.T "nav.memberships"}}</a> · {{.T "meta.deleted"}}</p>{{end}}
+<ul class="list list--order">
+  {{if not $d.Deleted}}<li class="row-wrap"><a class="row" href="/admin/memberships/single"><span class="row__t">{{.T "membership.single"}}<small>{{.T "membership.single_sub"}}</small></span><span class="row__v">{{$d.SingleVisit}} GEL</span><span class="row__chev" aria-hidden="true">›</span></a></li>{{end}}
+  {{range $d.Items}}
+  <li class="row-wrap{{if eq $d.Moved .ID}} is-new{{end}}">
+    <a class="row{{if .Deleted}} row--deleted{{end}}" href="/admin/memberships/{{.ID}}">
+      <span class="row__t">{{.Name}}{{if .Meta}}<span class="tag">{{.Meta}}</span>{{end}}<small>{{.TermsText}}</small></span>
+      {{if .Cheapest}}<span class="row__v">{{$.T "coach.from"}} {{.Cheapest}}<small class="row__unit">GEL/{{$.T "membership.mo"}}</small></span>{{end}}
+      <span class="row__chev" aria-hidden="true">›</span>
+    </a>
+    {{if not .Deleted}}{{template "order" (dict "P" $ "Action" (printf "/admin/memberships/%s/move" .ID) "Back" "/admin/memberships" "Name" .Name "First" .First "Last" .Last)}}{{end}}
+  </li>
+  {{end}}
+</ul>
+{{if and (not $d.Items) $d.Deleted}}<div class="empty"><p>{{.T "empty.generic"}}</p></div>{{end}}
+<div class="list-actions">
+  {{if and (not $d.Deleted) $d.DelCount}}<a class="linkbtn" href="/admin/memberships?deleted=1">{{.F "action.show_deleted" $d.DelCount}}</a>{{end}}
+</div>
+{{end}}

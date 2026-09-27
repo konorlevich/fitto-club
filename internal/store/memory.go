@@ -43,3 +43,4 @@ func NewMemory(s *Snapshot) *Memory {
 
 func (m *Memory) Current() *Snapshot { return m.snap.Load() }
 func (m *Memory) Close() error       { return nil }
+func (m *Memory) UploadDir() string  { return "" }

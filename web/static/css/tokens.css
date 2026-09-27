@@ -109,7 +109,6 @@
   --pattern-size:           clamp(80px, 9.5vw, 132px); /* ≈4 кольца на 375, ≈10 на 1280 */
   --pattern-accent-max:     5;                          /* акцентов на экран (2–5) */
   --ring-inner-ratio:       0.52;                       /* внутр. радиус / внешн. (≈0.26 шага / 0.5 шага) */
-  --ring-mask-quarter:      url("/static/img/mask-quarter-cut.svg");
   --ring-mask-half:         url("/static/img/mask-half-ring.svg");
 
   /* ------------------------------------------------------------------------

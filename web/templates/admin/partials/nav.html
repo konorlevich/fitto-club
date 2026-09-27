@@ -1,0 +1,72 @@
+{{/* Bottom bar on phones: five positions, the fifth opens the "More" sheet.
+     From 1024px the bar is hidden and the sidebar shows everything. */}}
+{{define "navbar"}}
+<nav class="navbar" aria-label="{{.T "nav.sections"}}">
+  <a href="/admin"{{if .Is "today"}} aria-current="page"{{end}}><span class="navbar__glyph" aria-hidden="true">◐</span>{{.T "nav.today"}}</a>
+  <a href="/admin/schedule"{{if .Is "schedule"}} aria-current="page"{{end}}><span class="navbar__glyph" aria-hidden="true">▦</span>{{.T "nav.schedule"}}</a>
+  <a href="/admin/reviews"{{if .Is "reviews"}} aria-current="page"{{end}}><span class="navbar__glyph" aria-hidden="true">❝</span>{{.T "nav.reviews"}}</a>
+  <a href="/admin/coaches"{{if .Is "coaches"}} aria-current="page"{{end}}><span class="navbar__glyph" aria-hidden="true">◯</span>{{.T "nav.coaches"}}</a>
+  <details class="sheet">
+    <summary class="navbar__more"{{if .Is "more"}} aria-current="page"{{end}}><span class="navbar__glyph" aria-hidden="true">⋯</span>{{.T "nav.more"}}</summary>
+    <div class="sheet__panel">
+      {{template "morelist" .}}
+    </div>
+  </details>
+</nav>
+{{end}}
+
+{{define "morelist"}}
+<ul class="morelist">
+  <li><a href="/admin/classes"{{if .Is "classes"}} aria-current="page"{{end}}>{{.T "nav.classes"}}</a></li>
+  <li><a href="/admin/memberships"{{if .Is "memberships"}} aria-current="page"{{end}}>{{.T "nav.memberships"}}</a></li>
+  <li><a href="/admin/massage"{{if .Is "massage"}} aria-current="page"{{end}}>{{.T "nav.massage"}}</a></li>
+  <li><a href="/admin/hours"{{if .Is "hours"}} aria-current="page"{{end}}>{{.T "nav.hours"}}</a></li>
+  <li><a href="/admin/history"{{if .Is "history"}} aria-current="page"{{end}}>{{.T "nav.history"}}</a></li>
+  {{if .User.IsOwner}}
+  <li class="morelist__sep"><a href="/admin/users"{{if .Is "users"}} aria-current="page"{{end}}>{{.T "nav.users"}}</a></li>
+  <li><form method="post" action="/admin/export"><input type="hidden" name="_csrf" value="{{.CSRF}}"><button type="submit">{{.T "nav.export"}}</button></form></li>
+  {{end}}
+  <li class="morelist__sep"><a href="/admin/profile"{{if .Is "profile"}} aria-current="page"{{end}}>{{.T "nav.profile"}}</a></li>
+  <li><a href="{{.SiteURL}}" target="_blank" rel="noopener noreferrer">{{.T "nav.site"}} <span aria-hidden="true">↗</span><span class="vh"> ({{.T "action.new_tab"}})</span></a></li>
+  <li><form method="post" action="/admin/logout"><input type="hidden" name="_csrf" value="{{.CSRF}}"><button type="submit">{{.T "nav.logout"}}</button></form></li>
+</ul>
+{{template "prefs" .}}
+{{end}}
+
+{{define "sidebar"}}
+<aside class="sidebar">
+  <a class="sidebar__brand" href="/admin"><img src="{{.Asset "img/brand/fitto-panda-mark.svg"}}" alt="" width="28" height="28"> {{.T "app.name"}}</a>
+  <nav aria-label="{{.T "nav.sections"}}">
+    <ul class="sidebar__list">
+      <li><a href="/admin"{{if .Is "today"}} aria-current="page"{{end}}>{{.T "nav.today"}}</a></li>
+      <li><a href="/admin/schedule"{{if .Is "schedule"}} aria-current="page"{{end}}>{{.T "nav.schedule"}}</a></li>
+      <li><a href="/admin/reviews"{{if .Is "reviews"}} aria-current="page"{{end}}>{{.T "nav.reviews"}}</a></li>
+      <li><a href="/admin/coaches"{{if .Is "coaches"}} aria-current="page"{{end}}>{{.T "nav.coaches"}}</a></li>
+    </ul>
+    {{template "morelist" .}}
+  </nav>
+</aside>
+{{end}}
+
+{{/* Theme and language switches: plain POST forms, enhanced by admin.js. */}}
+{{define "prefs"}}
+<div class="prefs">
+  <form method="post" action="/admin/theme" class="prefs__group" data-theme-form>
+    <input type="hidden" name="_csrf" value="{{.CSRF}}"><input type="hidden" name="back" value="{{.Path}}">
+    <span class="prefs__label" id="theme-label">{{.T "theme.label"}}</span>
+    <span class="seg" role="group" aria-labelledby="theme-label">
+      <button type="submit" name="theme" value="light"{{if eq .Theme "light"}} aria-pressed="true"{{end}}>{{.T "theme.light"}}</button>
+      <button type="submit" name="theme" value="dark"{{if eq .Theme "dark"}} aria-pressed="true"{{end}}>{{.T "theme.dark"}}</button>
+      <button type="submit" name="theme" value="auto"{{if eq .Theme ""}} aria-pressed="true"{{end}}>{{.T "theme.auto"}}</button>
+    </span>
+  </form>
+  <form method="post" action="/admin/lang" class="prefs__group">
+    <input type="hidden" name="_csrf" value="{{.CSRF}}"><input type="hidden" name="back" value="{{.Path}}">
+    <span class="prefs__label" id="lang-label">{{.T "lang_ui.label"}}</span>
+    <span class="seg" role="group" aria-labelledby="lang-label">
+      <button type="submit" name="lang" value="ru" lang="ru"{{if eq .Lang "ru"}} aria-pressed="true"{{end}}>Русский</button>
+      <button type="submit" name="lang" value="ka" lang="ka"{{if eq .Lang "ka"}} aria-pressed="true"{{end}}>ქართული</button>
+    </span>
+  </form>
+</div>
+{{end}}

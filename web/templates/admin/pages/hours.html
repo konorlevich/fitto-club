@@ -1,0 +1,41 @@
+{{define "content"}}
+{{$d := .Data}}
+<form method="post" action="/admin/hours" novalidate>
+  <input type="hidden" name="_csrf" value="{{.CSRF}}">
+  <h2 class="block__title">{{.T "hours.week"}}</h2>
+  <ul class="week">
+    {{range $d.Week}}
+    <li class="week__day{{if eq .Day $.Today}} week__day--today{{end}}">
+      <span class="week__name" id="d-{{.Day}}">{{$.Day .Day}}{{if eq .Day $.Today}} <span class="week__today">· {{$.T "hours.today"}}</span>{{end}}</span>
+      <span class="week__times">
+        <label class="vh" for="f-open_{{.Day}}">{{$.T "hours.open"}}</label>
+        <input class="in in--time{{if $.HasError (printf "open_%d" .Day)}} in--err{{end}}" id="f-open_{{.Day}}" type="time" step="900" name="open_{{.Day}}" value="{{.Open}}"{{if .Closed}} disabled{{end}} data-hours>
+        <span aria-hidden="true">–</span>
+        <label class="vh" for="f-close_{{.Day}}">{{$.T "hours.close"}}</label>
+        <input class="in in--time{{if $.HasError (printf "close_%d" .Day)}} in--err{{end}}" id="f-close_{{.Day}}" type="time" step="900" name="close_{{.Day}}" value="{{.Close}}"{{if .Closed}} disabled{{end}} data-hours>
+      </span>
+      <label class="week__closed"><input type="checkbox" name="closed_{{.Day}}" value="1"{{if .Closed}} checked{{end}} data-closed-for="{{.Day}}"><span>{{$.T "hours.closed_day"}}</span></label>
+      {{if $.HasError (printf "open_%d" .Day)}}<p class="hint hint--err">{{$.ErrorFor (printf "open_%d" .Day)}}</p>{{end}}
+      {{if $.HasError (printf "close_%d" .Day)}}<p class="hint hint--err">{{$.ErrorFor (printf "close_%d" .Day)}}</p>{{end}}
+    </li>
+    {{end}}
+  </ul>
+  {{template "savebar" (dict "P" . "Cancel" "/admin")}}
+</form>
+
+<section class="block">
+  <h2 class="block__title">{{.T "hours.special"}}</h2>
+  {{if $d.Special}}
+  <ul class="list">
+    {{range $d.Special}}<li><a class="row" href="/admin/hours/special/{{.Date}}"><span class="row__t">{{.Date}}{{if $.L .Note}}<small>{{$.L .Note}}</small>{{end}}</span><span class="row__v">{{if .Closed}}{{$.T "special.closed_short"}}{{else}}{{.Open}}–{{.Close}}{{end}}</span><span class="row__chev" aria-hidden="true">›</span></a></li>{{end}}
+  </ul>
+  {{else}}<p class="empty">{{.T "hours.special_none"}}</p>{{end}}
+  <div class="list-actions">
+    <a class="btn btn--ghost btn--sm" href="/admin/hours/special/new">{{.T "today.special_day"}}</a>
+    {{if $d.Past}}<details class="past"><summary class="linkbtn">{{.F "hours.special_past" (len $d.Past)}}</summary>
+      <ul class="list" style="margin-top:var(--space-4)">{{range $d.Past}}<li><a class="row" href="/admin/hours/special/{{.Date}}"><span class="row__t">{{.Date}}{{if $.L .Note}}<small>{{$.L .Note}}</small>{{end}}</span><span class="row__v">{{if .Closed}}{{$.T "special.closed_short"}}{{else}}{{.Open}}–{{.Close}}{{end}}</span></a></li>{{end}}</ul>
+    </details>{{end}}
+  </div>
+  <p class="meta" style="margin-top:var(--space-6)"><a href="{{.SiteURL}}#visit" target="_blank" rel="noopener noreferrer">{{.T "hours.site_link"}} <span aria-hidden="true">↗</span><span class="vh"> ({{.T "action.new_tab"}})</span></a></p>
+</section>
+{{end}}

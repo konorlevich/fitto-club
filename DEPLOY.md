@@ -69,3 +69,35 @@ always minified and there is no build step to forget.
 ## Checks before calling it done
 
     gofmt -l . && go vet ./... && go test ./...
+
+## Admin (`/admin`)
+
+The club edits prices, hours, coaches, classes, massage and reviews at
+`/admin` (design: `.design/fitto-admin/`). It is mounted only when
+`ADMIN_OWNER_LOGIN` is set.
+
+**First login.** Set `ADMIN_OWNER_LOGIN` and `ADMIN_OWNER_PASSWORD` on the
+service, open `/admin/login`, log in with them. The admin immediately asks
+for a real password and a name; from then on the ENV pair is ignored. Remove
+`ADMIN_OWNER_PASSWORD` from the variables afterwards if you like - it is no
+longer consulted while the owner has a password in the database.
+
+**Lost owner password.** Run the binary once with `-reset-owner` against the
+same `DATA_DIR` (on Railway: a one-off command on the service, or a shell in
+the container). It clears the owner's password and ends their sessions; the
+ENV pair works again for exactly one login, which forces a new password.
+Editors reset their own password through the owner (Users → Reset).
+
+**Uploads.** Coach photos land in `DATA_DIR/uploads/` as `<coach>-<hash>-orig.jpg`
+(private, upright, metadata-free) plus `...-<focus>-400.webp` and `-800.webp`
+(public, immutable). They are part of the volume and of the backup: copy
+`uploads/` together with `content.db`. The restore rehearsal covers both.
+
+**Security notes.** Sessions are random tokens stored hashed with a 30-day
+sliding expiry; the cookie is `HttpOnly`, `SameSite=Lax`, `Secure` in
+production. Every mutating form carries a per-session CSRF token. Login is
+rate-limited: five failures per login or IP lock it for 15 minutes with the
+same error text for unknown logins and wrong passwords. Uploads are sniffed,
+capped at 12 MB, re-encoded, and never served under a user-supplied name.
+`/admin` answers with `Cache-Control: no-store`, `X-Robots-Tag: noindex`, a
+strict CSP (`script-src 'nonce-…'`) and is disallowed in `robots.txt`.
