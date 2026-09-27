@@ -138,16 +138,15 @@ func BuildInline(fsys fs.FS, assets map[string]string) (Inline, error) {
 		face("Archivo Black", "400", "archivo-black-numeric.woff2", rNumeric),
 		face("FiraGO", "400", "firago-400-latin.woff2", rLatin),
 		face("FiraGO", "400", "firago-400-cyrillic.woff2", rCyrillic),
-		faceD("FiraGO", "400", "firago-400-georgian.woff2", rGeorgian, "optional"),
+		face("FiraGO", "400", "firago-400-georgian.woff2", rGeorgian),
 		face("FiraGO", "600", "firago-600-latin.woff2", rLatin),
 		face("FiraGO", "600", "firago-600-cyrillic.woff2", rCyrillic),
-		faceD("FiraGO", "600", "firago-600-georgian.woff2", rGeorgian, "optional"),
-		// Every Georgian face is "optional", not "swap". They are preloaded
-		// on /ka/, so they almost always arrive in the optional window; when
-		// they do not, the text stays in the system Georgian face for that
-		// view instead of re-wrapping and pushing the hero photo down (CLS
-		// 0.019 measured on /ka/ with swap). Every phone ships a Georgian
-		// system face, so the fallback is readable, just not FiraGO.
+		face("FiraGO", "600", "firago-600-georgian.woff2", rGeorgian),
+		// The Georgian display face is "optional", not "swap": a late swap of
+		// the big hero heading re-wraps it and pushes the photo down. It is
+		// preloaded on /ka/, so it almost always arrives in time; if not, the
+		// heading keeps the system Georgian face for that view. Text faces
+		// stay "swap" - their swap does not move the layout measurably.
 		faceD("Noto Sans Georgian", "500 700", "noto-sans-georgian.woff2", rGeorgian, "optional"),
 	}, "")
 
@@ -160,9 +159,7 @@ func BuildInline(fsys fs.FS, assets map[string]string) (Inline, error) {
 		Preloads: map[string][]string{
 			"en": {font("jost-latin.woff2"), font("firago-400-latin.woff2")},
 			"ru": {font("jost-cyrillic.woff2"), font("firago-400-cyrillic.woff2")},
-			// Georgian also preloads the 600 face: the hero buttons use it,
-			// and a late swap there re-wrapped them and nudged the photo
-			// (Lighthouse CLS 0.019 on /ka/).
+			// Georgian also preloads the 600 face: the hero buttons use it.
 			"ka": {font("noto-sans-georgian.woff2"), font("firago-400-georgian.woff2"), font("firago-600-georgian.woff2")},
 		},
 	}, nil
