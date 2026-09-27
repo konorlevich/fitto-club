@@ -242,3 +242,22 @@ func TestNoIndex(t *testing.T) {
 		t.Error("without NOINDEX robots.txt must allow crawling")
 	}
 }
+
+// Pages without a "Getting here" block must not link to an in-page #visit:
+// on a 404 that anchor pointed at the same missing URL.
+func TestVisitLinksResolve(t *testing.T) {
+	h := newServer(t, sunday19)
+	for _, url := range []string{"/en/nope", "/ru/privacy"} {
+		body := get(t, h, url).Body.String()
+		if strings.Contains(body, `href="#visit"`) {
+			t.Errorf("%s links to #visit but has no visit block", url)
+		}
+		lang := strings.Split(url, "/")[1]
+		if !strings.Contains(body, `href="/`+lang+`/#visit"`) {
+			t.Errorf("%s: first-visit CTA must point at the home page's #visit", url)
+		}
+	}
+	if !strings.Contains(get(t, h, "/en/classes").Body.String(), `href="#visit"`) {
+		t.Error("pages with a visit block keep the in-page anchor")
+	}
+}

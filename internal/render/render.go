@@ -82,6 +82,16 @@ func AssetURL(assets map[string]string, path string) string {
 func (p *Page) T(l content.L) string                { return l.Get(p.Lang) }
 func (p *Page) F(format string, args ...any) string { return fmt.Sprintf(format, args...) }
 func (p *Page) Href(path string) string             { return "/" + p.Lang + path }
+// VisitHref is where every "First visit" CTA points: the "Getting here"
+// block on this page, or on the home page when this page has none (404,
+// privacy) - an in-page #visit there would point at nothing.
+func (p *Page) VisitHref() string {
+	if p.NoVisit {
+		return p.Href("/") + "#visit"
+	}
+	return "#visit"
+}
+
 func (p *Page) Tel() string                         { return "tel:" + content.Phone }
 func (p *Page) PhoneDisplay() string                { return content.PhoneDisplay }
 func (p *Page) DM() string                          { return content.InstagramDM }

@@ -11,7 +11,7 @@
       </ul>
     </nav>
     {{template "langswitch" .}}
-    <a class="btn btn--sm header-cta" href="#visit" data-cta="first_visit" data-loc="header">{{.Copy.Common.FirstVisit}}</a>
+    <a class="btn btn--sm header-cta" href="{{.VisitHref}}" data-cta="first_visit" data-loc="header">{{.Copy.Common.FirstVisit}}</a>
     <details class="menu">
       <summary class="menu__btn"><span class="menu__icon" aria-hidden="true"></span><span class="menu__label menu__label--open">{{.Copy.Nav.Menu}}</span><span class="menu__label menu__label--close">{{.Copy.Nav.Close}}</span></summary>
       <div class="menu__panel" data-surface="black">
