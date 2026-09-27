@@ -8,3 +8,4 @@
 .DS_Store
 materials
 .design/**/screenshots
+__pycache__/

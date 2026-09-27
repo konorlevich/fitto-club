@@ -132,6 +132,9 @@ func (s *Server) security(next http.Handler) http.Handler {
 		if s.Cfg.IsProd() {
 			h.Set("Strict-Transport-Security", "max-age=31536000; includeSubDomains")
 		}
+		if s.Cfg.NoIndex {
+			h.Set("X-Robots-Tag", "noindex, nofollow")
+		}
 		next.ServeHTTP(w, r)
 	})
 }

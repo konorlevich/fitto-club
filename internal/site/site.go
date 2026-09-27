@@ -43,6 +43,11 @@ type Config struct {
 	// club's confirmation (content.Pending). Off by default: a launch with an
 	// unverified price is exactly what the gate exists to stop.
 	AllowPending bool
+	// NoIndex keeps a pre-launch deploy out of search engines: robots.txt
+	// disallows everything, every page says noindex,nofollow, and every
+	// response carries X-Robots-Tag. For the temporary *.up.railway.app
+	// domain until the site launches on fitto.club.
+	NoIndex bool
 }
 
 func env(k, def string) string {
@@ -110,6 +115,7 @@ func Load() (Config, error) {
 		Addr:         ":" + env("PORT", "8080"),
 		TZ:           tz,
 		AllowPending: env("ALLOW_PENDING", "") == "1",
+		NoIndex:      env("NOINDEX", "") == "1",
 	}, nil
 }
 

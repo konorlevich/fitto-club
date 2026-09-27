@@ -79,6 +79,9 @@ func (s *Server) serveCached(w http.ResponseWriter, r *http.Request, key, lang s
 }
 
 func (s *Server) renderAndServe(w http.ResponseWriter, r *http.Request, key, name string, p *render.Page, status int) {
+	if s.Cfg.NoIndex {
+		p.Robots = "noindex,nofollow"
+	}
 	t, ok := s.Tmpl[name]
 	if !ok {
 		s.Log.WithField("template", name).Error("unknown template")

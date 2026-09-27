@@ -27,6 +27,14 @@ not confirmed: the monthly price, closing time, coach photo consent, class
 durations, the legal entity. Confirm them, update the seed or the database,
 empty the list. For a staging deploy before that, set `ALLOW_PENDING=1`.
 
+## Before launch: keep it out of search
+
+While the site lives on the temporary `*.up.railway.app` domain with
+unconfirmed facts, set `NOINDEX=1`. The service then disallows everything in
+`robots.txt`, marks every page `noindex,nofollow` and sends `X-Robots-Tag`.
+Remove it (together with `ALLOW_PENDING`) when the site launches on
+`fitto.club`.
+
 ## Backups
 
 The service writes `DATA_DIR/backups/content-YYYYMMDD.db` once a day

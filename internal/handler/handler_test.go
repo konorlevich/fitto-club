@@ -23,9 +23,13 @@ var tz = time.FixedZone("Asia/Tbilisi", 4*3600)
 // newServer builds the real handler over the repo's files and the seed.
 // The clock is pinned to Sunday 2026-09-27 19:00 unless a test moves it.
 func newServer(t *testing.T, now time.Time) http.Handler {
+	return newServerCfg(t, now, false)
+}
+
+func newServerCfg(t *testing.T, now time.Time, noIndex bool) http.Handler {
 	t.Helper()
 	root := os.DirFS("../..")
-	cfg := site.Config{BaseURL: "https://fitto.club", Locales: []string{"en", "ru", "ka"}, Env: "test", TZ: tz}
+	cfg := site.Config{BaseURL: "https://fitto.club", Locales: []string{"en", "ru", "ka"}, Env: "test", TZ: tz, NoIndex: noIndex}
 	copies := map[string]*content.SiteCopy{}
 	for _, l := range cfg.Locales {
 		c, err := content.LoadCopy(root, l)
@@ -216,5 +220,25 @@ func TestSitemap(t *testing.T) {
 		if strings.Contains(body, not) {
 			t.Errorf("sitemap must not list %s", not)
 		}
+	}
+}
+
+// NOINDEX=1 keeps a pre-launch deploy out of search engines on all three
+// layers: robots.txt, the meta tag, and the X-Robots-Tag header.
+func TestNoIndex(t *testing.T) {
+	h := newServerCfg(t, sunday19, true)
+	if body := get(t, h, "/robots.txt").Body.String(); !strings.Contains(body, "Disallow: /") {
+		t.Errorf("robots.txt must disallow everything, got %q", body)
+	}
+	rec := get(t, h, "/en/coaches")
+	if !strings.Contains(rec.Body.String(), `content="noindex,nofollow"`) {
+		t.Error("pages must carry noindex,nofollow")
+	}
+	if rec.Header().Get("X-Robots-Tag") != "noindex, nofollow" {
+		t.Error("responses must carry X-Robots-Tag")
+	}
+	// And without the flag the site stays indexable.
+	if body := get(t, newServer(t, sunday19), "/robots.txt").Body.String(); strings.Contains(body, "Disallow: /\n") {
+		t.Error("without NOINDEX robots.txt must allow crawling")
 	}
 }

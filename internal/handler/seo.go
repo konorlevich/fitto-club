@@ -179,6 +179,11 @@ func reviewLD(r content.Review, item obj) obj {
 
 func (s *Server) robots(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+	if s.Cfg.NoIndex {
+		// Pre-launch: nothing here is for the index yet (NOINDEX=1).
+		fmt.Fprint(w, "User-agent: *\nDisallow: /\n")
+		return
+	}
 	fmt.Fprintf(w, "User-agent: *\nAllow: /\nDisallow: /admin\n\nSitemap: %s/sitemap.xml\n# LLM summary: %s/llms.txt\n",
 		s.Cfg.BaseURL, s.Cfg.BaseURL)
 }
