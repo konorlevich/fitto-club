@@ -1,0 +1,51 @@
+{{define "content"}}
+{{$a := .Copy.About}}
+<section class="page-head section rings" data-surface="orange" aria-labelledby="page-h">
+  {{template "accents" "page"}}
+  <div class="wrap page-head__grid">
+    <div>
+      <h1 id="page-h" class="display h1">{{$a.Heading}}</h1>
+      {{range $a.Story}}<p class="story">{{.}}</p>{{end}}
+      <p><a class="btn" href="{{.CoachHref "otar-chkadua"}}">{{$a.FounderLink}} →</a></p>
+    </div>
+    <figure class="page-head__photo cut-half">
+      <img src="{{.PlaceSrc "lounge" 480}}" srcset="{{.PlaceSrcset "lounge" 480 720 960}}" sizes="(min-width:1024px) 20vw, 42vw" alt="{{$a.PhotoAlt}}" width="480" height="853" fetchpriority="high" decoding="async">
+    </figure>
+  </div>
+</section>
+
+<section class="zones section" data-surface="black" aria-labelledby="zones-h">
+  <div class="wrap">
+    <h2 id="zones-h" class="display h2">{{$a.ZonesHeading}}</h2>
+    {{template "zones" .AllZones}}
+  </div>
+</section>
+
+<section class="section" data-surface="graphite" aria-labelledby="events-h">
+  <div class="wrap split">
+    <div>
+      <h2 id="events-h" class="display h2">{{$a.EventsHeading}}</h2>
+      <ul class="events">
+        {{range $a.Events}}<li><h3 class="events__title">{{.Title}}</h3><p>{{.Text}}</p></li>{{end}}
+      </ul>
+    </div>
+    <figure class="meme">
+      <img src="{{.PlaceSrc "meme-1" 540}}" alt="{{$a.MemeAlt}}" width="540" height="958" loading="lazy" decoding="async">
+      <figcaption>{{$a.MemeCaption}}</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="section rings" data-surface="orange" aria-labelledby="partners-h">
+  {{template "accents" "extras"}}
+  <div class="wrap">
+    <div class="section__head section__head--split">
+      <h2 id="partners-h" class="display h2">{{$a.PartnersHead}}</h2>
+      <p class="lede">{{$a.PartnersLede}}</p>
+    </div>
+    <ul class="partners">
+      {{range .Partners}}<li><h3 class="partners__name">{{.Name}}</h3><p>{{$.T .Text}}</p></li>{{end}}
+    </ul>
+  </div>
+</section>
+{{end}}

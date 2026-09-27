@@ -1,0 +1,52 @@
+<!doctype html>
+<!-- Dev-time render target for the OG images and app icons. Open as a file
+     in Chrome at 1200x630 (?lang=en|ru|ka) or ?icon=1 at 512x512 and take an
+     element screenshot of #card; tools/assets/README explains the steps. -->
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face { font-family: Jost; src: url(../../web/static/fonts/jost-latin.woff2); font-weight: 400 600; unicode-range: U+0000-00FF,U+2000-206F; }
+  @font-face { font-family: Jost; src: url(../../web/static/fonts/jost-cyrillic.woff2); font-weight: 400 600; unicode-range: U+0400-045F; }
+  @font-face { font-family: NSG; src: url(../../web/static/fonts/noto-sans-georgian.woff2); font-weight: 500 700; }
+  html, body { margin: 0; background: #000; }
+  #card { width: 1200px; height: 630px; position: relative; overflow: hidden; background: #FF4401 url(../../web/static/img/pattern-tile-transparent.svg) 0 0 / 126px 126px; font-family: Jost, NSG, sans-serif; color: #fff; }
+  .t { position: absolute; left: 72px; top: 150px; }
+  .l1 { font-size: 64px; font-weight: 500; letter-spacing: .18em; line-height: 1.05; }
+  .l2 { font-size: 150px; font-weight: 500; letter-spacing: .12em; line-height: 1; margin-top: 8px; }
+  .l2 span { display: inline-block; }
+  .l2 span:nth-child(2) { transform: translateY(.06em); }
+  .l2 span:nth-child(3) { transform: translateY(-.12em); }
+  .l2 span:nth-child(5) { transform: translateY(.06em); }
+  .sub { font-size: 38px; margin-top: 26px; letter-spacing: .02em; }
+  .logo { position: absolute; right: 72px; bottom: 60px; width: 260px; padding: 18px 22px; background: #000; }
+  .acc { position: absolute; width: 126px; height: 126px; }
+  [lang=ka] .l1 { letter-spacing: .08em; font-size: 58px; }
+  [lang=ka] .l2 { letter-spacing: .06em; font-size: 110px; }
+  [lang=ru] .l2 { font-size: 118px; letter-spacing: .08em; }
+  #icon { display: none; width: 512px; height: 512px; background: #000; place-items: center; }
+  #icon img { width: 400px; }
+</style>
+</head>
+<body>
+<div id="card">
+  <img class="acc" src="../../web/static/img/accents/notched-cream.svg" style="left:882px;top:0" alt="">
+  <img class="acc" src="../../web/static/img/accents/quarter-arc.svg" style="left:1008px;top:126px" alt="">
+  <div class="t" id="t"></div>
+  <div class="logo"><img src="../../web/static/img/brand/fitto-logo-dark-bg.svg" width="216" alt=""></div>
+</div>
+<div id="icon"><img src="../../web/static/img/brand/fitto-panda-mark.svg" alt=""></div>
+<script>
+  var q = new URLSearchParams(location.search), lang = q.get("lang") || "en";
+  var copy = {
+    en: ["FIRST VISIT", "FREE", "in Fitto Club, Vake · Tbilisi"],
+    ru: ["ПЕРВЫЙ ВИЗИТ", "БЕСПЛАТНО", "в Fitto Club, Ваке · Тбилиси"],
+    ka: ["პირველი ვიზიტი", "უფასოა", "Fitto Club, ვაკე · თბილისი"]
+  }[lang];
+  document.documentElement.lang = lang;
+  var word = copy[1].split("").map(function (c) { return "<span>" + c + "</span>"; }).join("");
+  document.getElementById("t").innerHTML = '<div class="l1">' + copy[0] + '</div><div class="l2">' + word + '</div><div class="sub">' + copy[2] + '</div>';
+  if (q.get("icon")) { document.getElementById("card").style.display = "none"; document.getElementById("icon").style.display = "grid"; }
+</script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+{{define "content"}}
+{{$h := .Copy.Home}}
+{{/* O · Hero ----------------------------------------------------------- */}}
+<section class="hero section rings rings--mb" data-surface="orange" aria-labelledby="hero-h">
+  {{template "accents" "hero"}}
+  <div class="wrap hero__grid">
+    <div class="hero__text">
+      <p class="eyebrow">{{$h.Eyebrow}}</p>
+      <h1 id="hero-h" class="display hero__title">
+        <span class="hero__line">{{$h.HeroLine}}</span>
+        <span class="hero__word bounce" aria-hidden="true">{{range .Letters $h.HeroWord}}<span style="--i:{{.I}}">{{.Ch}}</span>{{end}}</span>
+        <span class="vh">{{$h.HeroWord}}</span>
+      </h1>
+      <p class="hero__sub">{{$h.HeroSub}}</p>
+      <div class="hero__actions">
+        <a class="btn" href="#visit" data-cta="first_visit" data-loc="hero">{{.Copy.Visit.Heading}} →</a>
+        <a class="btn btn--ghost" href="{{.Tel}}" data-contact="tel" data-loc="hero">{{.Copy.Common.Call}}</a>
+      </div>
+      <p class="hero__meta">
+        <a href="{{.GoogleCard}}" {{template "ext-attrs"}}>{{.RatingLine}}{{template "ext-cue" .Copy.Common.OpensInNewTab}}</a>
+      </p>
+    </div>
+    <figure class="hero__photo cut-half">
+      {{/* Two crops: a 2:1 strip on phones, a 1:2 half-disc from 1024 -
+           a phone never downloads the tall portrait. */}}
+      <picture>
+        <source media="(min-width: 1024px)" srcset="{{.PlaceSrcset "hero-tall" 400 800}}" sizes="20rem">
+        <img src="{{.PlaceSrc "hero-strip" 480}}" srcset="{{.PlaceSrcset "hero-strip" 480 800 1200}}" sizes="100vw" alt="{{$h.HeroPhotoAlt}}" width="480" height="240" fetchpriority="high" decoding="async">
+      </picture>
+    </figure>
+  </div>
+</section>
+
+{{/* Ч · First visit ----------------------------------------------------- */}}
+<section id="first-visit" class="first section" data-surface="black" aria-labelledby="first-h">
+  <div class="wrap first__grid">
+    <div class="first__head">
+      <h2 id="first-h" class="display h2">{{$h.FirstHeading}}</h2>
+      <p class="lede">{{$h.FirstLede}}</p>
+      <figure class="first__facade cut-quarter">
+        <img src="{{.PlaceSrc "facade" 480}}" srcset="{{.PlaceSrcset "facade" 480 960}}" sizes="(min-width:1024px) 30vw, 80vw" alt="{{$h.FacadeAlt}}" width="480" height="360" loading="lazy" decoding="async">
+      </figure>
+    </div>
+    <ol class="steps">
+      {{range $i, $s := $h.FirstSteps}}<li class="steps__item">
+        <span class="steps__n" aria-hidden="true">{{add $i 1}}</span>
+        <h3 class="steps__title">{{$s.Title}}</h3>
+        <p>{{$s.Text}}</p>
+      </li>
+      {{end}}
+    </ol>
+  </div>
+</section>
+
+{{/* O · Memberships teaser ---------------------------------------------- */}}
+<section class="teaser-price section rings" data-surface="orange" aria-labelledby="price-h">
+  {{template "accents" "prices"}}
+  <div class="wrap teaser-price__grid">
+    <h2 id="price-h" class="display h2">{{$h.PriceHeading}}</h2>
+    <p class="teaser-price__num">
+      {{with .FromPre}}<span class="teaser-price__from">{{.}}</span>{{end}}
+      <span class="num num--hero">{{.Money .Snap.MinPerMonth}}</span>
+      <span class="teaser-price__unit">GEL{{.FromPost}} {{.Copy.Common.PerMonthShort}}</span>
+    </p>
+    <div class="teaser-price__text">
+      <p>{{$h.PriceText}}</p>
+      <p>{{.F $h.PriceSingle .Snap.SingleVisit}}</p>
+      <a class="btn" href="{{.Href "/memberships"}}">{{$h.PriceLink}} →</a>
+    </div>
+  </div>
+</section>
+
+{{/* Ч · Coaches teaser ---------------------------------------------------- */}}
+<section class="section" data-surface="black" aria-labelledby="coaches-h">
+  <div class="wrap">
+    <div class="section__head">
+      <h2 id="coaches-h" class="display h2">{{$h.CoachesHeading}}</h2>
+      <p class="lede">{{$h.CoachesLede}}</p>
+    </div>
+    <ul class="coach-grid coach-grid--teaser">
+      {{range .Coaches}}{{template "coach-card" ($.Card . false)}}{{end}}
+    </ul>
+    <p class="section__more"><a class="btn btn--ghost" href="{{.Href "/coaches"}}">{{.F $h.CoachesAll .TotalCoaches}} →</a></p>
+  </div>
+</section>
+
+{{/* Ч · Zones ------------------------------------------------------------ */}}
+<section class="zones section" data-surface="graphite" aria-labelledby="zones-h">
+  <div class="wrap">
+    <div class="section__head section__head--split">
+      <h2 id="zones-h" class="display h2">{{$h.ZonesHeading}}</h2>
+      <p class="lede">{{$h.ZonesLede}}</p>
+    </div>
+    {{template "zones" .HomeZones}}
+    <p class="section__more"><a class="btn btn--ghost" href="{{.Href "/about"}}">{{$h.ZonesLink}} →</a></p>
+  </div>
+</section>
+
+{{/* O · Classes + massage ---------------------------------------------- */}}
+<section class="extras section rings" data-surface="orange" aria-labelledby="extras-h">
+  {{template "accents" "extras"}}
+  <div class="wrap">
+    <h2 id="extras-h" class="display h2">{{$h.ExtrasHeading}}</h2>
+    <div class="extras__grid">
+      <article class="extra">
+        <h3 class="extra__title">{{$h.ClassesTeaser}}</h3>
+        {{with .NextClass}}<p class="extra__line">{{.}}</p>{{end}}
+        <a class="btn" href="{{.Href "/classes#schedule"}}">{{$h.ClassesLink}} →</a>
+      </article>
+      <article class="extra">
+        <h3 class="extra__title">{{$h.MassageTeaser}}</h3>
+        <p class="extra__line">{{.F $h.MassageText .Snap.MinMassage}}</p>
+        <a class="btn" href="{{.Href "/massage"}}">{{$h.MassageLink}} →</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+{{/* Ч · Reviews --------------------------------------------------------- */}}
+<section id="reviews" class="section" data-surface="black" aria-labelledby="reviews-h">
+  <div class="wrap">
+    <div class="section__head section__head--split">
+      <h2 id="reviews-h" class="display h2">{{$h.ReviewsHeading}}</h2>
+      <p class="guests">{{$h.GuestsLine}} <a href="{{.Href "/about"}}">{{$h.GuestsLink}}</a></p>
+    </div>
+    <ul class="review-strip" tabindex="0" aria-label="{{.Copy.Reviews.Heading}}">
+      {{range .Reviews}}{{template "review-card" ($.RevShort .)}}{{end}}
+    </ul>
+    <p class="section__more"><a href="{{.GoogleCard}}" class="link" {{template "ext-attrs"}}>{{.RatingLine}} →{{template "ext-cue" .Copy.Common.OpensInNewTab}}</a></p>
+  </div>
+</section>
+{{end}}

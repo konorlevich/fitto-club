@@ -1,0 +1,71 @@
+{{define "content"}}
+{{$k := .Copy.Coach}}{{$c := .Coach}}
+<article class="coach" aria-labelledby="page-h">
+  <section class="section section--tight" data-surface="black">
+    <div class="wrap coach__grid">
+      <figure class="coach__photo">
+        {{if $c.Photo}}<img src="{{.CoachPhoto $c.Slug 800}}" srcset="{{.CoachSrcset $c.Slug}}" sizes="(min-width:1024px) 40vw, 92vw" alt="{{.CoachAlt $c}}" width="800" height="1000" fetchpriority="high" decoding="async">
+        {{else}}<span class="coach-card__initials" aria-hidden="true">{{$c.Initials}}</span>{{end}}
+        <i class="coach-card__ring" aria-hidden="true"></i>
+      </figure>
+      <div class="coach__info">
+        <p class="coach__back"><a href="{{.Href "/coaches"}}">← {{$k.Back}}</a></p>
+        <h1 id="page-h" class="display h1 coach__name">{{.T $c.Name}}</h1>
+        <ul class="tag-list" aria-label="{{$k.FocusHeading}}">
+          {{range $c.Tags}}<li><a class="chip chip--sm" href="{{$.FilterHref "" .}}" rel="nofollow">{{$.TagName .}}</a></li>{{end}}
+        </ul>
+        <p class="coach__langs"><span class="label">{{.Copy.Coaches.Speaks}}</span> {{range $i, $l := $c.Speaks}}{{if $i}}, {{end}}{{$.LangName $l}}{{end}}</p>
+
+        <div class="pt-box" data-surface="graphite">
+          <h2 class="pt-box__title">{{$k.PTHeading}}</h2>
+          {{if gt $c.PTPrice 0}}
+          {{with .PTParts $c}}<p class="pt-box__price">{{with .Pre}}<span class="pt-box__from">{{.}}</span> {{end}}<span class="num num--price">{{.Num}}</span> {{.Unit}} <span class="pt-box__per">/ {{$k.PerHour}}</span></p>{{end}}
+          {{else}}<p>{{$k.PriceOnAsk}}</p>{{end}}
+          <p class="pt-box__how">{{$k.HowToBook}}</p>
+          <div class="pt-box__actions">
+            <a class="btn" href="{{.DM}}" {{template "ext-attrs"}} data-contact="instagram" data-loc="coach">{{$k.WriteDM}} →{{template "ext-cue" .Copy.Common.OpensInNewTab}}</a>
+            <a class="btn btn--ghost" href="{{.Tel}}" data-contact="tel" data-loc="coach">{{.Copy.Common.Call}}</a>
+          </div>
+          {{if $c.Instagram}}<p class="pt-box__ig"><a href="https://www.instagram.com/{{$c.Instagram}}/" {{template "ext-attrs"}}>{{$k.HisInstagram}}: @{{$c.Instagram}}{{template "ext-cue" .Copy.Common.OpensInNewTab}}</a></p>{{end}}
+        </div>
+
+        <h2 class="label">{{$k.AboutHeading}}</h2>
+        <p class="coach__bio">{{.T $c.Bio}}</p>
+
+        {{if .CoachClasses}}
+        <h2 class="label">{{$k.ClassesHead}}</h2>
+        <ul class="coach__classes">
+          {{range .CoachClasses}}<li><a href="{{$.Href "/classes#class-"}}{{.Slug}}">{{$.T .Name}}</a>: {{range $i, $s := .Slots}}{{if $i}}, {{end}}{{$.DayShort $s.Day}} {{$s.Start}}{{end}}</li>{{end}}
+        </ul>
+        {{end}}
+      </div>
+    </div>
+  </section>
+
+  {{if .Reviews}}
+  <section id="reviews" class="section" data-surface="graphite" aria-labelledby="rev-h">
+    <div class="wrap">
+      <h2 id="rev-h" class="display h2">{{$k.ReviewsHead}}</h2>
+      <ul class="review-col">
+        {{range .Reviews}}{{template "review-card" ($.Rev .)}}{{end}}
+      </ul>
+      <p class="section__more"><a class="link" href="{{.GoogleCard}}" {{template "ext-attrs"}}>{{.Copy.Reviews.Read}} →{{template "ext-cue" .Copy.Common.OpensInNewTab}}</a></p>
+    </div>
+  </section>
+  {{end}}
+</article>
+
+{{if .Similar}}
+<section class="section" data-surface="black" aria-labelledby="more-h">
+  <div class="wrap">
+    <div class="section__head section__head--split">
+      <h2 id="more-h" class="display h2">{{$k.MoreHeading}}</h2>
+      <p><a class="link" href="{{.Href "/coaches"}}">{{$k.Back}} →</a></p>
+    </div>
+    <ul class="coach-grid coach-grid--three">
+      {{range .Similar}}{{template "coach-card" ($.Card . true)}}{{end}}
+    </ul>
+  </div>
+</section>
+{{end}}
+{{end}}

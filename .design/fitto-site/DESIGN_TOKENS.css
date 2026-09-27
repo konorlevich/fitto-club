@@ -1,0 +1,462 @@
+/* ==========================================================================
+   FITTO CLUB — design tokens
+   Philosophy: «Orange Room» (см. DESIGN_BRIEF.md) — Swiss/International
+   основа (плоско, сетка, капс с разрядкой, цветовые блоки, без теней и
+   градиентов) + дозированная Neo-Memphis игра (кольца как композиционные
+   фигуры, одно прыгающее слово).
+
+   Отступления от шаблона design-tokens:
+   - Светлой темы НЕТ (решение бренда). Вместо light/dark — три
+     «поверхности» (data-surface): black (по умолчанию), graphite, orange.
+     Семантические токены переопределяются по поверхности, компоненты
+     пишутся один раз.
+   - Скругления у UI = 0. Единственные кривые в системе — кольца узора.
+   - Теней нет. Глубина — только сменой поверхности. --shadow-* = none,
+     кроме фокуса.
+   - Статусных цветов (green/red) нет: новых оттенков не вводим
+     (чек-лист §7). Статус передаётся текстом + формой, цвет — из палитры.
+   - Розово-синий неон живёт только в фотографиях, в токенах его нет.
+
+   Контраст (WCAG 2.1, посчитано 27.09.2026):
+     white   / orange   3.45  → только крупный текст (≥24px или ≥18.7px bold)
+     black   / orange   6.08  → любой текст
+     orange  / black    6.08  → любой текст
+     orange  / graphite 5.04  → любой текст
+     paper   / black   18.31  paper / graphite 15.18
+     muted   / black    9.99  muted / graphite  8.28
+     subtle  / black    6.14  subtle / graphite 5.09
+     line-strong / black 4.60 (границы интерактивных элементов ≥3:1)
+
+   Этот файл — источник истины. При сборке кладётся как
+   web/static/css/tokens.css (задача из TASKS.md).
+   ========================================================================== */
+
+:root {
+  color-scheme: dark;
+
+  /* ------------------------------------------------------------------------
+     1. PRIMITIVES — сырые значения. В компонентах не использовать напрямую.
+     ------------------------------------------------------------------------ */
+
+  /* Бренд: оранжевый регистр (Instagram-обложки) */
+  --fitto-orange:          #FF4401; /* поле, CTA на чёрном, акцент */
+  --fitto-orange-ring:     #FF571A; /* узор колец тон-в-тон, декор (1.09:1) */
+  --fitto-orange-hover:    #FF6A2B; /* 7.35:1 на чёрном */
+  --fitto-orange-active:   #E63D00;
+
+  /* Акценты-кольца — ТОЛЬКО декор, никогда не фон под текстом */
+  --fitto-ring-cream:      #FFECE5; /* кольцо с узким зазором на 12 ч */
+  --fitto-ring-blush:      #FFDBCE; /* кольцо с широким зазором */
+  --fitto-ring-peach:      #FFA081; /* правое полукольцо */
+  --fitto-ring-coral:      #FF7341; /* четверть-дуга */
+  --fitto-ring-white:      #FFFFFF; /* гиря */
+
+  /* Нейтральные: чёрный регистр */
+  --fitto-black:           #000000;
+  --fitto-graphite:        #1A1A1A; /* карточки, прайсы */
+  --fitto-graphite-raised: #242424; /* hover карточки на графите */
+  --fitto-line:            #3A3A3A; /* декоративные разделители */
+  --fitto-line-strong:     #7A756F; /* границы контролов, 4.6:1 */
+  --fitto-subtle:          #8F8A84; /* мета-текст, 6.14:1 */
+  --fitto-muted:           #B8B2AA; /* вторичный текст, 9.99:1 */
+  --fitto-paper:           #F2EFEA; /* основной текст на чёрном (не #FFF — мягче) */
+  --fitto-white:           #FFFFFF; /* заголовки на оранжевом, как в Instagram */
+
+  /* ------------------------------------------------------------------------
+     2. SEMANTIC COLOR — поверхность по умолчанию: black
+     ------------------------------------------------------------------------ */
+  --color-bg-primary:            var(--fitto-black);
+  --color-bg-secondary:          var(--fitto-graphite);        /* карточки */
+  --color-bg-tertiary:           var(--fitto-graphite-raised); /* hover карточки, чипы */
+  --color-bg-inverse:            var(--fitto-orange);
+
+  --color-text-primary:          var(--fitto-paper);
+  --color-text-secondary:        var(--fitto-muted);
+  --color-text-tertiary:         var(--fitto-subtle);
+  --color-text-inverse:          var(--fitto-black);           /* текст на оранжевом */
+  --color-text-display:          var(--fitto-white);           /* H1/H2 капсом */
+  --color-text-link:             var(--fitto-orange);
+  --color-text-link-hover:       var(--fitto-orange-hover);
+  --color-text-price:            var(--fitto-white);           /* Archivo Black цифры */
+
+  --color-border-primary:        var(--fitto-line-strong);     /* чипы, контролы */
+  --color-border-secondary:      var(--fitto-line);            /* разделители */
+  --color-border-focus:          var(--fitto-orange);
+
+  --color-accent-primary:        var(--fitto-orange);          /* кнопка на чёрном */
+  --color-accent-primary-hover:  var(--fitto-orange-hover);
+  --color-accent-primary-active: var(--fitto-orange-active);
+  --color-accent-secondary:      var(--fitto-paper);           /* вторичная кнопка: контур */
+  --color-on-accent:             var(--fitto-black);           /* текст на кнопке, 6.08:1 */
+
+  /* Статусы — из палитры, всегда вместе с текстом/формой */
+  --color-status-open:           var(--fitto-orange);          /* «Открыто до 23:00» + ● */
+  --color-status-closed:         var(--fitto-muted);           /* «Закрыто, откроемся в 08:00» + ○ */
+  --color-status-info:           var(--fitto-paper);
+  --color-status-success:        var(--fitto-paper);           /* форм нет; зарезервировано */
+  --color-status-warning:        var(--fitto-orange);
+  --color-status-error:          var(--fitto-orange);
+
+  --color-surface-overlay:       rgb(0 0 0 / 0.92);            /* мобильное меню */
+  --color-photo-scrim:           linear-gradient(to top, rgb(0 0 0 / 0.78) 0%, rgb(0 0 0 / 0) 55%);
+  /* ↑ Единственный «градиент» в системе: чёрное затемнение низа портрета
+       под имя тренера. Только прозрачность чёрного, без цвета. */
+
+  /* ------------------------------------------------------------------------
+     3. PATTERN — узор колец (materials/brand/vector/pattern/)
+     ------------------------------------------------------------------------ */
+  --pattern-rings:          url("/static/img/pattern-tile-transparent.svg");
+  --pattern-size:           clamp(80px, 9.5vw, 132px); /* ≈4 кольца на 375, ≈10 на 1280 */
+  --pattern-accent-max:     5;                          /* акцентов на экран (2–5) */
+  --ring-inner-ratio:       0.52;                       /* внутр. радиус / внешн. (≈0.26 шага / 0.5 шага) */
+  --ring-mask-full:         url("/static/img/mask-ring.svg");
+  --ring-mask-half:         url("/static/img/mask-half-ring.svg");
+
+  /* ------------------------------------------------------------------------
+     4. TYPOGRAPHY
+     ------------------------------------------------------------------------ */
+  /* Self-hosted woff2, @font-face в fonts.css. Грузинские лица подключаются
+     только на /ka/ (unicode-range + отдельный CSS). */
+  --font-family-display: "Jost", "Futura", "Avenir Next", system-ui, sans-serif;
+  --font-family-body:    "FiraGO", "Fira Sans", system-ui, sans-serif;
+  --font-family-numeric: "Archivo Black", "Arial Black", "Jost", sans-serif;
+  --font-family-mono:    ui-monospace, "SF Mono", Menlo, monospace; /* только админка */
+
+  /* Флюидная шкала, 375 → 1280. Минимум текста 16px. */
+  --font-size-xs:   0.8125rem;                                   /* 13 — только мета-метки капсом */
+  --font-size-sm:   0.875rem;                                    /* 14 — подписи под фото */
+  --font-size-base: 1rem;                                        /* 16 — основной текст на мобильном */
+  --font-size-md:   clamp(1rem, 0.95rem + 0.25vw, 1.125rem);     /* 16→18 — основной на десктопе */
+  --font-size-lg:   clamp(1.25rem, 1.15rem + 0.45vw, 1.5rem);    /* 20→24 — H3, лиды */
+  --font-size-xl:   clamp(1.5rem, 1.3rem + 0.9vw, 2rem);         /* 24→32 — H2 (крупный, белый на оранжевом ок) */
+  --font-size-2xl:  clamp(2rem, 1.6rem + 1.8vw, 3rem);           /* 32→48 — H1 внутренних */
+  --font-size-3xl:  clamp(2.5rem, 1.8rem + 3.2vw, 4.5rem);       /* 40→72 — цена-герой («от 129 GEL» в тизере) */
+  --font-size-4xl:  clamp(3rem, 1.6rem + 6.2vw, 7.5rem);         /* 48→120 — hero «FREE» */
+
+  --font-weight-normal:   400;
+  --font-weight-medium:   500;  /* Jost заголовки — как в Instagram */
+  --font-weight-semibold: 600;
+  --font-weight-bold:     700;
+  --font-weight-black:    900;  /* Archivo Black — единственный вес */
+
+  --line-height-tight:   1.05;  /* капс-заголовки */
+  --line-height-snug:    1.25;  /* H3, карточки */
+  --line-height-normal:  1.55;  /* основной текст */
+  --line-height-relaxed: 1.7;   /* длинные тексты: /about, privacy */
+
+  --letter-spacing-tight:   -0.01em; /* цифры Archivo Black */
+  --letter-spacing-normal:  0;
+  --letter-spacing-wide:    0.08em;  /* метки, чипы, кнопки */
+  --letter-spacing-display: 0.2em;   /* заголовки капсом, как «F I R S T  V I S I T» */
+
+  /* Роли — компоненты используют их, а не сырые размеры */
+  --type-display-family:   var(--font-family-display);
+  --type-display-weight:   var(--font-weight-medium);
+  --type-display-tracking: var(--letter-spacing-display);
+  --type-display-leading:  var(--line-height-tight);
+  --type-label-tracking:   var(--letter-spacing-wide);
+  --type-body-family:      var(--font-family-body);
+
+  /* Белый на оранжевом = 3.45:1 → только «крупный текст» WCAG.
+     Любой белый текст на data-surface="orange" не меньше этого размера
+     (или ≥18.7px при font-weight ≥700). Меньше — только чёрным. */
+  --font-size-on-orange-min: 1.5rem; /* 24px */
+  --type-subtitle-size:      clamp(var(--font-size-on-orange-min), 1.3rem + 0.9vw, 2rem); /* «in Fitto Club, Vake» */
+
+  /* Цена в карточке абонемента: 4 цифры + «GEL» в колонке ~20rem.
+     Проверено превью: 3xl (72px) переполняет карточку на 1280. */
+  --type-price-size: clamp(2.25rem, 1.9rem + 1.2vw, 3rem); /* 36→48 */
+
+  /* Прыгающее слово: смещение базовой линии по буквам */
+  --bounce-offset-1: -0.08em;
+  --bounce-offset-2:  0.06em;
+  --bounce-offset-3: -0.12em;
+  --bounce-offset-4:  0.04em;
+
+  /* ------------------------------------------------------------------------
+     5. SPACING — база 8px (чек-лист §7)
+     ------------------------------------------------------------------------ */
+  --space-0:  0;
+  --space-1:  0.125rem; /*   2 */
+  --space-2:  0.25rem;  /*   4 */
+  --space-3:  0.375rem; /*   6 */
+  --space-4:  0.5rem;   /*   8 — база */
+  --space-5:  0.75rem;  /*  12 */
+  --space-6:  1rem;     /*  16 — поля страницы на 375 */
+  --space-7:  1.5rem;   /*  24 */
+  --space-8:  2rem;     /*  32 */
+  --space-9:  3rem;     /*  48 */
+  --space-10: 4rem;     /*  64 */
+  --space-11: 6rem;     /*  96 */
+  --space-12: 8rem;     /* 128 */
+
+  --space-gutter:  clamp(var(--space-6), 4vw, var(--space-9));      /* поля страницы 16→48 */
+  --space-section: clamp(var(--space-10), 9vw, var(--space-12));    /* между секциями 64→128 */
+  --space-stack:   var(--space-7);                                   /* между блоками внутри секции */
+
+  /* ------------------------------------------------------------------------
+     6. LAYOUT
+     ------------------------------------------------------------------------ */
+  --max-width-content: 68ch;    /* текст */
+  --max-width-wide:    64rem;   /* 1024 — сетки карточек */
+  --max-width-page:    80rem;   /* 1280 */
+
+  --border-radius-none: 0;
+  --border-radius-sm:   0;      /* кнопки, чипы, карточки — прямые углы */
+  --border-radius-md:   0;
+  --border-radius-lg:   0;
+  --border-radius-full: 9999px; /* ТОЛЬКО точка статуса и кольца; не для кнопок */
+
+  --border-width:       1px;
+  --border-width-thick: 2px;    /* активный чип, разделители в прайсе */
+
+  --shadow-sm:    none;
+  --shadow-md:    none;
+  --shadow-lg:    none;
+  --focus-width:  2px;
+  --focus-offset: 3px;
+
+  --aspect-portrait: 4 / 5;     /* карточка тренера — как в Instagram */
+  --aspect-photo:    3 / 2;
+  --aspect-video:    9 / 16;    /* видео «как найти вход» — вертикальное */
+
+  --tap-target: 44px;
+  --z-header:   50;
+  --z-cta-bar:  60;
+  --z-menu:     70;
+  --z-consent:  80;
+
+  /* ------------------------------------------------------------------------
+     7. MOTION
+     ------------------------------------------------------------------------ */
+  --duration-instant: 50ms;
+  --duration-fast:    150ms;   /* hover */
+  --duration-normal:  250ms;   /* появление панели CTA */
+  --duration-slow:    400ms;   /* fade-up секций */
+  --duration-slower:  700ms;   /* прыгающее слово */
+  --stagger-letter:   60ms;    /* задержка между буквами */
+
+  --easing-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --easing-in:      cubic-bezier(0.4, 0, 1, 1);
+  --easing-out:     cubic-bezier(0, 0, 0.2, 1);
+  --easing-bounce:  cubic-bezier(0.34, 1.56, 0.64, 1); /* только прыгающее слово */
+
+  --reveal-distance: 12px;     /* fade-up, чек-лист §7 */
+
+  /* ------------------------------------------------------------------------
+     8. BREAKPOINTS — справочно: custom properties не работают в @media.
+     Mobile-first, только min-width.
+       sm  375   эталон
+       md  600   тренеры → 2 колонки
+       lg  1024  десктоп-навигация, нет нижней панели CTA, тренеры → 3
+       xl  1280  тренеры → 4
+     ------------------------------------------------------------------------ */
+  --breakpoint-sm:  375px;
+  --breakpoint-md:  600px;
+  --breakpoint-lg:  1024px;
+  --breakpoint-xl:  1280px;
+
+}
+
+/* ==========================================================================
+   SURFACES — переопределяют семантические токены внутри секции.
+   Использование: <section data-surface="orange">…</section>
+   ========================================================================== */
+
+/* Black and graphite restate every semantic token, not just the ground:
+   a black box nested in an orange section must not inherit orange's black
+   text (found in review: the free-visit box on /memberships). */
+[data-surface="black"] {
+  --color-bg-primary:   var(--fitto-black);
+  --color-bg-secondary: var(--fitto-graphite);
+  --color-bg-tertiary:  var(--fitto-graphite-raised);
+  --color-text-primary:          var(--fitto-paper);
+  --color-text-secondary:        var(--fitto-muted);
+  --color-text-tertiary:         var(--fitto-subtle);
+  --color-text-inverse:          var(--fitto-black);
+  --color-text-display:          var(--fitto-white);
+  --color-text-link:             var(--fitto-orange);
+  --color-text-link-hover:       var(--fitto-orange-hover);
+  --color-text-price:            var(--fitto-white);
+  --color-border-primary:        var(--fitto-line-strong);
+  --color-border-secondary:      var(--fitto-line);
+  --color-border-focus:          var(--fitto-orange);
+  --color-accent-primary:        var(--fitto-orange);
+  --color-accent-primary-hover:  var(--fitto-orange-hover);
+  --color-accent-primary-active: var(--fitto-orange-active);
+  --color-accent-secondary:      var(--fitto-paper);
+  --color-on-accent:             var(--fitto-black);
+  --color-status-open:           var(--fitto-orange);
+  --color-status-closed:         var(--fitto-muted);
+}
+
+[data-surface="graphite"] {
+  --color-bg-primary:   var(--fitto-graphite);
+  --color-bg-secondary: var(--fitto-black);
+  --color-bg-tertiary:  var(--fitto-graphite-raised);
+  /* orange/graphite = 5.04 — ок для любого текста */
+  --color-text-primary:          var(--fitto-paper);
+  --color-text-secondary:        var(--fitto-muted);
+  --color-text-tertiary:         var(--fitto-subtle);
+  --color-text-inverse:          var(--fitto-black);
+  --color-text-display:          var(--fitto-white);
+  --color-text-link:             var(--fitto-orange);
+  --color-text-link-hover:       var(--fitto-orange-hover);
+  --color-text-price:            var(--fitto-white);
+  --color-border-primary:        var(--fitto-line-strong);
+  --color-border-secondary:      var(--fitto-line);
+  --color-border-focus:          var(--fitto-orange);
+  --color-accent-primary:        var(--fitto-orange);
+  --color-accent-primary-hover:  var(--fitto-orange-hover);
+  --color-accent-primary-active: var(--fitto-orange-active);
+  --color-accent-secondary:      var(--fitto-paper);
+  --color-on-accent:             var(--fitto-black);
+  --color-status-open:           var(--fitto-orange);
+  --color-status-closed:         var(--fitto-muted);
+}
+
+[data-surface="orange"] {
+  --color-bg-primary:            var(--fitto-orange);
+  --color-bg-secondary:          var(--fitto-black);           /* карточка на оранжевом — чёрная */
+  --color-bg-tertiary:           var(--fitto-orange-ring);
+  --color-bg-inverse:            var(--fitto-black);
+
+  --color-text-primary:          var(--fitto-black);           /* основной текст — ЧЁРНЫЙ (6.08) */
+  --color-text-secondary:        var(--fitto-black);           /* иерархия размером/весом, не цветом */
+  --color-text-tertiary:         var(--fitto-black);
+  --color-text-inverse:          var(--fitto-white);
+  --color-text-display:          var(--fitto-white);           /* белый — ТОЛЬКО крупный (3.45) */
+  --color-text-link:             var(--fitto-black);           /* ссылки подчёркнуты */
+  --color-text-link-hover:       var(--fitto-black);
+  --color-text-price:            var(--fitto-white);           /* цены ≥ --font-size-3xl */
+
+  --color-border-primary:        var(--fitto-black);
+  --color-border-secondary:      rgb(0 0 0 / 0.25);
+  --color-border-focus:          var(--fitto-black);
+
+  --color-accent-primary:        var(--fitto-black);           /* кнопка на оранжевом — чёрная */
+  --color-accent-primary-hover:  var(--fitto-graphite);
+  --color-accent-primary-active: var(--fitto-black);
+  --color-accent-secondary:      var(--fitto-black);
+  --color-on-accent:             var(--fitto-white);           /* белый на чёрном 21:1 */
+
+  --color-status-open:           var(--fitto-black);
+  --color-status-closed:         var(--fitto-black);
+
+  /* кнопка, чип, карточка, фокус пересчитываются в DERIVED TOKENS */
+}
+
+/* ==========================================================================
+   DERIVED TOKENS
+   Custom property, ссылающийся на другой токен, вычисляется там, где
+   объявлен, и наследуется уже готовым. Поэтому всё, что зависит от
+   семантических цветов, объявлено на :root И на каждой поверхности —
+   иначе на оранжевом остались бы кнопка и фокус от чёрного.
+   ========================================================================== */
+:root,
+[data-surface] {
+  --shadow-focus: 0 0 0 var(--focus-offset) var(--color-bg-primary),
+                  0 0 0 calc(var(--focus-offset) + var(--focus-width)) var(--color-border-focus);
+
+  /* ------------------------------------------------------------------------
+     9. COMPONENT TOKENS — пересчитываются на каждой поверхности
+     ------------------------------------------------------------------------ */
+  /* Кнопка — инверсия по поверхности (переопределяется в data-surface) */
+  --button-bg:           var(--color-accent-primary);
+  --button-bg-hover:     var(--color-accent-primary-hover);
+  --button-bg-active:    var(--color-accent-primary-active);
+  --button-text:         var(--color-on-accent);
+  --button-height:       3rem;       /* 48 ≥ 44, min-height: подпись может переноситься */
+  --button-padding-y:    var(--space-4);
+  --button-padding-x:    var(--space-7);
+  --button-font-size:    var(--font-size-sm);
+  --button-tracking:     var(--letter-spacing-wide);
+  --button-radius:       var(--border-radius-sm);
+
+  /* Вторичная кнопка: контур */
+  --button-ghost-border: var(--color-accent-secondary);
+  --button-ghost-text:   var(--color-accent-secondary);
+
+  /* Чип фильтра */
+  --chip-height:         2.75rem;    /* 44 */
+  --chip-border:         var(--color-border-primary);
+  --chip-text:           var(--color-text-primary);
+  --chip-active-bg:      var(--color-text-primary);
+  --chip-active-text:    var(--color-bg-primary);
+  --chip-active-marker:  "✓ ";       /* не только цвет */
+  --chip-tracking:       0.02em;     /* подписи чипов строчные («Снижение веса») — широкая разрядка только для капса */
+
+  /* Карточки */
+  --card-bg:             var(--color-bg-secondary);
+  --card-bg-hover:       var(--color-bg-tertiary);
+  --card-padding:        var(--space-7);
+  --card-gap:            var(--space-7);
+
+  /* Нижняя панель CTA (мобильный) */
+  --cta-bar-height:      4rem;
+  --cta-bar-bg:          var(--fitto-black);
+  --cta-bar-border:      var(--fitto-line);
+  --cta-bar-safe:        env(safe-area-inset-bottom, 0px);
+
+  /* Шапка */
+  --header-height:       4rem;
+  --header-bg:           var(--fitto-black);
+}
+
+/* ==========================================================================
+   LOCALES — скрипт-зависимая типографика (чек-лист §5)
+   ========================================================================== */
+
+/* RU: капс набран в строках локали (text-transform запрещён). Кириллический
+   капс шире латинского → чуть меньше разрядка и размер дисплея. */
+:root[lang="ru"] {
+  --letter-spacing-display: 0.16em;
+  --font-size-4xl: clamp(2.5rem, 1.4rem + 5.2vw, 6.25rem); /* «БЕСПЛАТНО» длиннее «FREE» */
+}
+
+/* KA: мхедрули без регистра. Заголовки — Noto Sans Georgian, вес под Jost
+   Medium, разрядка ≈0.1em (решение брифа: повторяет разрядку капса из
+   Instagram; только дисплей, не текст). Основной текст — FiraGO.
+   Селектор [lang="ka"] (а не только :root): грузинский отзыв на /en/ или /ru/
+   тоже получает грузинскую типографику. Грузинские @font-face объявлены с
+   unicode-range, поэтому браузер скачивает их только когда на странице есть
+   мхедрули — на обычной /en/ ни байта. */
+:root[lang="ka"],
+[lang="ka"] {
+  --font-family-display: "Noto Sans Georgian", "FiraGO", system-ui, sans-serif;
+  --font-family-body:    "FiraGO", "Noto Sans Georgian", system-ui, sans-serif;
+  --letter-spacing-display: 0.1em;
+  --letter-spacing-wide:    0.04em;
+  --line-height-tight:      1.2;   /* выносные элементы мхедрули вверх и вниз */
+  --line-height-normal:     1.65;
+  /* Грузинские слова длинные: дисплейные размеры на ступень меньше */
+  --font-size-xl:  clamp(1.375rem, 1.2rem + 0.8vw, 1.75rem);
+  --font-size-2xl: clamp(1.75rem, 1.4rem + 1.6vw, 2.625rem);
+  --font-size-4xl: clamp(2.25rem, 1.2rem + 4.6vw, 5.5rem);
+  /* Роли пересобираются здесь: на вложенном [lang="ka"] значения с :root
+     пришли бы уже вычисленными (латинскими). */
+  --type-display-family:   var(--font-family-display);
+  --type-display-weight:   var(--font-weight-semibold);
+  --type-display-tracking: var(--letter-spacing-display);
+  --type-display-leading:  var(--line-height-tight);
+  --type-label-tracking:   var(--letter-spacing-wide);
+  --type-body-family:      var(--font-family-body);
+  --chip-tracking:         0;
+  font-family: var(--font-family-body);
+}
+
+/* ==========================================================================
+   MOTION PREFERENCES
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-instant: 0ms;
+    --duration-fast:    0ms;
+    --duration-normal:  0ms;
+    --duration-slow:    0ms;
+    --duration-slower:  0ms;
+    --stagger-letter:   0ms;
+    --reveal-distance:  0px;
+    /* --bounce-offset-* остаются: слово стоит статично со смещёнными буквами */
+  }
+}

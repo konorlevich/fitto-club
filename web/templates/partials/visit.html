@@ -1,0 +1,63 @@
+{{define "visit"}}
+{{$c := .Copy.Visit}}
+<section id="visit" class="visit section{{if eq .VisitSurface "orange"}} rings{{end}}" data-surface="{{.VisitSurface}}" aria-labelledby="visit-h">
+  {{if eq .VisitSurface "orange"}}{{template "accents" "visit"}}{{end}}
+  <div class="wrap visit__grid">
+    <div class="visit__main">
+      <h2 id="visit-h" class="display h2" tabindex="-1">{{$c.Heading}}</h2>
+      <p class="lede">{{$c.Lede}}</p>
+      <div class="visit__address">
+        <h3 class="label">{{$c.AddressHead}}</h3>
+        <address>
+          <span class="visit__street">{{.Address}}</span>
+          <span>{{.Area}}</span>
+          {{range .AddressOthers}}<span class="visit__alt" lang="{{.Lang}}">{{.Text}}</span>{{end}}
+        </address>
+        <p class="visit__landmarks">{{$c.Landmarks}}</p>
+      </div>
+      <div class="visit__actions">
+        <a class="btn" href="{{.GoogleDir}}" {{template "ext-attrs"}} data-cta="directions" data-loc="visit">{{$c.Google}} →{{template "ext-cue" .Copy.Common.OpensInNewTab}}</a>
+        <a class="btn btn--ghost" href="{{.AppleDir}}" {{template "ext-attrs"}} data-cta="directions" data-loc="visit">{{$c.Apple}}{{template "ext-cue" .Copy.Common.OpensInNewTab}}</a>
+      </div>
+      <div class="visit__hours" id="hours">
+        <h3 class="label">{{.Copy.Common.HoursHeading}}</h3>
+        <p class="status{{if .Status.Open}} status--open{{end}}"><span class="status__dot" aria-hidden="true"></span>{{.StatusText}}</p>
+        <table class="hours">
+          <tbody>
+          {{range .HoursRows}}<tr{{if .IsToday}} class="is-today"{{end}}><th scope="row">{{.Label}}</th><td>{{.Text}}</td></tr>
+          {{end}}
+          </tbody>
+        </table>
+      </div>
+      <div class="visit__ask">
+        <h3 class="label">{{$c.QuestionsHd}}</h3>
+        <p class="visit__contact">
+          <a href="{{.Tel}}" data-contact="tel" data-loc="visit">{{.PhoneDisplay}}</a>
+          <a href="{{.DM}}" {{template "ext-attrs"}} data-contact="instagram" data-loc="visit">Instagram Direct{{template "ext-cue" .Copy.Common.OpensInNewTab}}</a>
+        </p>
+      </div>
+    </div>
+    <div class="visit__media">
+      <figure class="visit__video">
+        <div class="video" data-video="{{.Asset "video/entrance.mp4"}}">
+          <img src="{{.PlaceSrc "entrance-poster" 540}}" alt="{{$c.PosterAlt}}" width="540" height="960" loading="lazy" decoding="async">
+          <a class="video__play" href="{{.Asset "video/entrance.mp4"}}" data-play>
+            <span class="video__icon" aria-hidden="true"></span>{{$c.VideoButton}}
+          </a>
+        </div>
+        <figcaption>
+          <strong>{{$c.VideoHead}}.</strong> {{$c.VideoNote}}
+          <ol class="visit__steps">{{range $c.Steps}}<li>{{.}}</li>{{end}}</ol>
+        </figcaption>
+      </figure>
+      <figure class="visit__map">
+        <a href="{{.GoogleCard}}" {{template "ext-attrs"}} data-cta="directions" data-loc="map">
+          <img src="{{.PlaceSrc "map" 640}}" alt="{{$c.MapAlt}}" width="640" height="400" loading="lazy" decoding="async">
+          <span class="vh">{{.Copy.Common.OpensInNewTab}}</span>
+        </a>
+        <figcaption class="credit">{{$c.MapCredit}}</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+{{end}}

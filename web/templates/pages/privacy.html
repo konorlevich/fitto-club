@@ -1,0 +1,10 @@
+{{define "content"}}
+{{$p := .Copy.Privacy}}
+<section class="section section--tight" data-surface="black" aria-labelledby="page-h">
+  <div class="wrap prose">
+    <h1 id="page-h" class="display h1">{{$p.Heading}}</h1>
+    <p class="meta">{{$p.Updated}}</p>
+    {{range $p.Sections}}<h2 class="prose__h">{{.Title}}</h2><p>{{.Text}}</p>{{end}}
+  </div>
+</section>
+{{end}}

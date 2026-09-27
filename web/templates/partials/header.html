@@ -1,0 +1,46 @@
+{{define "header"}}
+<header class="site-header" data-surface="black">
+  <div class="site-header__in">
+    <a class="logo" href="{{.Href "/"}}" aria-label="{{.Copy.Common.SiteName}} — {{.Copy.Nav.Home}}">
+      <img src="{{.Asset "img/brand/fitto-logo-dark-bg.svg"}}" alt="" width="120" height="60">
+    </a>
+    <nav class="nav-desk" aria-label="{{.Copy.Nav.Primary}}">
+      <ul>
+        {{range .Nav}}<li><a href="{{.Href}}"{{if .Active}} aria-current="page"{{end}}>{{.Label}}</a></li>
+        {{end}}
+      </ul>
+    </nav>
+    {{template "langswitch" .}}
+    <a class="btn btn--sm header-cta" href="#visit" data-cta="first_visit" data-loc="header">{{.Copy.Common.FirstVisit}}</a>
+    <details class="menu">
+      <summary class="menu__btn"><span class="menu__icon" aria-hidden="true"></span><span class="menu__label menu__label--open">{{.Copy.Nav.Menu}}</span><span class="menu__label menu__label--close">{{.Copy.Nav.Close}}</span></summary>
+      <div class="menu__panel" data-surface="black">
+        <nav aria-label="{{.Copy.Nav.Primary}}">
+          <ul class="menu__list">
+            <li><a href="{{.Href "/"}}"{{if .Is "home"}} aria-current="page"{{end}}>{{.Copy.Nav.Home}}</a></li>
+            {{range .Nav}}<li><a href="{{.Href}}"{{if .Active}} aria-current="page"{{end}}>{{.Label}}</a></li>
+            {{end}}
+          </ul>
+        </nav>
+        {{template "langswitch" .}}
+        <p class="menu__contact">
+          <a href="{{.Tel}}" data-contact="tel" data-loc="menu">{{.PhoneDisplay}}</a>
+          <a href="{{.DM}}" {{template "ext-attrs"}} data-contact="instagram" data-loc="menu">Instagram{{template "ext-cue" .Copy.Common.OpensInNewTab}}</a>
+        </p>
+      </div>
+    </details>
+  </div>
+</header>
+{{end}}
+
+{{define "langswitch"}}
+<ul class="langs" aria-label="{{.Copy.Common.LanguageLabel}}">
+  {{range .Alternates}}<li><a href="{{.Href}}" hreflang="{{.Lang}}" lang="{{.Lang}}" data-lang="{{.Lang}}"{{if eq .Lang $.Lang}} aria-current="true"{{end}}>{{.Name}}</a></li>
+  {{end}}
+</ul>
+{{end}}
+
+{{/* One shared external-link helper (checklist §8): target + rel, an icon,
+     and a visually hidden "(opens in a new tab)". Never per-template. */}}
+{{define "ext-attrs"}}target="_blank" rel="noopener noreferrer"{{end}}
+{{define "ext-cue"}}<svg class="ext" aria-hidden="true" width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4.5 1.5h6v6M10.5 1.5 4 8"/><path d="M9 8v2.5H1.5V3H4"/></svg><span class="vh"> {{.}}</span>{{end}}

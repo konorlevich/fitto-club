@@ -1,0 +1,17 @@
+{{/* Zones list. Called with a ZonesCtx: all zones on About, three on the
+     home page (Compact: equal columns, no lead photo). */}}
+{{define "zones"}}
+{{$p := .P}}
+<ul class="zone-list{{if .Compact}} zone-list--compact{{end}}">
+  {{range $i, $z := .Zones}}<li class="zone zone--{{$z.Key}}{{if and (eq $i 0) (not $.Compact)}} zone--lead{{end}}">
+    <figure class="zone__photo{{if eq $i 1}} cut-quarter{{end}}">
+      <img src="{{$p.PlaceSrc $z.Photo 480}}" srcset="{{$p.PlaceSrcset $z.Photo 480 720 960}}" sizes="(min-width:1024px) 30vw, (min-width:768px) 45vw, 92vw" alt="{{$p.T $z.Alt}}" width="480" height="{{if eq $z.H 16}}853{{else}}640{{end}}" loading="lazy" decoding="async">
+    </figure>
+    <div class="zone__text">
+      <h3 class="zone__name">{{$p.T $z.Name}}</h3>
+      <p>{{$p.T $z.Text}}</p>
+    </div>
+  </li>
+  {{end}}
+</ul>
+{{end}}

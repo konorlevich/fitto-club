@@ -1,0 +1,18 @@
+{{define "layout"}}<!doctype html>
+<html lang="{{.Lang}}">
+<head>
+{{template "head" .}}
+</head>
+<body>
+<a class="skip" href="#main">{{.Copy.Common.SkipToContent}}</a>
+{{template "header" .}}
+<main id="main" tabindex="-1">
+{{template "content" .}}
+{{if not .NoVisit}}{{template "visit" .}}{{end}}
+</main>
+{{template "footer" .}}
+{{if .CTABar}}{{template "ctabar" .}}{{end}}
+{{if .Cfg.Tag.Kind}}{{template "consent" .}}{{end}}
+<script>{{.JS}}</script>
+</body>
+</html>{{end}}

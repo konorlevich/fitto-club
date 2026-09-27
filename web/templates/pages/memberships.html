@@ -1,0 +1,71 @@
+{{define "content"}}
+{{$m := .Copy.Memberships}}
+<section class="page-head section rings" data-surface="orange" aria-labelledby="page-h">
+  {{template "accents" "page"}}
+  <div class="wrap page-head__grid">
+    <div>
+      <h1 id="page-h" class="display h1">{{$m.Heading}}</h1>
+      <p class="lede">{{$m.Lede}}</p>
+    </div>
+    <div class="free-box" data-surface="black">
+      <h2 class="display h3">{{$m.FreeHeading}}</h2>
+      <p>{{$m.FreeText}}</p>
+      <a class="btn" href="#visit" data-cta="first_visit" data-loc="memberships">{{.Copy.Visit.Heading}} →</a>
+    </div>
+  </div>
+</section>
+
+<section class="section" data-surface="black">
+  <div class="wrap">
+    <div class="single">
+      <div>
+        <h2 class="single__label">{{$m.SingleLabel}}</h2>
+        <p>{{$m.SingleText}}</p>
+      </div>
+      <p class="single__price"><span class="num">{{.Snap.SingleVisit}}</span> GEL</p>
+    </div>
+
+    <h2 id="types-h" class="vh">{{$m.TypesHeading}}</h2>
+    <div class="plans">
+      {{range .Snap.Memberships}}
+      <article class="plan" aria-labelledby="plan-{{.Slug}}">
+        <header class="plan__head">
+          <h3 id="plan-{{.Slug}}" class="display h3">{{$.T .Name}}</h3>
+          {{if .GiftPT}}<p class="plan__gift"><i class="plan__ring" aria-hidden="true"></i>{{$m.GiftPT}}</p>{{end}}
+        </header>
+        <p class="plan__desc">{{$.T .Desc}}</p>
+        <table class="plan__terms">
+          <caption class="vh">{{$.T .Name}}</caption>
+          <thead class="vh"><tr><th scope="col">{{$m.TermCol}}</th><th scope="col">{{$m.PriceCol}}</th></tr></thead>
+          <tbody>
+          {{range .Terms}}{{if gt .Price 0}}
+            <tr>
+              <th scope="row">
+                <span class="plan__term">{{$.TermLabel .Months}}</span>
+                <span class="plan__meta">{{if gt .FreezeWeeks 0}}{{$.F $m.Freeze .FreezeWeeks}}{{else}}{{$m.NoFreeze}}{{end}}{{if gt .Months 1}} · {{$.F $m.PerMonth .PerMonth}}{{end}}</span>
+              </th>
+              <td><span class="num num--price">{{$.Money .Price}}</span> <span class="plan__cur">GEL</span></td>
+            </tr>
+          {{end}}{{end}}
+          </tbody>
+        </table>
+      </article>
+      {{end}}
+    </div>
+  </div>
+</section>
+
+<section class="section" data-surface="graphite" aria-labelledby="inc-h">
+  <div class="wrap split">
+    <div>
+      <h2 id="inc-h" class="display h2">{{$m.IncHeading}}</h2>
+      <ul class="ticks">{{range $m.Included}}<li>{{.}}</li>{{end}}</ul>
+    </div>
+    <div class="bridge">
+      <h2 class="bridge__title">{{$m.PTHeading}}</h2>
+      <p>{{$m.PTText}}</p>
+      <a class="btn" href="{{.Href "/coaches"}}">{{$m.PTLink}} →</a>
+    </div>
+  </div>
+</section>
+{{end}}

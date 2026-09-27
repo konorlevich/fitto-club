@@ -1,0 +1,15 @@
+{{define "content"}}
+{{$n := .Copy.NotFound}}
+<section class="nf section rings" data-surface="orange" aria-labelledby="page-h">
+  {{template "accents" "notfound"}}
+  <div class="wrap nf__in">
+    <h1 id="page-h" class="nf__code"><span class="vh">{{$n.Title}}</span><span aria-hidden="true">{{$n.Heading}}</span></h1>
+    <p class="nf__joke">{{$n.Joke}}</p>
+    <p class="nf__links">
+      <a class="btn" href="{{.Href "/"}}">{{$n.Home}}</a>
+      <a class="btn btn--ghost" href="{{.Href "/coaches"}}">{{$n.Coaches}}</a>
+      <a class="btn btn--ghost" href="{{.Href "/#visit"}}">{{$n.Route}}</a>
+    </p>
+  </div>
+</section>
+{{end}}

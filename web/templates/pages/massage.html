@@ -1,0 +1,52 @@
+{{define "content"}}
+{{$m := .Copy.Massage}}
+<section class="page-head section rings" data-surface="orange" aria-labelledby="page-h">
+  {{template "accents" "page"}}
+  <div class="wrap page-head__grid">
+    <div>
+      <h1 id="page-h" class="display h1">{{$m.Heading}}</h1>
+      <p class="lede">{{$m.Lede}}</p>
+      <p class="page-head__meta">{{.F $m.Specialist ""}}{{.CoachLink "anastasia-novikova"}}</p>
+    </div>
+    <figure class="page-head__photo cut-quarter">
+      <img src="{{.PlaceSrc "massage-room" 480}}" alt="{{$m.RoomAlt}}" width="480" height="853" fetchpriority="high" decoding="async">
+    </figure>
+  </div>
+</section>
+
+<section class="section" data-surface="black" aria-labelledby="price-h">
+  <div class="wrap">
+    <h2 id="price-h" class="display h2">{{$m.PriceHeading}}</h2>
+    <table class="price-table">
+      <caption class="vh">{{$m.PriceHeading}}</caption>
+      <thead><tr><th scope="col">{{$m.ServiceCol}}</th><th scope="col">{{$m.TimeCol}}</th><th scope="col">{{$m.PriceCol}}</th><th scope="col">{{$m.PackCol}}</th></tr></thead>
+      <tbody>
+      {{range .Snap.Massage}}<tr>
+        <th scope="row">{{$.T .Name}}</th>
+        <td data-label="{{$m.TimeCol}}">{{.Minutes}} {{$.Copy.Common.Minutes}}</td>
+        <td data-label="{{$m.PriceCol}}"><span class="num num--sm">{{.Price}}</span> GEL</td>
+        <td data-label="{{$m.PackCol}}"{{if not .PackCount}} class="is-empty"{{end}}>{{if gt .PackCount 0}}{{$.F $m.Pack .PackCount .PackPrice}}{{else}}<span aria-hidden="true">—</span>{{end}}</td>
+      </tr>{{end}}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="section" data-surface="graphite" aria-labelledby="kinds-h">
+  <div class="wrap split">
+    <div>
+      <h2 id="kinds-h" class="display h2">{{$m.KindsHeading}}</h2>
+      <ul class="ticks">{{range $m.Kinds}}<li>{{.}}</li>{{end}}</ul>
+      <p>{{$m.Approach}}</p>
+    </div>
+    <div class="bridge">
+      <h2 class="bridge__title">{{$m.BookHeading}}</h2>
+      <p>{{$m.BookText}}</p>
+      <p class="bridge__actions">
+        <a class="btn" href="{{.DM}}" {{template "ext-attrs"}} data-contact="instagram" data-loc="massage">{{.Copy.Common.Message}} →{{template "ext-cue" .Copy.Common.OpensInNewTab}}</a>
+        <a class="btn btn--ghost" href="{{.Tel}}" data-contact="tel" data-loc="massage">{{.Copy.Common.Call}}</a>
+      </p>
+    </div>
+  </div>
+</section>
+{{end}}

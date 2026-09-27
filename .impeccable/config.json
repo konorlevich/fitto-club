@@ -1,0 +1,20 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "bounce-easing",
+        "value": "cubic-bezier(0.34, 1.56, 0.64, 1)",
+        "createdAt": "2026-09-27T10:12:31.470Z",
+        "reason": "Design brief (phase 1): user chose the one-shot bouncing word ('FREE') from The Gym Vienna reference; token is scoped to that single word and disabled under prefers-reduced-motion"
+      },
+      {
+        "rule": "bounce-easing",
+        "value": "var(--easing-bounce)",
+        "createdAt": "2026-09-27T11:13:04.336Z",
+        "reason": "Design brief phase 1: user chose the one-shot bouncing word; the token is only used by .bounce and is zeroed under prefers-reduced-motion"
+      }
+    ]
+  }
+}

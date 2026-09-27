@@ -1,0 +1,46 @@
+{{define "head"}}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{{.Title}}</title>
+<meta name="description" content="{{.Desc}}">
+<meta name="robots" content="{{.Robots}}">
+<meta name="theme-color" content="#000000">
+<meta name="color-scheme" content="dark">
+{{if .Canonical}}<link rel="canonical" href="{{.Canonical}}">
+{{range .Alternates}}<link rel="alternate" hreflang="{{.Lang}}" href="{{.URL}}">
+{{end}}{{range .Alternates}}{{if eq .Lang "en"}}<link rel="alternate" hreflang="x-default" href="{{.URL}}">{{end}}{{end}}
+{{end}}
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="{{.Copy.Common.SiteName}}">
+<meta property="og:title" content="{{.Title}}">
+<meta property="og:description" content="{{.Desc}}">
+<meta property="og:locale" content="{{.OGLocale}}">
+{{range .Alternates}}{{if ne .Lang $.Lang}}<meta property="og:locale:alternate" content="{{ogLocale .Lang}}">
+{{end}}{{end}}{{if .Canonical}}<meta property="og:url" content="{{.Canonical}}">{{end}}
+<meta property="og:image" content="{{.OGImage}}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="{{.Copy.Home.HeroLine}} {{.Copy.Home.HeroWord}} — {{.Copy.Common.SiteName}}">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="{{.Asset "img/brand/icon.svg"}}" type="image/svg+xml">
+<link rel="apple-touch-icon" href="{{.Asset "img/brand/apple-touch-icon.png"}}">
+<link rel="manifest" href="/site.webmanifest">
+{{range .Preloads}}<link rel="preload" href="{{.}}" as="font" type="font/woff2" crossorigin>
+{{end}}
+{{if .Cfg.Tag.Kind}}{{template "tag-head" .}}{{end}}
+<style>{{.FontFaces}}{{.CSS}}</style>
+<script type="application/ld+json">{{.JSONLD}}</script>
+{{end}}
+
+{{define "tag-head"}}
+<script>
+window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',wait_for_update:500});
+try{var c=JSON.parse(localStorage.getItem("consent")||"null");if(c&&c.v===1&&c.granted&&(Date.now()-c.t)<15552000000){gtag('consent','update',{analytics_storage:'granted'});}}catch(e){}
+window.__tag={kind:"{{.Cfg.Tag.Kind}}"};
+</script>
+{{if eq .Cfg.Tag.Kind "gtm"}}<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','{{.Cfg.Tag.ID}}');</script>
+{{else}}<script async src="https://www.googletagmanager.com/gtag/js?id={{.Cfg.Tag.ID}}"></script>
+<script>gtag('js',new Date());gtag('config','{{.Cfg.Tag.ID}}');</script>{{end}}
+{{end}}

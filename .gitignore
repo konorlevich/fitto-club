@@ -1,0 +1,9 @@
+.idea
+.env
+/data/
+/fitto-club
+*.db
+*.db-wal
+*.db-shm
+.DS_Store
+materials

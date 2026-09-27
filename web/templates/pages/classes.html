@@ -1,0 +1,68 @@
+{{define "content"}}
+{{$c := .Copy.Classes}}
+<section class="section section--tight" data-surface="black" aria-labelledby="page-h">
+  <div class="wrap">
+    <div class="section__head section__head--split">
+      <h1 id="page-h" class="display h1">{{$c.Heading}}</h1>
+      <p class="lede">{{$c.Lede}}</p>
+    </div>
+
+    <h2 id="schedule" class="display h3" tabindex="-1">{{$c.ScheduleHead}}</h2>
+
+    {{/* Mobile: a list of days starting today. Desktop: a week table. Same
+         data; each is hidden at the other size with display:none, so only
+         one is in the accessibility tree. */}}
+    <ol class="days">
+      {{range .WeekFromToday}}
+      <li class="day{{if .IsToday}} day--today{{end}}{{if not .Slots}} day--empty{{end}}">
+        <h3 class="day__name">{{if .IsToday}}<span class="day__today">{{$.Copy.Common.Today}}</span> {{end}}{{$.DayName .Day}}</h3>
+        {{if .Slots}}<ul class="day__slots">
+          {{range .Slots}}<li class="slot">
+            <span class="slot__time">{{.Slot.Start}}</span>
+            <span class="slot__what"><a href="#class-{{.Class.Slug}}">{{$.T .Class.Name}}</a>{{with .Class.Coach}}{{with $.CoachLinkName .}} · {{.}}{{end}}{{end}}</span>
+            <span class="slot__len">{{.Slot.Minutes}} {{$.Copy.Common.Minutes}}</span>
+          </li>{{end}}
+        </ul>{{else}}<p class="day__none">{{$c.NoClasses}}</p>{{end}}
+      </li>
+      {{end}}
+    </ol>
+
+    <div class="week-wrap">
+      <table class="week">
+        <caption class="vh">{{$c.ScheduleHead}}</caption>
+        <thead><tr><th scope="col">{{$c.TimeCol}}</th>{{range $d := .Seq 7}}<th scope="col"{{if eq (add $d 1) $.Today}} class="is-today" aria-current="date"{{end}}>{{$.DayShort (add $d 1)}}</th>{{end}}</tr></thead>
+        <tbody>
+        {{range .WeekGrid}}<tr>
+          <th scope="row">{{.Time}}</th>
+          {{range $d, $cell := .Cells}}<td{{if eq (add $d 1) $.Today}} class="is-today"{{end}}>{{range $cell}}<a class="week__cls" href="#class-{{.Class.Slug}}">{{$.T .Class.Name}}<span>{{.Slot.Minutes}} {{$.Copy.Common.Minutes}}</span></a>{{end}}</td>{{end}}
+        </tr>{{end}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="section" data-surface="graphite" aria-labelledby="list-h">
+  <div class="wrap">
+    <h2 id="list-h" class="display h2">{{$c.ListHeading}}</h2>
+    <div class="classes">
+      {{range .Snap.Classes}}
+      <article class="class" id="class-{{.Slug}}" aria-labelledby="class-{{.Slug}}-h">
+        <h3 id="class-{{.Slug}}-h" class="class__name">{{$.T .Name}}</h3>
+        <p>{{$.T .Desc}}</p>
+        <dl class="class__facts">
+          <div><dt>{{$c.When}}</dt><dd>{{range $i, $s := .Slots}}{{if $i}}, {{end}}{{$.DayShort $s.Day}} {{$s.Start}}{{end}}</dd></div>
+          {{with .Coach}}<div><dt>{{$c.Coach}}</dt><dd>{{$.CoachLink .}}</dd></div>{{end}}
+          <div><dt>{{$c.Langs}}</dt><dd>{{range $i, $l := .Langs}}{{if $i}}, {{end}}{{$.LangName $l}}{{end}}</dd></div>
+          <div><dt>{{$c.Price}}</dt><dd>{{if gt .Price 0}}<span class="num num--sm">{{.Price}}</span> GEL {{end}}{{$.T .PriceNote}}</dd></div>
+        </dl>
+        <p class="class__actions">
+          <a class="btn btn--sm" href="{{$.DM}}" {{template "ext-attrs"}} data-contact="instagram" data-loc="classes">{{$c.Ask}}{{template "ext-cue" $.Copy.Common.OpensInNewTab}}</a>
+          <a class="btn btn--sm btn--ghost" href="{{$.Tel}}" data-contact="tel" data-loc="classes">{{$.Copy.Common.Call}}</a>
+        </p>
+      </article>
+      {{end}}
+    </div>
+  </div>
+</section>
+{{end}}

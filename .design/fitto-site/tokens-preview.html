@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FITTO — превью токенов</title>
+<!-- Только для превью: Google Fonts. На сайте шрифты self-hosted. FiraGO нет в Google Fonts → здесь Fira Sans. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Fira+Sans:wght@400;500;600&family=Jost:wght@400;500;600&family=Noto+Sans+Georgian:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="DESIGN_TOKENS.css">
+<style>
+  :root { --pattern-rings: url("../../materials/brand/vector/pattern/pattern-tile-transparent.svg"); }
+  *, *::before, *::after { box-sizing: border-box; }
+  body { margin: 0; background: var(--color-bg-primary); color: var(--color-text-primary);
+         font: var(--font-size-md)/var(--line-height-normal) var(--font-family-body); }
+  section { background: var(--color-bg-primary); color: var(--color-text-primary);
+            padding: var(--space-section) var(--space-gutter); }
+  .wrap { max-width: var(--max-width-page); margin: 0 auto; }
+  [data-surface="orange"].rings { background-image: var(--pattern-rings);
+            background-size: var(--pattern-size) var(--pattern-size); }
+  .eyebrow { font: var(--font-weight-medium) var(--font-size-xs)/1 var(--font-family-display);
+             letter-spacing: var(--type-label-tracking); color: var(--color-text-secondary); margin: 0 0 var(--space-6); }
+  .display { font-family: var(--type-display-family); font-weight: var(--type-display-weight);
+             letter-spacing: var(--type-display-tracking); line-height: var(--type-display-leading);
+             color: var(--color-text-display); margin: 0; }
+  .h1 { font-size: var(--font-size-2xl); }
+  .hero-word { font-size: var(--font-size-4xl); display: block; }
+  .bounce span { display: inline-block; animation: hop var(--duration-slower) var(--easing-bounce) both; }
+  .bounce span:nth-child(1){ transform: translateY(var(--bounce-offset-1)); animation-delay: calc(var(--stagger-letter)*0) }
+  .bounce span:nth-child(2){ transform: translateY(var(--bounce-offset-2)); animation-delay: calc(var(--stagger-letter)*1) }
+  .bounce span:nth-child(3){ transform: translateY(var(--bounce-offset-3)); animation-delay: calc(var(--stagger-letter)*2) }
+  .bounce span:nth-child(4){ transform: translateY(var(--bounce-offset-4)); animation-delay: calc(var(--stagger-letter)*3) }
+  @keyframes hop { 0% { translate: 0 0.35em; opacity: 0 } 60% { translate: 0 -0.12em; opacity: 1 } 100% { translate: 0 0 } }
+  .sub { font: var(--type-subtitle-size)/var(--line-height-snug) var(--font-family-display); color: var(--color-text-display);
+         letter-spacing: 0.04em; margin: var(--space-6) 0 var(--space-8); }
+  .row { display: flex; flex-wrap: wrap; gap: var(--space-5); align-items: center; }
+  .btn { display: inline-flex; align-items: center; gap: var(--space-4); min-height: var(--button-height);
+         padding: var(--button-padding-y) var(--button-padding-x); background: var(--button-bg); color: var(--button-text);
+         font: var(--font-weight-semibold) var(--button-font-size)/1 var(--font-family-display);
+         letter-spacing: var(--button-tracking); text-decoration: none; border-radius: var(--button-radius);
+         transition: background var(--duration-fast) var(--easing-default); }
+  .btn:hover { background: var(--button-bg-hover); }
+  .btn:focus-visible, .chip:focus-visible, a:focus-visible { outline: none; box-shadow: var(--shadow-focus); }
+  .btn--ghost { background: transparent; color: var(--button-ghost-text); box-shadow: inset 0 0 0 var(--border-width-thick) var(--button-ghost-border); }
+  .meta { color: var(--color-text-primary); font-size: var(--font-size-sm); }
+  .meta a { color: var(--color-text-link); }
+  .grid { display: grid; gap: var(--card-gap); grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); margin-top: var(--space-8); }
+  .chip { display: inline-flex; align-items: center; min-height: var(--chip-height); padding: 0 var(--space-6);
+          border: var(--border-width) solid var(--chip-border); color: var(--chip-text); text-decoration: none;
+          font: var(--font-weight-medium) var(--font-size-sm)/1 var(--font-family-display); letter-spacing: var(--chip-tracking); }
+  .chip[aria-current] { background: var(--chip-active-bg); color: var(--chip-active-text); border-color: var(--chip-active-bg); }
+  .chip[aria-current]::before { content: var(--chip-active-marker); }
+  .coach { background: var(--card-bg); color: var(--color-text-primary); text-decoration: none; display: block; }
+  .coach figure { margin: 0; position: relative; aspect-ratio: var(--aspect-portrait); overflow: hidden; }
+  .coach img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .coach figure::after { content: ""; position: absolute; inset: 0; background: var(--color-photo-scrim); }
+  .coach figcaption { position: absolute; left: var(--space-6); right: var(--space-6); bottom: var(--space-6); z-index: 1;
+          font: var(--font-weight-medium) var(--font-size-lg)/var(--line-height-tight) var(--font-family-display);
+          letter-spacing: 0.12em; color: var(--fitto-white); }
+  .coach .body { padding: var(--space-6); display: grid; gap: var(--space-3); }
+  .coach .tags { color: var(--color-text-secondary); font-size: var(--font-size-sm); }
+  .coach .langs { font: var(--font-weight-medium) var(--font-size-xs)/1 var(--font-family-display); letter-spacing: var(--letter-spacing-wide); color: var(--color-text-tertiary); }
+  .coach .price { color: var(--color-text-link); font-weight: 600; }
+  .price-card { background: var(--card-bg); padding: var(--card-padding); }
+  .price-card h3 { font: var(--font-weight-medium) var(--font-size-lg)/1 var(--font-family-display); letter-spacing: var(--letter-spacing-display); margin: 0 0 var(--space-7); color: var(--color-text-display); }
+  .price-line { display: grid; grid-template-columns: 1fr auto; gap: var(--space-2) var(--space-6); padding: var(--space-6) 0; border-top: var(--border-width) solid var(--color-border-secondary); align-items: baseline; }
+  .num { font: var(--type-price-size)/1 var(--font-family-numeric); letter-spacing: var(--letter-spacing-tight); color: var(--color-text-price); }
+  .num small { font-size: 0.35em; letter-spacing: 0.05em; }
+  .per { color: var(--color-text-secondary); font-size: var(--font-size-sm); grid-column: 1 / -1; }
+  .status::before { content: "● "; color: var(--color-status-open); }
+  .ka { font-family: var(--font-family-body); }
+</style>
+</head>
+<body>
+
+<section data-surface="orange" class="rings">
+  <div class="wrap">
+    <p class="eyebrow" style="color:var(--fitto-black)">ФИТНЕС-КЛУБ В ВАКЕ · 3 МИН ОТ VAKE PARK</p>
+    <h1 class="display">
+      <span class="hero-word">ПЕРВЫЙ ВИЗИТ</span>
+      <span class="hero-word bounce" aria-label="бесплатно"><span aria-hidden="true">БЕС</span><span aria-hidden="true">ПЛАТ</span><span aria-hidden="true">Н</span><span aria-hidden="true">О</span></span>
+    </h1>
+    <p class="sub">в Fitto Club, Ваке</p>
+    <div class="row">
+      <a class="btn" href="#visit">КАК ДОБРАТЬСЯ →</a>
+      <a class="btn btn--ghost" href="tel:+995595031885">ПОЗВОНИТЬ</a>
+      <span class="meta"><a href="#">4,6★ в Google · 48 отзывов</a></span>
+    </div>
+  </div>
+</section>
+
+<section data-surface="black">
+  <div class="wrap">
+    <p class="eyebrow">ТРЕНЕРЫ</p>
+    <h2 class="display h1">КТО ВАС ВСТРЕТИТ</h2>
+    <div class="row" style="margin-top:var(--space-7)">
+      <a class="chip" aria-current="true" href="#">EN</a><a class="chip" href="#">RU</a><a class="chip" href="#">KA</a>
+      <a class="chip" href="#">Снижение веса</a><a class="chip" href="#">BJJ</a>
+    </div>
+    <div class="grid">
+      <a class="coach" href="#">
+        <figure><img src="../../materials/additional-references/Screenshot 2026-09-27 at 13.52.19.png" alt=""><figcaption>JONI<br>NADOYAN</figcaption></figure>
+        <div class="body"><span class="tags">Снижение веса · рекомпозиция</span><span class="langs">KA · RU</span><span class="price">Персональная от 50 GEL →</span></div>
+      </a>
+      <div class="price-card">
+        <h3>СТАНДАРТНЫЙ</h3>
+        <div class="price-line"><span>1 месяц</span><span class="num">180<small> GEL</small></span></div>
+        <div class="price-line"><span>12 месяцев · заморозка 3 нед.</span><span class="num">1550<small> GEL</small></span><span class="per">≈ 129 GEL в месяц · +1 персональная в подарок</span></div>
+      </div>
+      <div class="price-card" data-surface="graphite" style="background:var(--color-bg-primary)">
+        <p class="eyebrow">ПОВЕРХНОСТЬ GRAPHITE</p>
+        <p class="status">Открыто до 23:00</p>
+        <a class="btn" href="#">МАРШРУТ В GOOGLE MAPS →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-surface="orange" class="rings" lang="ka">
+  <div class="wrap">
+    <p class="eyebrow ka" style="color:var(--fitto-black)">KA — Noto Sans Georgian, без капса</p>
+    <h2 class="display h1">პირველი ვიზიტი უფასოა</h2>
+    <p class="ka" style="max-width:var(--max-width-content);color:var(--fitto-black)">მოდით სამუშაო საათებში, ჩანაწერის გარეშე. ადმინისტრატორი დაგხვდებათ და ყველაფერს გაჩვენებთ.</p>
+    <div class="row"><a class="btn" href="#">როგორ მოგვაგნოთ →</a></div>
+  </div>
+</section>
+
+</body>
+</html>

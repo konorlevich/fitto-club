@@ -1,0 +1,41 @@
+{{define "content"}}
+{{$c := .Copy.Coaches}}
+<section class="section section--tight" data-surface="black" aria-labelledby="page-h">
+  <div class="wrap">
+    <div class="section__head section__head--split">
+      <h1 id="page-h" class="display h1">{{$c.Heading}}</h1>
+      <p class="lede">{{$c.Lede}}</p>
+    </div>
+
+    <nav class="filters" aria-label="{{$c.FilterNote}}">
+      <div class="filters__row">
+        <p class="filters__label" id="f-lang">{{$c.FilterLang}}</p>
+        <ul class="chips" aria-labelledby="f-lang">
+          {{range .Snap.LanguagesInUse}}<li><a class="chip" href="{{$.SpeaksHref .}}"{{if eq . $.FilterSpeaks}} aria-current="true"{{end}} rel="nofollow">{{$.LangName .}}</a></li>{{end}}
+        </ul>
+      </div>
+      <div class="filters__row">
+        <p class="filters__label" id="f-tag">{{$c.FilterFocus}}</p>
+        <ul class="chips" aria-labelledby="f-tag">
+          {{range .Snap.TagsInUse}}<li><a class="chip" href="{{$.TagHref .Slug}}"{{if eq .Slug $.FilterTag}} aria-current="true"{{end}} rel="nofollow">{{$.T .Name}}</a></li>{{end}}
+        </ul>
+      </div>
+      {{if .Filtered}}<p class="filters__status" role="status">{{.F $c.Found (len .Coaches) .TotalCoaches}} · <a href="{{.Href "/coaches"}}">{{$c.Reset}}</a></p>{{end}}
+    </nav>
+
+    {{if .Coaches}}
+    <ul class="coach-grid">
+      {{range .Coaches}}{{template "coach-card" ($.Card . true)}}{{end}}
+    </ul>
+    {{else}}
+    <div class="empty">
+      <p class="empty__joke">{{$c.EmptyJoke}}</p>
+      <p class="empty__actions">
+        {{if and .FilterSpeaks .FilterTag}}<a class="btn" href="{{.FilterHref .FilterSpeaks ""}}">{{.F $c.ShowSpeaks (.LangName .FilterSpeaks)}}</a>{{end}}
+        <a class="btn btn--ghost" href="{{.Href "/coaches"}}">{{$c.ShowAll}}</a>
+      </p>
+    </div>
+    {{end}}
+  </div>
+</section>
+{{end}}

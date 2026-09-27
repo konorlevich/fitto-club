@@ -1,0 +1,38 @@
+{{/* Coach card: the whole card is one link. Called with a CardCtx. */}}
+{{define "coach-card"}}
+{{$p := .P}}{{$c := .C}}
+<li class="coach-card">
+  <a href="{{$p.CoachHref $c.Slug}}" class="coach-card__link">
+    <figure class="coach-card__photo">
+      {{if $c.Photo}}<img src="{{$p.CoachPhoto $c.Slug 400}}" srcset="{{$p.CoachSrcset $c.Slug}}" sizes="(min-width:1280px) 290px, (min-width:1024px) 30vw, (min-width:600px) 45vw, 92vw" alt="{{$p.CoachAlt $c}}" width="400" height="500" loading="lazy" decoding="async">
+      {{else}}<span class="coach-card__initials" aria-hidden="true">{{$c.Initials}}</span>{{end}}
+      <i class="coach-card__ring" aria-hidden="true"></i>
+      <figcaption class="coach-card__name">{{$p.T $c.Name}}</figcaption>
+    </figure>
+    <div class="coach-card__body">
+      <p class="coach-card__tags">{{join ($p.TagNames $c 3) " · "}}</p>
+      <p class="coach-card__langs"><span class="vh">{{$p.Copy.Coaches.Speaks}}:</span>{{range $i, $l := $c.Speaks}}{{if $i}} · {{end}}<abbr title="{{$p.LangName $l}}">{{$p.LangShort $l}}</abbr>{{end}}</p>
+      {{if .ShowPrice}}<p class="coach-card__price">{{$p.PTLine $c}} <span aria-hidden="true">→</span></p>{{end}}
+    </div>
+  </a>
+</li>
+{{end}}
+
+{{/* Review card, used in the home strip and on coach pages. */}}
+{{define "review-card"}}
+{{$p := .P}}{{$r := .R}}
+<li class="review">
+  <figure>
+    <p class="review__stars"><span aria-hidden="true">{{$p.Stars $r.Rating}}</span><span class="vh">{{$p.StarsLabel $r.Rating}}</span></p>
+    {{$parts := .Split}}
+    <blockquote class="review__text" lang="{{$r.Lang}}">
+      {{range $parts.Head}}<p>{{.}}</p>{{end}}
+      {{if $parts.Tail}}<details class="review__more"><summary>{{$p.Copy.Reviews.More}}</summary>{{range $parts.Tail}}<p>{{.}}</p>{{end}}</details>{{end}}
+    </blockquote>
+    <figcaption class="review__by">
+      <span class="review__author">{{$r.Author}}</span>
+      {{if ne $r.Lang $p.Lang}}<span class="review__lang" title="{{$p.F $p.Copy.Reviews.InLanguage ($p.LangName $r.Lang)}}">{{$p.LangShort $r.Lang}}</span>{{end}}
+    </figcaption>
+  </figure>
+</li>
+{{end}}
